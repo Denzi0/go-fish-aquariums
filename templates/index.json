@@ -8,6 +8,91 @@
  * ------------------------------------------------------------
  */
 {
-  "sections": {},
-  "order": []
+  "sections": {
+    "hero_stocklist_Einh4H": {
+      "type": "hero-stocklist",
+      "blocks": {
+        "stat_4VH7Xf": {
+          "type": "stat",
+          "settings": {
+            "value": "220+",
+            "label": "Species in stock"
+          }
+        },
+        "stat_E34xQG": {
+          "type": "stat",
+          "settings": {
+            "value": "Tue & Wed",
+            "label": "Livestock dispatch"
+          }
+        },
+        "stat_yGWm77": {
+          "type": "stat",
+          "settings": {
+            "value": "98.6%",
+            "label": "Live arrival, last 12 months"
+          }
+        }
+      },
+      "block_order": [
+        "stat_4VH7Xf",
+        "stat_E34xQG",
+        "stat_yGWm77"
+      ],
+      "name": "Hero + stock snapshot",
+      "settings": {
+        "layout": "photo",
+        "focal_point": "right center",
+        "scrim": 90,
+        "eyebrow": "Wholesale only · Australia wide",
+        "heading": "Freshwater livestock, graded and ready to ship",
+        "copy": "We supply aquarium retailers, pet chains and aquascaping studios with healthy freshwater fish and hard goods. Trade accounts see live stock counts, size grades and your own pricing.",
+        "cta_label": "View fish",
+        "cta_url": "",
+        "cta2_label": "Become a trade customer",
+        "cta2_url": "",
+        "show_snapshot": false,
+        "snapshot_title": "This week's list",
+        "snapshot_updated": "Updated daily",
+        "snapshot_collection": "",
+        "snapshot_count": 5,
+        "snapshot_note": "Counts update as orders are picked",
+        "snapshot_link_label": "Full stock list",
+        "snapshot_link": ""
+      }
+    },
+    "category_grid_pmbQHC": {
+      "type": "category-grid",
+      "name": "Shop by category",
+      "settings": {
+        "heading": "Shop by category",
+        "subheading": "Livestock is grouped the way you order it — by type, then by size grade.",
+        "source": "menu",
+        "menu": "main-menu",
+        "max_tiles": 8,
+        "silhouette_color": "#12808f",
+        "link_label": "All categories",
+        "link_url": ""
+      }
+    },
+    "featured_fish_TxRyYf": {
+      "type": "featured-fish",
+      "name": "Featured fish",
+      "settings": {
+        "heading": "Available now",
+        "subheading": "Counts are live. Anything showing limited stock is close to selling out for this dispatch.",
+        "collection": "",
+        "count": 8,
+        "columns": 4,
+        "link_label": "See the full stock list",
+        "link_url": "",
+        "background": "paper"
+      }
+    }
+  },
+  "order": [
+    "hero_stocklist_Einh4H",
+    "category_grid_pmbQHC",
+    "featured_fish_TxRyYf"
+  ]
 }
