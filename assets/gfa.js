@@ -198,6 +198,92 @@
     });
   }
 
+  /* --- Search dialog with predictive results ------------------------------- */
+  var search = $('[data-search-dialog]');
+  if (search && typeof search.showModal === 'function') {
+    var searchInput = $('[data-search-input]', search);
+    var results = $('[data-search-results]', search);
+    var searchTimer, searchRequest = 0;
+
+    var openSearch = function () {
+      closeMenus();
+      if (!search.open) search.showModal();
+      searchInput.focus();
+      searchInput.select();
+    };
+
+    document.addEventListener('click', function (e) {
+      if (e.target.closest('[data-search-open]')) { e.preventDefault(); openSearch(); }
+    });
+    $('[data-search-close]', search).addEventListener('click', function () { search.close(); });
+    search.addEventListener('click', function (e) { if (e.target === search) search.close(); });
+
+    /* "/" opens search from anywhere, unless the buyer is already typing. */
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== '/' || e.ctrlKey || e.metaKey || e.altKey) return;
+      if (e.target.closest('input, textarea, select, [contenteditable="true"]')) return;
+      e.preventDefault();
+      openSearch();
+    });
+
+    var el = function (tag, className, text) {
+      var node = document.createElement(tag);
+      if (className) node.className = className;
+      if (text) node.textContent = text;
+      return node;
+    };
+
+    var renderResults = function (term, products) {
+      results.innerHTML = '';
+      if (!products.length) {
+        results.appendChild(el('p', null, results.dataset.empty));
+      } else {
+        var list = el('ul');
+        products.forEach(function (p) {
+          var link = el('a', 'gfa-search__item');
+          link.href = p.url;
+          if (p.featured_image && p.featured_image.url) {
+            var img = el('img');
+            img.src = p.featured_image.url + (p.featured_image.url.indexOf('?') > -1 ? '&' : '?') + 'width=96';
+            img.alt = '';
+            img.loading = 'lazy';
+            link.appendChild(img);
+          } else {
+            link.appendChild(el('span', 'gfa-search__thumb'));
+          }
+          var text = el('span', null, p.title);
+          if (p.type) text.appendChild(el('small', null, p.type));
+          link.appendChild(text);
+          var li = el('li');
+          li.appendChild(link);
+          list.appendChild(li);
+        });
+        results.appendChild(list);
+      }
+      var all = el('a', 'gfa-search__all', results.dataset.all + ' “' + term + '”');
+      all.href = search.querySelector('form').action + '?type=product&options%5Bprefix%5D=last&q=' + encodeURIComponent(term);
+      results.appendChild(all);
+    };
+
+    searchInput.addEventListener('input', function () {
+      clearTimeout(searchTimer);
+      var term = searchInput.value.trim();
+      if (term.length < 2) { results.innerHTML = ''; return; }
+      searchTimer = setTimeout(function () {
+        var id = ++searchRequest;
+        fetch(results.dataset.url + '.json?q=' + encodeURIComponent(term) +
+              '&resources[type]=product&resources[limit]=6&resources[options][fields]=title,product_type,variants.sku,tag',
+              { headers: { Accept: 'application/json' } })
+          .then(function (r) { return r.json(); })
+          .then(function (data) {
+            if (id !== searchRequest) return; /* a newer search has started */
+            renderResults(term, (data.resources && data.resources.results.products) || []);
+          })
+          .catch(function () { if (id === searchRequest) results.innerHTML = ''; });
+      }, 180);
+    });
+  }
+
   /* --- Quick view ---------------------------------------------------------- */
   var dialog = $('[data-quick-view-dialog]');
   if (dialog && typeof dialog.showModal === 'function') {

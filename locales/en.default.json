@@ -9,6 +9,8 @@
     "close": "Close",
     "search": "Search",
     "search_placeholder": "Species, code or category",
+    "search_no_results": "No species match that search yet.",
+    "search_view_all": "See all results for",
     "cart": "Order",
     "quick_order": "Quick order",
     "previous": "Previous",
