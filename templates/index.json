@@ -152,7 +152,8 @@
         "heading": "Open a trade account",
         "copy": "Pricing and stock counts are visible to approved trade customers only. Send through your ABN and we will usually have you set up within one business day.",
         "cta_label": "Apply for an account",
-        "cta2_label": "Talk to a rep"
+        "cta2_label": "Talk to a rep",
+        "cta2_url": "/pages/contact"
       }
     }
   },
