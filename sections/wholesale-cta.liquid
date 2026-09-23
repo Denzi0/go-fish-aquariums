@@ -5,9 +5,9 @@
       <p>{{ section.settings.copy }}</p>
       <div class="gfa-cta__actions">
         {%- if section.settings.cta_label != blank -%}
-          <a class="gfa-btn gfa-btn--primary" href="{{ section.settings.cta_url }}">{{ section.settings.cta_label }}</a>
+          <a class="gfa-btn gfa-btn--primary" href="{{ section.settings.cta_url | default: routes.account_register_url }}">{{ section.settings.cta_label }}</a>
         {%- endif -%}
-        {%- if section.settings.cta2_label != blank -%}
+        {%- if section.settings.cta2_label != blank and section.settings.cta2_url != blank -%}
           <a class="gfa-btn gfa-btn--onDark" href="{{ section.settings.cta2_url }}">{{ section.settings.cta2_label }}</a>
         {%- endif -%}
       </div>
@@ -32,9 +32,9 @@
     { "type": "text", "id": "heading", "label": "Heading", "default": "Open a trade account" },
     { "type": "textarea", "id": "copy", "label": "Copy", "default": "Pricing and stock counts are visible to approved trade customers only. Send through your ABN and we will usually have you set up within one business day." },
     { "type": "text", "id": "cta_label", "label": "Primary button", "default": "Apply for an account" },
-    { "type": "url", "id": "cta_url", "label": "Primary button link" },
+    { "type": "url", "id": "cta_url", "label": "Primary button link", "info": "Defaults to the account registration page." },
     { "type": "text", "id": "cta2_label", "label": "Secondary button", "default": "Talk to a rep" },
-    { "type": "url", "id": "cta2_url", "label": "Secondary button link" }
+    { "type": "url", "id": "cta2_url", "label": "Secondary button link", "info": "The button is hidden until you set a link." }
   ],
   "blocks": [
     {
