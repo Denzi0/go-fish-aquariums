@@ -152,11 +152,60 @@
         "link_url": "",
         "background": "paper"
       }
+    },
+    "wholesale_cta_6wCgxH": {
+      "type": "wholesale-cta",
+      "blocks": {
+        "item_a74WNU": {
+          "type": "item",
+          "settings": {
+            "value": "ABN",
+            "text": "Registered Australian business or NZ equivalent"
+          }
+        },
+        "item_Gawf7M": {
+          "type": "item",
+          "settings": {
+            "value": "$250",
+            "text": "Minimum first order, ex GST"
+          }
+        },
+        "item_9nrpqw": {
+          "type": "item",
+          "settings": {
+            "value": "1 day",
+            "text": "Typical account approval time"
+          }
+        },
+        "item_ninTBi": {
+          "type": "item",
+          "settings": {
+            "value": "30 days",
+            "text": "Payment terms available after three orders"
+          }
+        }
+      },
+      "block_order": [
+        "item_a74WNU",
+        "item_Gawf7M",
+        "item_9nrpqw",
+        "item_ninTBi"
+      ],
+      "name": "Wholesale CTA",
+      "settings": {
+        "heading": "Open a trade account",
+        "copy": "Pricing and stock counts are visible to approved trade customers only. Send through your ABN and we will usually have you set up within one business day.",
+        "cta_label": "Apply for an account",
+        "cta_url": "",
+        "cta2_label": "Talk to a rep",
+        "cta2_url": ""
+      }
     }
   },
   "order": [
     "hero_stocklist_Einh4H",
     "category_grid_pmbQHC",
-    "featured_fish_TxRyYf"
+    "featured_fish_TxRyYf",
+    "wholesale_cta_6wCgxH"
   ]
 }
