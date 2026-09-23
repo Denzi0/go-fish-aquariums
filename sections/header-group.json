@@ -1,9 +1,41 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "type": "header",
   "name": "Header",
   "sections": {
-    "announcement": { "type": "announcement-bar", "settings": {} },
-    "header": { "type": "header", "settings": {} }
+    "announcement": {
+      "type": "announcement-bar",
+      "settings": {
+        "enabled": true,
+        "status_text": "Next livestock dispatch Tuesday 22 Sept — orders close Monday 4pm AEST",
+        "secondary_text": "Live arrival guarantee on all capital-city deliveries",
+        "link_label": "Trade enquiries 1300 000 000",
+        "link_url": ""
+      }
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "tagline": "Freshwater livestock wholesale",
+        "menu": "header-menu",
+        "login_label": "Trade login",
+        "quick_order_url": "",
+        "show_search": true,
+        "show_account": true,
+        "show_cart": true
+      }
+    }
   },
-  "order": ["announcement", "header"]
+  "order": [
+    "announcement",
+    "header"
+  ]
 }
