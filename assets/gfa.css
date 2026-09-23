@@ -1046,7 +1046,7 @@ p:last-child { margin-bottom: 0; }
   border-left: 3px solid var(--current);
   border-radius: var(--r-field);
 }
-.gfa-gate__text { display: grid; gap: 3px; min-width: 0; flex: 1 1 320px; }
+.gfa-gate__text { display: grid; gap: 3px; min-width: 0; }
 .gfa-gate__text strong { font-size: 0.9375rem; font-weight: 600; }
 .gfa-gate__text span { font-size: 0.875rem; color: var(--muted); max-width: 64ch; }
 .gfa-gate__actions { display: flex; gap: var(--sp-2); flex-wrap: wrap; }
