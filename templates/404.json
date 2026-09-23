@@ -1,6 +1,74 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
-    "main": { "type": "main-404", "settings": {} }
+    "main": {
+      "type": "main-404",
+      "disabled": true,
+      "settings": {}
+    },
+    "hero_stocklist_bcpFCJ": {
+      "type": "hero-stocklist",
+      "blocks": {
+        "stat_aaTVtC": {
+          "type": "stat",
+          "settings": {
+            "value": "220+",
+            "label": "Species in stock"
+          }
+        },
+        "stat_BpejaU": {
+          "type": "stat",
+          "settings": {
+            "value": "Tue & Wed",
+            "label": "Livestock dispatch"
+          }
+        },
+        "stat_rWcgKj": {
+          "type": "stat",
+          "settings": {
+            "value": "98.6%",
+            "label": "Live arrival, last 12 months"
+          }
+        }
+      },
+      "block_order": [
+        "stat_aaTVtC",
+        "stat_BpejaU",
+        "stat_rWcgKj"
+      ],
+      "name": "Hero + stock snapshot",
+      "settings": {
+        "layout": "photo",
+        "focal_point": "right center",
+        "scrim": 90,
+        "eyebrow": "Wholesale only · Australia wide",
+        "heading": "Freshwater livestock, graded and ready to ship",
+        "copy": "We supply aquarium retailers, pet chains and aquascaping studios with healthy freshwater fish and hard goods. Trade accounts see live stock counts, size grades and your own pricing.",
+        "cta_label": "View fish",
+        "cta_url": "",
+        "cta2_label": "Become a trade customer",
+        "cta2_url": "",
+        "show_snapshot": true,
+        "snapshot_title": "This week's list",
+        "snapshot_updated": "Updated daily",
+        "snapshot_collection": "",
+        "snapshot_count": 5,
+        "snapshot_note": "Counts update as orders are picked",
+        "snapshot_link_label": "Full stock list",
+        "snapshot_link": ""
+      }
+    }
   },
-  "order": ["main"]
+  "order": [
+    "main",
+    "hero_stocklist_bcpFCJ"
+  ]
 }
