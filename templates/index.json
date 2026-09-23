@@ -63,11 +63,75 @@
     },
     "category_grid_pmbQHC": {
       "type": "category-grid",
+      "blocks": {
+        "category_YFMk8T": {
+          "type": "category",
+          "settings": {
+            "collection": "goldfish",
+            "label": "",
+            "note": "View range",
+            "fallback_url": "",
+            "shape": "fusiform",
+            "color": "#12808f"
+          }
+        },
+        "category_RE8bmF": {
+          "type": "category",
+          "settings": {
+            "collection": "specials",
+            "label": "",
+            "note": "View range",
+            "fallback_url": "",
+            "shape": "fusiform",
+            "color": "#12808f"
+          }
+        },
+        "category_WExY6H": {
+          "type": "category",
+          "settings": {
+            "collection": "fantail",
+            "label": "",
+            "note": "View range",
+            "fallback_url": "",
+            "shape": "fusiform",
+            "color": "#12808f"
+          }
+        },
+        "category_93WGmc": {
+          "type": "category",
+          "settings": {
+            "collection": "barbs",
+            "label": "",
+            "note": "View range",
+            "fallback_url": "",
+            "shape": "fusiform",
+            "color": "#12808f"
+          }
+        },
+        "category_WaerxH": {
+          "type": "category",
+          "settings": {
+            "collection": "angels",
+            "label": "",
+            "note": "View range",
+            "fallback_url": "",
+            "shape": "fusiform",
+            "color": "#12808f"
+          }
+        }
+      },
+      "block_order": [
+        "category_YFMk8T",
+        "category_RE8bmF",
+        "category_WExY6H",
+        "category_93WGmc",
+        "category_WaerxH"
+      ],
       "name": "Shop by category",
       "settings": {
         "heading": "Shop by category",
         "subheading": "Livestock is grouped the way you order it — by type, then by size grade.",
-        "source": "menu",
+        "source": "blocks",
         "menu": "main-menu",
         "max_tiles": 8,
         "silhouette_color": "#12808f",
