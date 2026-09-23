@@ -1,0 +1,38 @@
+{%- comment -%}
+  price-access.liquid — the single rule that decides whether the visitor can see
+  pricing and order. Outputs the string "true" or "false".
+
+  Every template asks this snippet rather than checking tags itself, so the rule
+  lives in one place and cannot drift between the card, the product page and the
+  cart.
+
+  Usage:
+    {%- capture price_access %}{% render 'price-access' %}{% endcapture -%}
+    {%- if price_access contains 'true' -%} ... {%- endif -%}
+
+  Controlled by Theme settings → Trade access → "Who can see pricing".
+{%- endcomment -%}
+{%- liquid
+  assign access = false
+
+  case settings.price_visibility
+    when 'everyone'
+      assign access = true
+    when 'customers'
+      if customer
+        assign access = true
+      endif
+    else
+      if customer
+        if settings.trade_tag == blank
+          assign access = true
+        elsif customer.tags contains settings.trade_tag
+          assign access = true
+        elsif customer.b2b?
+          assign access = true
+        endif
+      endif
+  endcase
+
+  echo access
+-%}

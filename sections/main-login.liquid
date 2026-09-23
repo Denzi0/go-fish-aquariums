@@ -1,0 +1,35 @@
+<div class="gfa-shell gfa-band">
+  <div class="gfa-panel">
+    <h1 style="font-size:1.6rem">{{ 'customer.log_in' | t }}</h1>
+    <p class="gfa-note" style="margin:10px 0 22px">{{ 'customer.login_note' | t }}</p>
+
+    {%- form 'customer_login' -%}
+      {%- if form.errors -%}
+        <div class="gfa-errors">
+          {{ 'customer.login_failed' | t }}
+          <ul>{% for field in form.errors %}<li>{{ form.errors.messages[field] }}</li>{% endfor %}</ul>
+        </div>
+      {%- endif -%}
+      <div class="gfa-form__row">
+        <label class="gfa-label" for="gfa-email">{{ 'customer.email' | t }}</label>
+        <input class="gfa-field" id="gfa-email" type="email" name="customer[email]" autocomplete="email" required>
+      </div>
+      <div class="gfa-form__row">
+        <label class="gfa-label" for="gfa-password">{{ 'customer.password' | t }}</label>
+        <input class="gfa-field" id="gfa-password" type="password" name="customer[password]" autocomplete="current-password" required>
+      </div>
+      <button class="gfa-btn gfa-btn--primary gfa-btn--block" type="submit">{{ 'customer.log_in' | t }}</button>
+      <p class="gfa-note" style="margin-top:16px">
+        <a class="gfa-link" href="{{ routes.account_recover_url }}">{{ 'customer.forgot' | t }}</a>
+      </p>
+    {%- endform -%}
+
+    <hr style="border:0;border-top:1px solid var(--line);margin:24px 0">
+    <h2 style="font-size:1rem">{{ 'customer.no_account' | t }}</h2>
+    <p class="gfa-note" style="margin:8px 0 14px">{{ 'customer.apply_note' | t }}</p>
+    <a class="gfa-btn gfa-btn--outline gfa-btn--block" href="{{ routes.account_register_url }}">{{ 'customer.apply' | t }}</a>
+  </div>
+</div>
+{% schema %}
+{ "name": "Login", "settings": [] }
+{% endschema %}

@@ -1,0 +1,148 @@
+{%- capture price_access %}{% render 'price-access' %}{% endcapture -%}
+{%- assign menu = section.settings.menu -%}
+
+<header class="gfa-header" data-header>
+  <div class="gfa-shell gfa-header__in">
+    <a class="gfa-logo" href="{{ routes.root_url }}">
+      {%- if section.settings.logo -%}
+        {{ section.settings.logo | image_url: width: 240 | image_tag: alt: shop.name, width: 120, loading: 'eager' }}
+      {%- else -%}
+        {% render 'icon', name: 'logo' %}
+        <span>
+          {{ shop.name }}
+          {%- if section.settings.tagline != blank -%}<small>{{ section.settings.tagline }}</small>{%- endif -%}
+        </span>
+      {%- endif -%}
+    </a>
+
+    <nav class="gfa-nav" aria-label="{{ 'general.primary_nav' | t }}" data-nav>
+      {%- for link in menu.links -%}
+        {%- if link.links.size > 0 -%}
+          <div class="gfa-nav__item">
+            <button type="button" class="gfa-nav__link gfa-nav__link--parent"
+                    aria-expanded="false" data-menu-btn
+                    {% if link.active or link.child_active %}data-active{% endif %}>
+              {{ link.title }}
+              <svg class="gfa-nav__chev" viewBox="0 0 12 12" aria-hidden="true">
+                <path d="M2.5 4.5L6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </button>
+
+            <div class="gfa-menu" hidden data-menu-panel>
+              <div class="gfa-shell gfa-menu__in">
+                {%- for child in link.links -%}
+                  <div class="gfa-menu__col">
+                    <a class="gfa-menu__head" href="{{ child.url }}">
+                      {{ child.title }}
+                      {%- if child.type == 'collection_link' and child.object.all_products_count > 0 -%}
+                        <span class="gfa-menu__count">{{ child.object.all_products_count }}</span>
+                      {%- endif -%}
+                    </a>
+
+                    {%- if child.links.size > 0 -%}
+                      <ul>
+                        {%- for grandchild in child.links -%}
+                          <li><a href="{{ grandchild.url }}">{{ grandchild.title }}</a></li>
+                        {%- endfor -%}
+                      </ul>
+                    {%- endif -%}
+                  </div>
+                {%- endfor -%}
+
+                {%- if link.type == 'collection_link' -%}
+                  <div class="gfa-menu__col gfa-menu__col--end">
+                    <a class="gfa-link" href="{{ link.url }}">{{ 'general.view_all' | t: title: link.title }}</a>
+                  </div>
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+        {%- else -%}
+          <a class="gfa-nav__link" href="{{ link.url }}"
+             {% if link.current %}aria-current="page"{% elsif link.active %}data-active{% endif %}>
+            {{ link.title }}
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+    </nav>
+
+    <div class="gfa-header__tools">
+      {%- if section.settings.show_search -%}
+        <a class="gfa-iconbtn" href="{{ routes.search_url }}" aria-label="{{ 'general.search' | t }}">
+          {% render 'icon', name: 'search' %}
+        </a>
+      {%- endif -%}
+
+      {%- if section.settings.show_account -%}
+        <a class="gfa-iconbtn" href="{{ routes.account_url }}" aria-label="{{ 'customer.account' | t }}">
+          {% render 'icon', name: 'account' %}
+        </a>
+      {%- endif -%}
+
+      {%- if section.settings.show_cart and price_access contains 'true' -%}
+        <a class="gfa-iconbtn" href="{{ routes.cart_url }}" aria-label="{{ 'general.cart' | t }}">
+          {% render 'icon', name: 'cart' %}
+          <span class="gfa-count" data-cart-count>{{ cart.item_count }}</span>
+        </a>
+      {%- endif -%}
+
+      {%- if customer -%}
+        {%- if section.settings.quick_order_url != blank -%}
+          <a class="gfa-btn gfa-btn--outline gfa-btn--sm" href="{{ section.settings.quick_order_url }}">
+            {{ 'general.quick_order' | t }}
+          </a>
+        {%- endif -%}
+        <a class="gfa-btn gfa-btn--dark gfa-btn--sm" href="{{ routes.account_url }}">
+          {{ 'customer.my_account' | t }}
+        </a>
+      {%- else -%}
+        <a class="gfa-btn gfa-btn--dark gfa-btn--sm" href="{{ routes.account_login_url }}">
+          {{ section.settings.login_label }}
+        </a>
+      {%- endif -%}
+
+      <button class="gfa-iconbtn gfa-burger" type="button" data-menu-toggle
+              aria-expanded="false" aria-controls="gfa-mobile-nav" aria-label="{{ 'general.menu' | t }}">
+        {% render 'icon', name: 'menu' %}
+      </button>
+    </div>
+  </div>
+
+  <div class="gfa-mobilenav" id="gfa-mobile-nav" hidden>
+    <div class="gfa-shell">
+      {%- for link in menu.links -%}
+        {%- if link.links.size > 0 -%}
+          <details {% if link.active or link.child_active %}open{% endif %}>
+            <summary>{{ link.title }}</summary>
+            {%- for child in link.links -%}
+              <a class="gfa-mobilenav__child" href="{{ child.url }}">{{ child.title }}</a>
+              {%- for grandchild in child.links -%}
+                <a class="gfa-mobilenav__child gfa-mobilenav__child--deep" href="{{ grandchild.url }}">{{ grandchild.title }}</a>
+              {%- endfor -%}
+            {%- endfor -%}
+          </details>
+        {%- else -%}
+          <a href="{{ link.url }}">{{ link.title }}</a>
+        {%- endif -%}
+      {%- endfor -%}
+      <a href="{{ routes.search_url }}">{{ 'general.search' | t }}</a>
+    </div>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    { "type": "image_picker", "id": "logo", "label": "Logo", "info": "Leave empty to use the store name as a wordmark." },
+    { "type": "text", "id": "tagline", "label": "Tagline under wordmark", "default": "Freshwater livestock wholesale" },
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu", "info": "Nested menu items become dropdowns. Two levels of nesting are supported." },
+    { "type": "text", "id": "login_label", "label": "Trade login label", "default": "Trade login" },
+    { "type": "url", "id": "quick_order_url", "label": "Quick order link", "info": "Shown to signed-in customers only." },
+    { "type": "checkbox", "id": "show_search", "label": "Show search", "default": true },
+    { "type": "checkbox", "id": "show_account", "label": "Show account", "default": true },
+    { "type": "checkbox", "id": "show_cart", "label": "Show cart", "default": true }
+  ],
+  "enabled_on": { "groups": ["header"] }
+}
+{% endschema %}

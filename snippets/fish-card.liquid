@@ -1,0 +1,225 @@
+{%- comment -%}
+  fish-card.liquid — the reusable trade product card.
+
+  Usage:
+    {% render 'fish-card', product: product %}
+    {% render 'fish-card', product: product, show_quick_view: false, lazy: false %}
+
+  Accepts:
+    product          (required) product object
+    show_quick_view  (boolean, default true)
+    lazy             (boolean, default true) set false for above-the-fold cards
+
+  Reads these product metafields (namespace: gofish):
+    scientific_name  single line text   e.g. "Corydoras aeneus"
+    size_range       single line text   e.g. "4-5 cm"
+    grade            single line text   e.g. "A"
+    bag_qty          integer            fish per bag, e.g. 25
+    moq              integer            minimum order quantity
+    origin           single line text   e.g. "Bred in QLD"
+    price_breaks     JSON               [{"qty":10,"price":220},{"qty":50,"price":195}]
+                                        price in cents, ex GST
+
+  Native Shopify B2B (quantity_rule / quantity_price_breaks) is used first
+  when the store is on a B2B plan; metafields are the fallback.
+{%- endcomment -%}
+
+{%- capture price_access %}{% render 'price-access' %}{% endcapture -%}
+{%- liquid
+  assign show_quick_view = show_quick_view | default: true, allow_false: true
+  assign lazy = lazy | default: true, allow_false: true
+  assign lazy_attr = 'lazy'
+  unless lazy
+    assign lazy_attr = 'eager'
+  endunless
+  assign v = product.selected_or_first_available_variant
+  assign mf = product.metafields.gofish
+
+  assign show_price = false
+  if price_access contains 'true'
+    assign show_price = true
+  endif
+
+  assign qty_on_hand = v.inventory_quantity
+  assign tracked = false
+  if v.inventory_management != blank
+    assign tracked = true
+  endif
+
+  assign stock_state = 'in'
+  if v.available == false
+    assign stock_state = 'out'
+    if mf.next_arrival != blank
+      assign stock_state = 'soon'
+    endif
+  elsif tracked and qty_on_hand <= settings.low_stock_threshold
+    assign stock_state = 'low'
+  endif
+
+  assign min_qty = 1
+  if v.quantity_rule.min > 1
+    assign min_qty = v.quantity_rule.min
+  elsif mf.moq.value > 1
+    assign min_qty = mf.moq.value
+  endif
+  assign step_qty = 1
+  if v.quantity_rule.increment > 1
+    assign step_qty = v.quantity_rule.increment
+  elsif mf.bag_qty.value > 1
+    assign step_qty = mf.bag_qty.value
+  endif
+  if min_qty < step_qty
+    assign min_qty = step_qty
+  endif
+-%}
+
+<article class="gfa-card{% if stock_state == 'out' %} gfa-card--out{% endif %}" data-fish-card data-product-id="{{ product.id }}">
+  <div class="gfa-card__media">
+    {%- if product.featured_media -%}
+      {{ product.featured_media | image_url: width: 640 | image_tag:
+          loading: lazy_attr,
+          widths: '258,340,440,640',
+          sizes: '(max-width: 640px) 45vw, 280px',
+          alt: product.featured_media.alt | default: product.title | escape,
+          class: 'gfa-card__img' }}
+    {%- else -%}
+      {%- render 'fish-placeholder', shape: mf.body_shape.value -%}
+    {%- endif -%}
+
+    <span class="gfa-card__badge">
+      <span class="gfa-status gfa-status--{{ stock_state }}">
+        {%- case stock_state -%}
+          {%- when 'in' -%}{{ 'products.stock.in_stock' | t }}
+          {%- when 'low' -%}{{ 'products.stock.limited' | t }}
+          {%- when 'soon' -%}{{ 'products.stock.inbound' | t }}
+          {%- else -%}{{ 'products.stock.unavailable' | t }}
+        {%- endcase -%}
+      </span>
+    </span>
+
+    {%- if show_quick_view -%}
+      <button type="button" class="gfa-card__quick" data-quick-view="{{ product.url }}"
+              aria-label="{{ 'products.quick_view_for' | t: title: product.title }}">
+        {{ 'products.quick_view' | t }}
+      </button>
+    {%- endif -%}
+  </div>
+
+  <div class="gfa-card__body">
+    <h3 class="gfa-card__title">
+      <a href="{{ product.url }}">{{ product.title }}</a>
+      {%- if mf.scientific_name != blank -%}
+        <em class="gfa-card__sci">{{ mf.scientific_name }}</em>
+      {%- endif -%}
+    </h3>
+
+    <dl class="gfa-spec">
+      {%- if mf.size_range != blank -%}
+        <div class="gfa-spec__row">
+          <dt>{{ 'products.spec.size' | t }}</dt>
+          <dd>{{ mf.size_range }}{% if mf.grade != blank %} · {{ 'products.spec.grade' | t }} {{ mf.grade }}{% endif %}</dd>
+        </div>
+      {%- endif -%}
+      {%- if mf.bag_qty.value > 0 -%}
+        <div class="gfa-spec__row">
+          <dt>{{ 'products.spec.bag' | t }}</dt>
+          <dd>{{ mf.bag_qty.value }} {{ 'products.spec.each' | t }}</dd>
+        </div>
+      {%- endif -%}
+      <div class="gfa-spec__row">
+        <dt>{{ 'products.spec.available' | t }}</dt>
+        <dd>
+          {%- if stock_state == 'soon' -%}
+            {{ mf.next_arrival }}
+          {%- elsif stock_state == 'out' -%}
+            {{ 'products.stock.ask' | t }}
+          {%- elsif tracked -%}
+            {{ qty_on_hand }}
+          {%- else -%}
+            {{ 'products.stock.ready' | t }}
+          {%- endif -%}
+        </dd>
+      </div>
+    </dl>
+  </div>
+
+  {%- if show_price -%}
+    <div class="gfa-card__price">
+      <b data-card-price>{{ v.price | money }}</b>
+      <span>{{ 'products.each_ex_gst' | t }}</span>
+    </div>
+
+    {%- if v.quantity_price_breaks.size > 0 -%}
+      <div class="gfa-card__breaks">
+        {%- for b in v.quantity_price_breaks limit: 2 -%}
+          <span>{{ b.minimum_quantity }}+ {{ b.price | money }}</span>
+        {%- endfor -%}
+      </div>
+    {%- elsif mf.price_breaks.value.size > 0 -%}
+      <div class="gfa-card__breaks">
+        {%- for b in mf.price_breaks.value limit: 2 -%}
+          <span>{{ b.qty }}+ {{ b.price | money }}</span>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  {%- else -%}
+    <p class="gfa-card__gate">
+      <a href="{{ routes.account_login_url }}">{{ 'customer.log_in' | t }}</a>
+      {{ 'products.gate_suffix' | t }}
+    </p>
+  {%- endif -%}
+
+  {%- if min_qty > 1 -%}
+    <p class="gfa-card__moq">{{ 'products.min_order' | t: qty: min_qty }}</p>
+  {%- endif -%}
+
+  {%- unless product.has_only_default_variant -%}
+    <div class="gfa-card__options">
+      <label class="visually-hidden" for="gfa-var-{{ product.id }}">
+        {%- if product.options.size == 1 -%}{{ product.options.first }}{%- else -%}{{ 'products.option' | t }}{%- endif -%}
+        — {{ product.title }}
+      </label>
+      <select id="gfa-var-{{ product.id }}" data-card-variant>
+        {%- for variant in product.variants -%}
+          <option value="{{ variant.id }}"
+                  data-price="{{ variant.price | money }}"
+                  data-available="{{ variant.available }}"
+                  {% if variant.id == v.id %}selected{% endif %}
+                  {% unless variant.available %}disabled{% endunless %}>
+            {{ variant.title }}{% unless variant.available %} · {{ 'products.stock.unavailable' | t }}{% endunless %}
+          </option>
+        {%- endfor -%}
+      </select>
+    </div>
+  {%- endunless -%}
+
+  <div class="gfa-card__foot">
+    {%- if show_price and v.available -%}
+      <form method="post" action="{{ routes.cart_add_url }}" data-add-to-order>
+        <input type="hidden" name="form_type" value="product">
+        <input type="hidden" name="utf8" value="✓">
+        <input type="hidden" name="id" value="{{ v.id }}" data-variant-id>
+
+        <div class="gfa-qty" data-qty>
+          <button type="button" data-qty-down aria-label="{{ 'products.decrease' | t }}">&minus;</button>
+          <input type="number" name="quantity" value="{{ min_qty }}" min="{{ min_qty }}"
+                 step="{{ step_qty }}"{% if v.quantity_rule.max %} max="{{ v.quantity_rule.max }}"{% endif %}
+                 aria-label="{{ 'products.quantity_for' | t: title: product.title }}">
+          <button type="button" data-qty-up aria-label="{{ 'products.increase' | t }}">+</button>
+        </div>
+
+        <button type="submit" class="gfa-btn gfa-btn--primary gfa-btn--sm">
+          {{ 'products.add_to_order' | t }}
+        </button>
+      </form>
+    {%- elsif show_price == false -%}
+      <a class="gfa-btn gfa-btn--outline gfa-btn--sm gfa-btn--block" href="{{ routes.account_login_url }}">
+        {{ 'customer.log_in' | t }}
+      </a>
+    {%- else -%}
+      <a class="gfa-btn gfa-btn--outline gfa-btn--sm gfa-btn--block" href="{{ product.url }}">
+        {{ 'products.notify_me' | t }}
+      </a>
+    {%- endif -%}
+  </div>
+</article>

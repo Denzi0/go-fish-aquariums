@@ -1,0 +1,20 @@
+<div class="gfa-shell gfa-band">
+  <h1>{{ 'customer.order' | t }} {{ order.name }}</h1>
+  <p class="gfa-note" style="margin-top:8px">{{ order.created_at | date: '%d %b %Y' }}</p>
+  <div class="gfa-list" style="margin-top:24px">
+    {%- for line in order.line_items -%}
+      <div class="gfa-list__row">
+        <span></span>
+        <span class="gfa-list__name">{{ line.title }}</span>
+        <span class="gfa-list__num">{{ line.price | money }}</span>
+        <span class="gfa-list__num">{{ line.quantity }}</span>
+        <span class="gfa-list__num">{{ line.line_price | money }}</span>
+        <span></span>
+      </div>
+    {%- endfor -%}
+  </div>
+  <p style="margin-top:20px"><a class="gfa-link" href="{{ routes.account_url }}">{{ 'customer.back_to_account' | t }}</a></p>
+</div>
+{% schema %}
+{ "name": "Order", "settings": [] }
+{% endschema %}

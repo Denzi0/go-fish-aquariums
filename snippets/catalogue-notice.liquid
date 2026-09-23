@@ -1,0 +1,15 @@
+{%- comment -%}
+  catalogue-notice.liquid — shown to visitors who cannot see pricing.
+  {% render 'catalogue-notice' %}                  full-width band
+  {% render 'catalogue-notice', context: 'product' %}  inline, inside the buy column
+{%- endcomment -%}
+<div class="gfa-gate{% if context == 'product' %} gfa-gate--inline{% endif %}">
+  <div class="gfa-gate__text">
+    <strong>{{ settings.catalogue_heading | default: 'Trade pricing is hidden' }}</strong>
+    <span>{{ settings.catalogue_note }}</span>
+  </div>
+  <div class="gfa-gate__actions">
+    <a class="gfa-btn gfa-btn--primary gfa-btn--sm" href="{{ routes.account_login_url }}">{{ 'customer.log_in' | t }}</a>
+    <a class="gfa-btn gfa-btn--outline gfa-btn--sm" href="{{ routes.account_register_url }}">{{ 'customer.apply' | t }}</a>
+  </div>
+</div>

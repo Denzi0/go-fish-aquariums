@@ -1,0 +1,15 @@
+<div class="gfa-shell gfa-band">
+  <h1>{{ 'collections.all' | t }}</h1>
+  <div class="gfa-cats" style="margin-top:28px">
+    {%- for collection in collections -%}
+      <a class="gfa-cat" href="{{ collection.url }}">
+        {% render 'icon', name: 'fish' %}
+        <strong>{{ collection.title }}</strong>
+        <span>{{ 'collections.count_species' | t: count: collection.all_products_count }}</span>
+      </a>
+    {%- endfor -%}
+  </div>
+</div>
+{% schema %}
+{ "name": "Collections list", "settings": [] }
+{% endschema %}

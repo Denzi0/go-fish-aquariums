@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ 'gift_cards.issued.title' | t }}</title>
+    {{ 'gfa.css' | asset_url | stylesheet_tag }}
+  </head>
+  <body>
+    <div class="gfa-shell gfa-band">
+      <div class="gfa-panel">
+        <h1 style="font-size:1.4rem">{{ shop.name }}</h1>
+        <p class="gfa-note" style="margin-top:10px">Gift card value</p>
+        <p class="gfa-num" style="font-size:2rem">{{ gift_card.balance | money }}</p>
+        <p class="gfa-num" style="margin-top:16px">{{ gift_card.code | format_code }}</p>
+      </div>
+    </div>
+  </body>
+</html>

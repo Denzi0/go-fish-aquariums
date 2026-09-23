@@ -1,0 +1,51 @@
+<section class="gfa-band gfa-band--wash">
+  <div class="gfa-shell">
+    <div class="gfa-band-head">
+      <div>
+        <h2>{{ section.settings.heading }}</h2>
+        {%- if section.settings.subheading != blank -%}<p>{{ section.settings.subheading }}</p>{%- endif -%}
+      </div>
+    </div>
+
+    <div class="gfa-reasons">
+      {%- for block in section.blocks -%}
+        <div class="gfa-reason" {{ block.shopify_attributes }}>
+          <h3>{{ block.settings.title }}</h3>
+          <p>{{ block.settings.text }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Why choose us",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Why shops buy from us" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "" }
+  ],
+  "blocks": [
+    {
+      "type": "reason",
+      "name": "Reason",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Graded before it is bagged" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Every order is sized and counted by hand on the morning it ships." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Why choose us",
+      "blocks": [
+        { "type": "reason", "settings": { "title": "Graded before it is bagged", "text": "Fish are sized, counted and checked by hand on the morning they ship, so what arrives matches the grade you ordered." } },
+        { "type": "reason", "settings": { "title": "Pricing that holds", "text": "Your account price is fixed for the quarter with volume breaks at 10, 50 and 100 units. No surprise surcharges at invoice." } },
+        { "type": "reason", "settings": { "title": "Two dispatch runs a week", "text": "Livestock leaves Tuesday and Wednesday on overnight air freight to all capital cities, with a live arrival guarantee." } },
+        { "type": "reason", "settings": { "title": "Stock you can plan around", "text": "Counts on this site come from the same system our packers use, and breeding runs are listed weeks ahead." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

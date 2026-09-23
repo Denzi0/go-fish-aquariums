@@ -1,0 +1,9 @@
+{
+  "current": {
+    "price_visibility": "trade",
+    "trade_tag": "trade",
+    "catalogue_heading": "Trade pricing is hidden",
+    "catalogue_note": "Sign in to see your pricing and place orders. Trade accounts are open to registered businesses that resell aquarium livestock.",
+    "low_stock_threshold": 50
+  }
+}

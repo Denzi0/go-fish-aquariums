@@ -1,0 +1,20 @@
+<div class="gfa-shell gfa-band">
+  <div class="gfa-panel">
+    <h1 style="font-size:1.4rem">{{ 'customer.activate' | t }}</h1>
+    {%- form 'activate_customer_password' -%}
+      <div class="gfa-form__row">
+        <label class="gfa-label" for="ac1">{{ 'customer.password' | t }}</label>
+        <input class="gfa-field" id="ac1" type="password" name="customer[password]" autocomplete="new-password">
+      </div>
+      <div class="gfa-form__row">
+        <label class="gfa-label" for="ac2">{{ 'customer.confirm_password' | t }}</label>
+        <input class="gfa-field" id="ac2" type="password" name="customer[password_confirmation]" autocomplete="new-password">
+      </div>
+      <button class="gfa-btn gfa-btn--primary gfa-btn--block" type="submit">{{ 'customer.activate' | t }}</button>
+      <button class="gfa-btn gfa-btn--outline gfa-btn--block" style="margin-top:10px" type="submit" name="decline">{{ 'customer.decline' | t }}</button>
+    {%- endform -%}
+  </div>
+</div>
+{% schema %}
+{ "name": "Activate account", "settings": [] }
+{% endschema %}

@@ -1,0 +1,11 @@
+<div class="gfa-shell gfa-band" style="text-align:left;max-width:60ch">
+  <h1>{{ 'general.not_found_title' | t }}</h1>
+  <p class="gfa-lede" style="margin-top:16px">{{ 'general.not_found_body' | t }}</p>
+  <div style="display:flex;gap:12px;margin-top:24px;flex-wrap:wrap">
+    <a class="gfa-btn gfa-btn--primary" href="{{ routes.all_products_collection_url }}">{{ 'general.browse_stock' | t }}</a>
+    <a class="gfa-btn gfa-btn--outline" href="{{ routes.search_url }}">{{ 'general.search' | t }}</a>
+  </div>
+</div>
+{% schema %}
+{ "name": "404", "settings": [] }
+{% endschema %}

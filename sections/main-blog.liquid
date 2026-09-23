@@ -1,0 +1,15 @@
+<div class="gfa-shell gfa-band">
+  <h1>{{ blog.title }}</h1>
+  <div style="max-width:70ch;margin-top:28px">
+    {%- for article in blog.articles -%}
+      <article style="padding-block:20px;border-bottom:1px solid var(--line)">
+        <h2 style="font-size:1.25rem"><a href="{{ article.url }}">{{ article.title }}</a></h2>
+        <p class="gfa-note" style="margin:6px 0">{{ article.published_at | date: '%d %b %Y' }}</p>
+        <p>{{ article.excerpt_or_content | strip_html | truncate: 180 }}</p>
+      </article>
+    {%- endfor -%}
+  </div>
+</div>
+{% schema %}
+{ "name": "Blog", "settings": [] }
+{% endschema %}

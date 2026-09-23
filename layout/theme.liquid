@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#062b36">
+    <link rel="canonical" href="{{ canonical_url }}">
+    {%- if settings.favicon -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- endif -%}
+
+    <title>{{ page_title }}{% if current_tags %} &ndash; {{ current_tags | join: ', ' }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}</title>
+    {%- if page_description -%}<meta name="description" content="{{ page_description | escape }}">{%- endif -%}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital@1&display=swap">
+
+    {{ content_for_header }}
+    {{ 'gfa.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'gfa.js' | asset_url }}" defer></script>
+
+    {%- render 'structured-data' -%}
+  </head>
+
+  {%- capture price_access %}{% render 'price-access' %}{% endcapture -%}
+  <body class="template-{{ request.page_type | handle }}{% unless price_access contains 'true' %} gfa-catalogue-mode{% endunless %}">
+    <a class="gfa-skip" href="#gfa-main">{{ 'general.skip_to_content' | t }}</a>
+
+    {% sections 'header-group' %}
+
+    <main id="gfa-main" role="main">
+      {{ content_for_layout }}
+    </main>
+
+    {% sections 'footer-group' %}
+
+    <dialog class="gfa-dialog" data-quick-view-dialog aria-label="{{ 'products.quick_view' | t }}">
+      <button class="gfa-iconbtn gfa-dialog__close" type="button" data-quick-view-close aria-label="{{ 'general.close' | t }}">
+        {% render 'icon', name: 'close' %}
+      </button>
+      <div class="gfa-dialog__in" data-quick-view-body></div>
+    </dialog>
+  </body>
+</html>

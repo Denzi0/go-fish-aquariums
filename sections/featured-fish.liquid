@@ -1,0 +1,57 @@
+<section class="gfa-band{% if section.settings.background == 'wash' %} gfa-band--wash{% endif %}">
+  <div class="gfa-shell">
+    <div class="gfa-band-head">
+      <div>
+        <h2>{{ section.settings.heading }}</h2>
+        {%- if section.settings.subheading != blank -%}<p>{{ section.settings.subheading }}</p>{%- endif -%}
+      </div>
+      {%- if section.settings.link_label != blank -%}
+        <a class="gfa-link" href="{{ section.settings.link_url }}">{{ section.settings.link_label }}</a>
+      {%- endif -%}
+    </div>
+
+    {%- liquid
+      assign source = collections[section.settings.collection]
+      if section.settings.collection == blank
+        assign source = collections.all
+      endif
+      case section.settings.columns
+        when 2
+          assign min_col = '420px'
+        when 3
+          assign min_col = '320px'
+        when 5
+          assign min_col = '212px'
+        else
+          assign min_col = '258px'
+      endcase
+    -%}
+
+    <div class="gfa-grid" style="--gfa-min: {{ min_col }};">
+      {%- for product in source.products limit: section.settings.count -%}
+        {% render 'fish-card', product: product, lazy: forloop.index0 %}
+      {%- else -%}
+        <p class="gfa-note">{{ 'collections.no_products' | t }}</p>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured fish",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Available now" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Counts are live. Anything showing limited stock is close to selling out for this dispatch." },
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "range", "id": "count", "min": 4, "max": 16, "step": 2, "label": "Products to show", "default": 8 },
+    { "type": "range", "id": "columns", "min": 2, "max": 5, "step": 1, "label": "Columns on desktop", "default": 4 },
+    { "type": "text", "id": "link_label", "label": "Link label", "default": "See the full stock list" },
+    { "type": "url", "id": "link_url", "label": "Link" },
+    { "type": "select", "id": "background", "label": "Background", "default": "paper",
+      "options": [ { "value": "paper", "label": "White" }, { "value": "wash", "label": "Pale" } ] }
+  ],
+  "presets": [ { "name": "Featured fish" } ]
+}
+{% endschema %}

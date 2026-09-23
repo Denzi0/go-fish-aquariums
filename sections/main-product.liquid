@@ -1,0 +1,186 @@
+{%- capture price_access %}{% render 'price-access' %}{% endcapture -%}
+{%- liquid
+  assign v = product.selected_or_first_available_variant
+  assign mf = product.metafields.gofish
+
+  assign show_price = false
+  if price_access contains 'true'
+    assign show_price = true
+  endif
+
+  assign min_qty = 1
+  if v.quantity_rule.min > 1
+    assign min_qty = v.quantity_rule.min
+  elsif mf.moq.value > 1
+    assign min_qty = mf.moq.value
+  endif
+  assign step_qty = 1
+  if v.quantity_rule.increment > 1
+    assign step_qty = v.quantity_rule.increment
+  elsif mf.bag_qty.value > 1
+    assign step_qty = mf.bag_qty.value
+  endif
+  if min_qty < step_qty
+    assign min_qty = step_qty
+  endif
+-%}
+
+<div class="gfa-shell">
+  <nav class="gfa-breadcrumb" aria-label="{{ 'general.breadcrumb' | t }}">
+    <a href="{{ routes.root_url }}">{{ 'general.home' | t }}</a> /
+    {%- if collection -%}<a href="{{ collection.url }}">{{ collection.title }}</a> / {%- endif -%}
+    <span>{{ product.title }}</span>
+  </nav>
+
+  <div class="gfa-product">
+    <div>
+      <div class="gfa-product__media">
+        {%- if product.featured_media -%}
+          {{ product.featured_media | image_url: width: 1200 | image_tag:
+             widths: '540,760,1000,1200', sizes: '(max-width: 900px) 100vw, 620px',
+             loading: 'eager', alt: product.featured_media.alt | default: product.title | escape }}
+        {%- else -%}
+          {% render 'fish-placeholder', shape: mf.body_shape.value %}
+        {%- endif -%}
+      </div>
+
+      {%- if product.media.size > 1 -%}
+        <div class="gfa-product__thumbs">
+          {%- for media in product.media limit: 4 -%}
+            <button type="button" class="gfa-product__thumb" data-media="{{ media | image_url: width: 1200 }}">
+              {{ media | image_url: width: 220 | image_tag: loading: 'lazy', alt: media.alt | escape }}
+            </button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div>
+      <h1>{{ product.title }}</h1>
+      {%- if mf.scientific_name != blank -%}
+        <p class="gfa-product__sci">{{ mf.scientific_name }}</p>
+      {%- endif -%}
+
+      <p style="margin-top:14px">
+        {%- if v.available -%}
+          {%- if v.inventory_management != blank and v.inventory_quantity <= settings.low_stock_threshold -%}
+            <span class="gfa-status gfa-status--low">{{ 'products.stock.limited' | t }} — {{ v.inventory_quantity }} {{ 'products.spec.available' | t | downcase }}</span>
+          {%- else -%}
+            <span class="gfa-status gfa-status--in">{{ 'products.stock.in_stock' | t }}{% if v.inventory_management != blank %} — {{ v.inventory_quantity }}{% endif %}</span>
+          {%- endif -%}
+        {%- elsif mf.next_arrival != blank -%}
+          <span class="gfa-status gfa-status--soon">{{ 'products.stock.inbound' | t }} — {{ mf.next_arrival }}</span>
+        {%- else -%}
+          <span class="gfa-status gfa-status--out">{{ 'products.stock.unavailable' | t }}</span>
+        {%- endif -%}
+      </p>
+
+      {%- if show_price -%}
+        <div class="gfa-product__price">
+          <b>{{ v.price | money }}</b>
+          <span>{{ 'products.each_ex_gst' | t }}</span>
+        </div>
+
+        {%- assign has_breaks = false -%}
+        {%- if v.quantity_price_breaks.size > 0 -%}{%- assign has_breaks = true -%}{%- endif -%}
+        {%- if mf.price_breaks.value.size > 0 -%}{%- assign has_breaks = true -%}{%- endif -%}
+
+        {%- if has_breaks -%}
+          <table class="gfa-breaks">
+            <caption class="visually-hidden">{{ 'products.volume_pricing' | t }}</caption>
+            <thead>
+              <tr><th scope="col">{{ 'products.quantity' | t }}</th><th scope="col">{{ 'products.unit_price' | t }}</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>{{ min_qty }}–{% if v.quantity_price_breaks.first %}{{ v.quantity_price_breaks.first.minimum_quantity | minus: 1 }}{% else %}9{% endif %}</td><td>{{ v.price | money }}</td></tr>
+              {%- if v.quantity_price_breaks.size > 0 -%}
+                {%- for b in v.quantity_price_breaks -%}
+                  <tr><td>{{ b.minimum_quantity }}+</td><td>{{ b.price | money }}</td></tr>
+                {%- endfor -%}
+              {%- else -%}
+                {%- for b in mf.price_breaks.value -%}
+                  <tr><td>{{ b.qty }}+</td><td>{{ b.price | money }}</td></tr>
+                {%- endfor -%}
+              {%- endif -%}
+            </tbody>
+          </table>
+        {%- endif -%}
+      {%- else -%}
+        {% render 'catalogue-notice', context: 'product' %}
+      {%- endif -%}
+
+      <div class="gfa-buybox">
+        {%- form 'product', product, id: 'gfa-product-form' -%}
+          {%- if product.has_only_default_variant -%}
+            <input type="hidden" name="id" value="{{ v.id }}">
+          {%- else -%}
+            <div class="gfa-variants">
+              <label class="gfa-label" for="gfa-variant">
+                {%- if product.options.size == 1 -%}{{ product.options.first }}{%- else -%}{{ 'products.option' | t }}{%- endif -%}
+              </label>
+              <select class="gfa-field" id="gfa-variant" name="id" data-variant-select>
+                {%- for variant in product.variants -%}
+                  <option value="{{ variant.id }}"
+                          {% if variant.id == v.id %}selected{% endif %}
+                          {% unless variant.available %}disabled{% endunless %}>
+                    {{ variant.title }}
+                    {%- if show_price %} — {{ variant.price | money }}{% endif -%}
+                    {%- unless variant.available %} · {{ 'products.stock.unavailable' | t }}{% endunless -%}
+                  </option>
+                {%- endfor -%}
+              </select>
+            </div>
+          {%- endif -%}
+
+          {%- if show_price and v.available -%}
+            <div class="gfa-buybox__row">
+              <div class="gfa-qty" data-qty>
+                <button type="button" data-qty-down aria-label="{{ 'products.decrease' | t }}">&minus;</button>
+                <input type="number" name="quantity" value="{{ min_qty }}" min="{{ min_qty }}" step="{{ step_qty }}"
+                       {% if v.quantity_rule.max %}max="{{ v.quantity_rule.max }}"{% endif %}
+                       aria-label="{{ 'products.quantity' | t }}">
+                <button type="button" data-qty-up aria-label="{{ 'products.increase' | t }}">+</button>
+              </div>
+              <button type="submit" class="gfa-btn gfa-btn--primary">{{ 'products.add_to_order' | t }}</button>
+            </div>
+            <p class="gfa-buybox__note">
+              {%- if step_qty > 1 -%}{{ 'products.sold_in_bags' | t: qty: step_qty }} · {% endif -%}
+              {{ section.settings.buybox_note }}
+            </p>
+          {%- elsif show_price == false -%}
+            <a class="gfa-btn gfa-btn--primary gfa-btn--block" href="{{ routes.account_login_url }}">{{ 'customer.log_in' | t }}</a>
+            <p class="gfa-buybox__note">{{ 'products.gate_note' | t }}</p>
+          {%- else -%}
+            <a class="gfa-btn gfa-btn--outline gfa-btn--block" href="{{ section.settings.enquiry_url }}">{{ 'products.enquire' | t }}</a>
+            <p class="gfa-buybox__note">{{ 'products.restock_note' | t }}</p>
+          {%- endif -%}
+        {%- endform -%}
+      </div>
+
+      <table class="gfa-specs">
+        <tbody>
+          {%- if mf.size_range != blank -%}<tr><th scope="row">{{ 'products.spec.size' | t }}</th><td>{{ mf.size_range }}</td></tr>{%- endif -%}
+          {%- if mf.grade != blank -%}<tr><th scope="row">{{ 'products.spec.grade' | t }}</th><td>{{ mf.grade }}</td></tr>{%- endif -%}
+          {%- if mf.bag_qty.value > 0 -%}<tr><th scope="row">{{ 'products.spec.bag' | t }}</th><td>{{ mf.bag_qty.value }}</td></tr>{%- endif -%}
+          {%- if mf.origin != blank -%}<tr><th scope="row">{{ 'products.spec.origin' | t }}</th><td>{{ mf.origin }}</td></tr>{%- endif -%}
+          {%- if mf.water_params != blank -%}<tr><th scope="row">{{ 'products.spec.water' | t }}</th><td>{{ mf.water_params }}</td></tr>{%- endif -%}
+          {%- if product.sku != blank -%}<tr><th scope="row">{{ 'products.spec.code' | t }}</th><td>{{ v.sku }}</td></tr>{%- endif -%}
+        </tbody>
+      </table>
+
+      {%- if product.description != blank -%}
+        <div class="gfa-lede" style="margin-top:28px">{{ product.description }}</div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Product",
+  "settings": [
+    { "type": "text", "id": "buybox_note", "label": "Buy box note", "default": "Ships on the next livestock run. Orders close Monday 4pm AEST." },
+    { "type": "url", "id": "enquiry_url", "label": "Out of stock enquiry link" }
+  ]
+}
+{% endschema %}

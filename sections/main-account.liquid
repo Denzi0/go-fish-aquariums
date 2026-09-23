@@ -1,0 +1,38 @@
+<div class="gfa-shell gfa-band">
+  <h1>{{ 'customer.my_account' | t }}</h1>
+  <p class="gfa-note" style="margin-top:8px">{{ customer.name }} · {{ customer.email }}</p>
+
+  <div style="display:flex;gap:12px;flex-wrap:wrap;margin:24px 0 32px">
+    <a class="gfa-btn gfa-btn--outline gfa-btn--sm" href="{{ routes.account_addresses_url }}">{{ 'customer.addresses' | t }}</a>
+    <a class="gfa-btn gfa-btn--outline gfa-btn--sm" href="{{ routes.account_logout_url }}">{{ 'customer.log_out' | t }}</a>
+  </div>
+
+  <h2 style="font-size:1.125rem;margin-bottom:16px">{{ 'customer.order_history' | t }}</h2>
+  {%- paginate customer.orders by 20 -%}
+    {%- if customer.orders.size > 0 -%}
+      <div class="gfa-list">
+        <div class="gfa-list__head">
+          <span>{{ 'customer.order' | t }}</span><span>{{ 'customer.date' | t }}</span>
+          <span>{{ 'customer.status' | t }}</span><span>{{ 'cart.total' | t }}</span><span></span><span></span>
+        </div>
+        {%- for order in customer.orders -%}
+          <div class="gfa-list__row">
+            <span class="gfa-list__num"><a href="{{ order.customer_url }}">{{ order.name }}</a></span>
+            <span class="gfa-list__num">{{ order.created_at | date: '%d %b %Y' }}</span>
+            <span>{{ order.fulfillment_status_label }}</span>
+            <span class="gfa-list__num">{{ order.total_price | money }}</span>
+            <span></span>
+            <span class="gfa-list__actions">
+              <a class="gfa-btn gfa-btn--outline gfa-btn--sm" href="{{ order.customer_url }}">{{ 'customer.view' | t }}</a>
+            </span>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <p class="gfa-note">{{ 'customer.no_orders' | t }}</p>
+    {%- endif -%}
+  {%- endpaginate -%}
+</div>
+{% schema %}
+{ "name": "Account", "settings": [] }
+{% endschema %}

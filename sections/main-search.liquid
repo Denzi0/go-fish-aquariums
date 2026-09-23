@@ -1,0 +1,28 @@
+{%- capture price_access %}{% render 'price-access' %}{% endcapture -%}
+<div class="gfa-shell gfa-band">
+  <h1>{{ 'general.search' | t }}</h1>
+  <form action="{{ routes.search_url }}" method="get" role="search" style="max-width:520px;margin-top:20px;display:flex;gap:10px">
+    <label class="visually-hidden" for="gfa-q">{{ 'general.search' | t }}</label>
+    <input class="gfa-field" id="gfa-q" type="search" name="q" value="{{ search.terms | escape }}"
+           placeholder="{{ 'general.search_placeholder' | t }}">
+    <button class="gfa-btn gfa-btn--primary" type="submit">{{ 'general.search' | t }}</button>
+  </form>
+
+  {%- unless price_access contains 'true' -%}
+    <div style="margin-top:24px">{% render 'catalogue-notice' %}</div>
+  {%- endunless -%}
+
+  {%- if search.performed -%}
+    <p class="gfa-note" style="margin-top:18px">{{ search.results_count }} {{ 'collections.products' | t }}</p>
+    <div class="gfa-grid" style="margin-top:24px" data-product-grid>
+      {%- for item in search.results -%}
+        {%- if item.object_type == 'product' -%}
+          {% render 'fish-card', product: item %}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</div>
+{% schema %}
+{ "name": "Search", "settings": [] }
+{% endschema %}

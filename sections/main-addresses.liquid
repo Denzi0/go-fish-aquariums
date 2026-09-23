@@ -1,0 +1,16 @@
+<div class="gfa-shell gfa-band">
+  <h1>{{ 'customer.addresses' | t }}</h1>
+  <div style="margin-top:24px;display:grid;gap:16px;max-width:760px">
+    {%- for address in customer.addresses -%}
+      <div class="gfa-panel gfa-panel--wide" style="margin:0">
+        <p>{{ address | format_address }}</p>
+      </div>
+    {%- else -%}
+      <p class="gfa-note">{{ 'customer.no_addresses' | t }}</p>
+    {%- endfor -%}
+  </div>
+  <p style="margin-top:20px"><a class="gfa-link" href="{{ routes.account_url }}">{{ 'customer.back_to_account' | t }}</a></p>
+</div>
+{% schema %}
+{ "name": "Addresses", "settings": [] }
+{% endschema %}

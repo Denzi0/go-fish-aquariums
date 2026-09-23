@@ -1,0 +1,6 @@
+{
+  "sections": {
+    "main": { "type": "quick-order", "settings": {} }
+  },
+  "order": ["main"]
+}

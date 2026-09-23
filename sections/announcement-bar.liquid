@@ -1,0 +1,38 @@
+{%- if section.settings.enabled -%}
+  <div class="gfa-notice">
+    <div class="gfa-shell gfa-notice__in">
+      {%- if section.settings.status_text != blank -%}
+        <span class="gfa-notice__dot" aria-hidden="true"></span>
+        <span>{{ section.settings.status_text }}</span>
+      {%- endif -%}
+      {%- if section.settings.secondary_text != blank -%}
+        <span>{{ section.settings.secondary_text }}</span>
+      {%- endif -%}
+      {%- if section.settings.link_label != blank -%}
+        <span class="gfa-notice__spacer">
+          <a href="{{ section.settings.link_url }}">{{ section.settings.link_label }}</a>
+        </span>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Dispatch bar",
+  "settings": [
+    { "type": "checkbox", "id": "enabled", "label": "Show bar", "default": true },
+    {
+      "type": "text",
+      "id": "status_text",
+      "label": "Status message",
+      "info": "Update weekly. Buyers use this to time their order.",
+      "default": "Next livestock dispatch Tuesday 22 Sept — orders close Monday 4pm AEST"
+    },
+    { "type": "text", "id": "secondary_text", "label": "Secondary message", "default": "Live arrival guarantee on all capital-city deliveries" },
+    { "type": "text", "id": "link_label", "label": "Link label", "default": "Trade enquiries 1300 000 000" },
+    { "type": "url", "id": "link_url", "label": "Link" }
+  ],
+  "enabled_on": { "groups": ["header"] }
+}
+{% endschema %}

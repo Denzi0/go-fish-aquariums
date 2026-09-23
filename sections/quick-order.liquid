@@ -1,0 +1,39 @@
+{%- comment -%}
+  Quick order — paste or type product codes and quantities, one per line.
+  Resolves codes against variant SKUs via the Storefront search, then adds
+  the whole list to the cart in a single /cart/add.js call.
+{%- endcomment -%}
+{%- capture price_access %}{% render 'price-access' %}{% endcapture -%}
+<div class="gfa-shell gfa-band">
+  <div style="max-width:720px">
+    <h1>{{ section.settings.heading }}</h1>
+    <p class="gfa-lede" style="margin-top:12px">{{ section.settings.intro }}</p>
+
+    {%- if price_access contains 'true' -%}
+      <div class="gfa-panel gfa-panel--wide" style="margin:28px 0 0">
+        <label class="gfa-label" for="gfa-bulk">{{ section.settings.field_label }}</label>
+        <textarea class="gfa-field" id="gfa-bulk" rows="8" data-quick-order-input
+                  placeholder="{{ section.settings.placeholder }}" style="font-family:var(--f-num);font-size:0.875rem"></textarea>
+        <div style="display:flex;gap:12px;margin-top:16px;flex-wrap:wrap">
+          <button class="gfa-btn gfa-btn--primary" type="button" data-quick-order-submit>{{ 'products.add_to_order' | t }}</button>
+          <a class="gfa-btn gfa-btn--outline" href="{{ routes.cart_url }}">{{ 'cart.title' | t }}</a>
+        </div>
+        <p class="gfa-note" style="margin-top:14px" data-quick-order-status role="status"></p>
+      </div>
+    {%- else -%}
+      <div style="margin:28px 0 0">{% render 'catalogue-notice' %}</div>
+    {%- endif -%}
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Quick order",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Quick order" },
+    { "type": "textarea", "id": "intro", "label": "Intro", "default": "If you order the same list each week, paste it here. One product code and quantity per line." },
+    { "type": "text", "id": "field_label", "label": "Field label", "default": "Product code, quantity" },
+    { "type": "text", "id": "placeholder", "label": "Placeholder", "default": "COR-ALB-45, 50\nNEO-BLU-20, 100\nKOI-STD-15, 12" }
+  ],
+  "presets": [ { "name": "Quick order" } ]
+}
+{% endschema %}

@@ -1,0 +1,55 @@
+{%- comment -%}
+  stock-snapshot.liquid — the live availability list.
+  {% render 'stock-snapshot', collection: col, variant: 'panel' %}  card beside the hero copy
+  {% render 'stock-snapshot', collection: col, variant: 'strip' %}  wide bar under a hero photo
+{%- endcomment -%}
+{%- assign variant = variant | default: 'panel' -%}
+
+<div class="gfa-snapshot gfa-snapshot--{{ variant }}">
+  <div class="gfa-snapshot__head">
+    <h2>{{ title }}</h2>
+    {%- if updated != blank -%}<span>{{ updated }}</span>{%- endif -%}
+  </div>
+
+  <div class="gfa-snapshot__rows">
+    {%- for product in collection.products limit: count -%}
+      {%- assign sv = product.selected_or_first_available_variant -%}
+      <div class="gfa-snapshot__row">
+        <div class="gfa-snapshot__name">
+          <a href="{{ product.url }}">{{ product.title }}</a>
+          {%- if product.metafields.gofish.scientific_name != blank -%}
+            <em>{{ product.metafields.gofish.scientific_name }}</em>
+          {%- endif -%}
+        </div>
+
+        <div class="gfa-snapshot__meta">
+          <span class="gfa-snapshot__size">{{ product.metafields.gofish.size_range }}</span>
+          <span class="gfa-snapshot__qty">
+            {%- if sv.available -%}
+              {%- if sv.inventory_management != blank -%}
+                {%- if sv.inventory_quantity <= settings.low_stock_threshold -%}
+                  <span class="gfa-status gfa-status--low">{{ sv.inventory_quantity }}</span>
+                {%- else -%}
+                  <span class="gfa-status gfa-status--in">{{ sv.inventory_quantity }}</span>
+                {%- endif -%}
+              {%- else -%}
+                <span class="gfa-status gfa-status--in">{{ 'products.stock.ready' | t }}</span>
+              {%- endif -%}
+            {%- else -%}
+              <span class="gfa-status gfa-status--soon">{{ 'products.stock.inbound' | t }}</span>
+            {%- endif -%}
+          </span>
+        </div>
+      </div>
+    {%- else -%}
+      <div class="gfa-snapshot__row">
+        <div class="gfa-snapshot__name">{{ 'collections.no_products' | t }}</div>
+      </div>
+    {%- endfor -%}
+  </div>
+
+  <div class="gfa-snapshot__foot">
+    <span>{{ note }}</span>
+    <a class="gfa-link" href="{{ link_url | default: routes.all_products_collection_url }}">{{ link_label }}</a>
+  </div>
+</div>

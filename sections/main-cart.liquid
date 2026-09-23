@@ -1,0 +1,58 @@
+{%- capture price_access %}{% render 'price-access' %}{% endcapture -%}
+<div class="gfa-shell gfa-band">
+  <h1>{{ 'cart.title' | t }}</h1>
+  {%- if price_access contains 'false' -%}
+    {% render 'catalogue-notice' %}
+  {%- elsif cart.item_count > 0 -%}
+    <form action="{{ routes.cart_url }}" method="post" novalidate style="margin-top:28px">
+      <div class="gfa-list">
+        <div class="gfa-list__head">
+          <span></span><span>{{ 'cart.item' | t }}</span><span>{{ 'products.unit_price' | t }}</span>
+          <span>{{ 'products.quantity' | t }}</span><span>{{ 'cart.total' | t }}</span><span></span>
+        </div>
+        {%- for item in cart.items -%}
+          <div class="gfa-list__row">
+            <div class="gfa-list__thumb">
+              {%- if item.image -%}{{ item.image | image_url: width: 120 | image_tag: alt: item.title | escape }}{%- endif -%}
+            </div>
+            <div class="gfa-list__name">
+              <a href="{{ item.url }}">{{ item.product.title }}</a>
+              {%- if item.product.metafields.gofish.scientific_name != blank -%}
+                <em>{{ item.product.metafields.gofish.scientific_name }}</em>
+              {%- endif -%}
+            </div>
+            <div class="gfa-list__num">{{ item.original_price | money }}</div>
+            <div class="gfa-list__num">
+              <input class="gfa-field" type="number" name="updates[]" value="{{ item.quantity }}"
+                     min="0" step="{{ item.variant.quantity_rule.increment | default: 1 }}"
+                     style="max-width:90px" aria-label="{{ 'products.quantity_for' | t: title: item.title }}">
+            </div>
+            <div class="gfa-list__num">{{ item.final_line_price | money }}</div>
+            <div class="gfa-list__actions">
+              <a class="gfa-btn gfa-btn--outline gfa-btn--sm" href="{{ item.url_to_remove }}">{{ 'cart.remove' | t }}</a>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:flex-end;margin-top:24px">
+        <span class="gfa-note">{{ 'cart.subtotal' | t }}</span>
+        <strong class="gfa-num" style="font-size:1.5rem">{{ cart.total_price | money }}</strong>
+        <button type="submit" name="update" class="gfa-btn gfa-btn--outline">{{ 'cart.update' | t }}</button>
+        <button type="submit" name="checkout" class="gfa-btn gfa-btn--primary">{{ 'cart.checkout' | t }}</button>
+      </div>
+      <p class="gfa-note" style="text-align:right;margin-top:10px">{{ section.settings.terms_note }}</p>
+    </form>
+  {%- else -%}
+    <p class="gfa-lede" style="margin-top:16px">{{ 'cart.empty' | t }}</p>
+    <a class="gfa-btn gfa-btn--primary" style="margin-top:20px" href="{{ routes.all_products_collection_url }}">{{ 'cart.browse' | t }}</a>
+  {%- endif -%}
+</div>
+{% schema %}
+{
+  "name": "Cart",
+  "settings": [
+    { "type": "text", "id": "terms_note", "label": "Note under totals", "default": "Freight is quoted on dispatch and added to your invoice. Prices exclude GST." }
+  ]
+}
+{% endschema %}

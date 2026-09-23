@@ -1,0 +1,84 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "GoFishAquariums",
+    "theme_version": "1.0.0",
+    "theme_author": "GoFishAquariums",
+    "theme_documentation_url": "https://gofishaquariums.com.au",
+    "theme_support_url": "https://gofishaquariums.com.au/pages/contact"
+  },
+  {
+    "name": "Trade access",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Catalogue mode. Guests can browse species, sizes and availability — which keeps the catalogue useful and indexable — but pricing, quantity selectors, the add-to-order button and the cart are all hidden until they sign in."
+      },
+      {
+        "type": "select",
+        "id": "price_visibility",
+        "label": "Who can see pricing",
+        "info": "\"Approved trade customers\" is the safe default: anyone can create an account, so tag-gating is what stops the public seeing wholesale rates.",
+        "default": "trade",
+        "options": [
+          {
+            "value": "trade",
+            "label": "Approved trade customers only (tagged)"
+          },
+          {
+            "value": "customers",
+            "label": "Any signed-in customer"
+          },
+          {
+            "value": "everyone",
+            "label": "Everyone (pricing public)"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "id": "trade_tag",
+        "label": "Customer tag that unlocks pricing",
+        "info": "Used by the \"approved trade customers\" option. Shopify B2B company contacts are always treated as approved.",
+        "default": "trade"
+      },
+      {
+        "type": "text",
+        "id": "catalogue_heading",
+        "label": "Gate heading",
+        "default": "Trade pricing is hidden"
+      },
+      {
+        "type": "textarea",
+        "id": "catalogue_note",
+        "label": "Gate message",
+        "default": "Sign in to see your pricing and place orders. Trade accounts are open to registered businesses that resell aquarium livestock."
+      }
+    ]
+  },
+  {
+    "name": "Stock",
+    "settings": [
+      {
+        "type": "range",
+        "id": "low_stock_threshold",
+        "min": 5,
+        "max": 200,
+        "step": 5,
+        "label": "Limited stock below",
+        "info": "Cards switch to the amber limited-stock state at or under this count.",
+        "default": 50
+      }
+    ]
+  },
+  {
+    "name": "Brand",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon"
+      }
+    ]
+  }
+]

@@ -1,0 +1,30 @@
+{%- if request.page_type == 'product' -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": {{ product.title | json }},
+      {% if product.metafields.gofish.scientific_name != blank %}"alternateName": {{ product.metafields.gofish.scientific_name | json }},{% endif %}
+      "description": {{ product.description | strip_html | truncate: 300 | json }},
+      "sku": {{ product.selected_or_first_available_variant.sku | json }},
+      "brand": { "@type": "Brand", "name": {{ shop.name | json }} },
+      "offers": {
+        "@type": "Offer",
+        "url": {{ shop.url | append: product.url | json }},
+        "priceCurrency": {{ cart.currency.iso_code | json }},
+        "availability": "https://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}",
+        "eligibleCustomerType": "https://schema.org/BusinessEntityType"
+      }
+    }
+  </script>
+{%- elsif request.page_type == 'index' -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": {{ shop.name | json }},
+      "url": {{ shop.url | json }},
+      "description": {{ shop.description | default: 'Freshwater fish and aquarium wholesale supplier to Australian and New Zealand retailers.' | json }}
+    }
+  </script>
+{%- endif -%}

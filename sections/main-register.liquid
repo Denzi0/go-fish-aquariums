@@ -1,0 +1,76 @@
+<div class="gfa-shell gfa-band">
+  <div class="gfa-panel gfa-panel--wide">
+    <h1 style="font-size:1.6rem">{{ 'customer.apply' | t }}</h1>
+    <p class="gfa-note" style="margin:10px 0 24px;max-width:56ch">{{ section.settings.intro }}</p>
+
+    {%- form 'create_customer' -%}
+      {%- if form.errors -%}
+        <div class="gfa-errors">
+          {{ 'customer.check_fields' | t }}
+          <ul>{% for field in form.errors %}<li>{{ form.errors.messages[field] }}</li>{% endfor %}</ul>
+        </div>
+      {%- endif -%}
+
+      <div class="gfa-form__grid">
+        <div class="gfa-form__row">
+          <label class="gfa-label" for="r-first">{{ 'customer.first_name' | t }}</label>
+          <input class="gfa-field" id="r-first" type="text" name="customer[first_name]" autocomplete="given-name">
+        </div>
+        <div class="gfa-form__row">
+          <label class="gfa-label" for="r-last">{{ 'customer.last_name' | t }}</label>
+          <input class="gfa-field" id="r-last" type="text" name="customer[last_name]" autocomplete="family-name">
+        </div>
+      </div>
+
+      <div class="gfa-form__grid">
+        <div class="gfa-form__row">
+          <label class="gfa-label" for="r-business">{{ 'customer.business_name' | t }}</label>
+          <input class="gfa-field" id="r-business" type="text" name="customer[note][Business name]" required>
+        </div>
+        <div class="gfa-form__row">
+          <label class="gfa-label" for="r-abn">{{ 'customer.abn' | t }}</label>
+          <input class="gfa-field" id="r-abn" type="text" name="customer[note][ABN]" inputmode="numeric" required>
+        </div>
+      </div>
+
+      <div class="gfa-form__grid">
+        <div class="gfa-form__row">
+          <label class="gfa-label" for="r-email">{{ 'customer.email' | t }}</label>
+          <input class="gfa-field" id="r-email" type="email" name="customer[email]" autocomplete="email" required>
+        </div>
+        <div class="gfa-form__row">
+          <label class="gfa-label" for="r-phone">{{ 'customer.phone' | t }}</label>
+          <input class="gfa-field" id="r-phone" type="tel" name="customer[note][Phone]" autocomplete="tel">
+        </div>
+      </div>
+
+      <div class="gfa-form__row">
+        <label class="gfa-label" for="r-type">{{ 'customer.business_type' | t }}</label>
+        <select class="gfa-field" id="r-type" name="customer[note][Business type]">
+          <option>{{ 'customer.type_retail' | t }}</option>
+          <option>{{ 'customer.type_chain' | t }}</option>
+          <option>{{ 'customer.type_aquascape' | t }}</option>
+          <option>{{ 'customer.type_breeder' | t }}</option>
+          <option>{{ 'customer.type_other' | t }}</option>
+        </select>
+      </div>
+
+      <div class="gfa-form__row">
+        <label class="gfa-label" for="r-password">{{ 'customer.password' | t }}</label>
+        <input class="gfa-field" id="r-password" type="password" name="customer[password]" autocomplete="new-password" required>
+      </div>
+
+      <button class="gfa-btn gfa-btn--primary" type="submit">{{ 'customer.submit_application' | t }}</button>
+      <p class="gfa-note" style="margin-top:14px">{{ section.settings.footnote }}</p>
+    {%- endform -%}
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Trade application",
+  "settings": [
+    { "type": "textarea", "id": "intro", "label": "Intro", "default": "Trade accounts are open to registered businesses that resell or display aquarium livestock. We check every ABN before approving pricing." },
+    { "type": "text", "id": "footnote", "label": "Footnote", "default": "We usually respond within one business day. Pricing appears on the site as soon as your account is approved." }
+  ]
+}
+{% endschema %}

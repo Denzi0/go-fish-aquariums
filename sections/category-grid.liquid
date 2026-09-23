@@ -1,0 +1,120 @@
+{%- comment -%}
+  Shop by category. Two sources:
+    "menu"   — reads a Shopify menu, so adding a collection to that menu adds a
+               tile here. Counts and images come from the collections themselves.
+    "blocks" — hand-picked tiles for full control of order and labels.
+{%- endcomment -%}
+
+<section class="gfa-band gfa-band--tight">
+  <div class="gfa-shell">
+    <div class="gfa-band-head">
+      <div>
+        <h2>{{ section.settings.heading }}</h2>
+        {%- if section.settings.subheading != blank -%}<p>{{ section.settings.subheading }}</p>{%- endif -%}
+      </div>
+      {%- if section.settings.link_label != blank -%}
+        <a class="gfa-link" href="{{ section.settings.link_url | default: routes.collections_url }}">{{ section.settings.link_label }}</a>
+      {%- endif -%}
+    </div>
+
+    <div class="gfa-cats">
+      {%- if section.settings.source == 'menu' and section.settings.menu.links.size > 0 -%}
+        {%- for link in section.settings.menu.links limit: section.settings.max_tiles -%}
+          {%- assign col = link.object -%}
+          <a class="gfa-cat" href="{{ link.url }}">
+            <span class="gfa-cat__avatar">
+              {%- if col.image -%}
+                {{ col.image | image_url: width: 220 | image_tag: loading: 'lazy', widths: '110,160,220', sizes: '110px', class: 'gfa-cat__thumb', alt: col.title | escape }}
+              {%- elsif col.products.first.featured_image -%}
+                {{ col.products.first.featured_image | image_url: width: 220 | image_tag: loading: 'lazy', widths: '110,160,220', sizes: '110px', class: 'gfa-cat__thumb', alt: col.title | escape }}
+              {%- else -%}
+                {% render 'fish-placeholder', shape: col.metafields.gofish.body_shape.value, tint: section.settings.silhouette_color, tint_opacity: '0.85' %}
+              {%- endif -%}
+            </span>
+            <strong>{{ link.title }}</strong>
+            <span>
+              {%- if link.type == 'collection_link' -%}
+                {{ 'collections.count_species' | t: count: col.all_products_count }}
+              {%- else -%}
+                {{ 'collections.view_range' | t }}
+              {%- endif -%}
+            </span>
+          </a>
+        {%- endfor -%}
+
+      {%- else -%}
+        {%- for block in section.blocks -%}
+          {%- assign col = collections[block.settings.collection] -%}
+          <a class="gfa-cat" href="{% if col != blank %}{{ col.url }}{% else %}{{ block.settings.fallback_url }}{% endif %}" {{ block.shopify_attributes }}>
+            <span class="gfa-cat__avatar">
+              {%- if block.settings.image -%}
+                {{ block.settings.image | image_url: width: 220 | image_tag: loading: 'lazy', widths: '110,160,220', sizes: '110px', class: 'gfa-cat__thumb', alt: '' }}
+              {%- elsif col.image -%}
+                {{ col.image | image_url: width: 220 | image_tag: loading: 'lazy', widths: '110,160,220', sizes: '110px', class: 'gfa-cat__thumb', alt: col.title | escape }}
+              {%- elsif col.products.first.featured_image -%}
+                {{ col.products.first.featured_image | image_url: width: 220 | image_tag: loading: 'lazy', widths: '110,160,220', sizes: '110px', class: 'gfa-cat__thumb', alt: col.title | escape }}
+              {%- else -%}
+                {% render 'fish-placeholder', shape: block.settings.shape, tint: block.settings.color, tint_opacity: '0.85' %}
+              {%- endif -%}
+            </span>
+            <strong>{{ block.settings.label | default: col.title }}</strong>
+            <span>
+              {%- if col != blank -%}
+                {{ 'collections.count_species' | t: count: col.all_products_count }}
+              {%- else -%}
+                {{ block.settings.note }}
+              {%- endif -%}
+            </span>
+          </a>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Shop by category",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Shop by category" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Livestock is grouped the way you order it — by type, then by size grade." },
+    { "type": "select", "id": "source", "label": "Tiles come from", "default": "menu",
+      "options": [
+        { "value": "menu", "label": "A Shopify menu (updates itself)" },
+        { "value": "blocks", "label": "Hand-picked tiles below" }
+      ] },
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu",
+      "info": "Point this at a menu of collections — a 'Categories' menu works well. Tiles, counts and images follow whatever is in it. Each tile uses the collection image, falling back to the first product photo." },
+    { "type": "range", "id": "max_tiles", "min": 3, "max": 12, "step": 1, "label": "Maximum tiles", "default": 8 },
+    { "type": "color", "id": "silhouette_color", "label": "Silhouette colour", "default": "#12808f",
+      "info": "Only shown for categories with no image yet. Upload a photo to the collection in Shopify and it replaces the silhouette." },
+    { "type": "text", "id": "link_label", "label": "Link label", "default": "All categories" },
+    { "type": "url", "id": "link_url", "label": "Link" }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Collection" },
+        { "type": "image_picker", "id": "image", "label": "Image override" },
+        { "type": "text", "id": "label", "label": "Label override" },
+        { "type": "text", "id": "note", "label": "Note (used when no collection is set)", "default": "View range" },
+        { "type": "url", "id": "fallback_url", "label": "Fallback link" },
+        { "type": "select", "id": "shape", "label": "Silhouette when there is no image", "default": "fusiform",
+          "options": [
+            { "value": "fusiform", "label": "Tetra / barb" },
+            { "value": "cory", "label": "Corydoras" },
+            { "value": "betta", "label": "Betta" },
+            { "value": "koi", "label": "Goldfish / koi" },
+            { "value": "angel", "label": "Angelfish" },
+            { "value": "pleco", "label": "Pleco" }
+          ] },
+        { "type": "color", "id": "color", "label": "Silhouette colour", "default": "#12808f" }
+      ]
+    }
+  ],
+  "presets": [ { "name": "Shop by category" } ]
+}
+{% endschema %}

@@ -1,0 +1,10 @@
+<div class="gfa-shell gfa-band">
+  <article style="max-width:68ch">
+    <h1>{{ article.title }}</h1>
+    <p class="gfa-note" style="margin-top:8px">{{ article.published_at | date: '%d %b %Y' }}</p>
+    <div class="gfa-lede" style="margin-top:24px">{{ article.content }}</div>
+  </article>
+</div>
+{% schema %}
+{ "name": "Article", "settings": [] }
+{% endschema %}

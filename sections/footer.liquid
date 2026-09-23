@@ -1,0 +1,101 @@
+<footer class="gfa-footer">
+  <div class="gfa-shell gfa-footer__top">
+    <div>
+      <a class="gfa-logo" href="{{ routes.root_url }}" style="color:#fff">
+        {% render 'icon', name: 'logo' %}
+        <span style="color:#fff">Go<em style="color:#8fd8dd;font-style:normal">Fish</em>Aquariums</span>
+      </a>
+      <p class="gfa-footer__about" style="margin-top:16px">{{ section.settings.about }}</p>
+      {%- if section.settings.abn != blank -%}
+        <p class="gfa-footer__abn">{{ section.settings.abn }}</p>
+      {%- endif -%}
+    </div>
+
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'menu' -%}
+          <div {{ block.shopify_attributes }}>
+            <h3>{{ block.settings.title }}</h3>
+            <ul>
+              {%- for link in block.settings.menu.links -%}
+                <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- when 'contact' -%}
+          <div {{ block.shopify_attributes }}>
+            <h3>{{ block.settings.title }}</h3>
+            <ul>
+              {%- if block.settings.phone != blank -%}
+                <li><a href="tel:{{ block.settings.phone | remove: ' ' }}">{{ block.settings.phone }}</a></li>
+              {%- endif -%}
+              {%- if block.settings.email != blank -%}
+                <li><a href="mailto:{{ block.settings.email }}">{{ block.settings.email }}</a></li>
+              {%- endif -%}
+              {%- if block.settings.address != blank -%}
+                <li>{{ block.settings.address }}</li>
+              {%- endif -%}
+              {%- if block.settings.hours != blank -%}
+                <li>{{ block.settings.hours }}</li>
+              {%- endif -%}
+            </ul>
+          </div>
+      {%- endcase -%}
+    {%- endfor -%}
+  </div>
+
+  <div class="gfa-shell gfa-footer__bottom">
+    <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ section.settings.legal }}</span>
+    {%- for policy in shop.policies -%}
+      {%- if policy != blank -%}<a href="{{ policy.url }}">{{ policy.title }}</a>{%- endif -%}
+    {%- endfor -%}
+
+    <div class="gfa-footer__social">
+      {%- if section.settings.facebook != blank -%}
+        <a href="{{ section.settings.facebook }}" aria-label="Facebook">{% render 'icon', name: 'facebook' %}</a>
+      {%- endif -%}
+      {%- if section.settings.instagram != blank -%}
+        <a href="{{ section.settings.instagram }}" aria-label="Instagram">{% render 'icon', name: 'instagram' %}</a>
+      {%- endif -%}
+      {%- if section.settings.youtube != blank -%}
+        <a href="{{ section.settings.youtube }}" aria-label="YouTube">{% render 'icon', name: 'youtube' %}</a>
+      {%- endif -%}
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    { "type": "textarea", "id": "about", "label": "About text", "default": "GoFishAquariums supplies freshwater livestock and aquarium hard goods to licensed retailers across Australia and New Zealand. Trade only — we do not sell to the public." },
+    { "type": "text", "id": "abn", "label": "ABN / licence line", "default": "ABN 00 000 000 000 · Aquaculture licence QLD-00000" },
+    { "type": "text", "id": "legal", "label": "Legal line", "default": "Prices exclude GST." },
+    { "type": "url", "id": "facebook", "label": "Facebook" },
+    { "type": "url", "id": "instagram", "label": "Instagram" },
+    { "type": "url", "id": "youtube", "label": "YouTube" }
+  ],
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "Menu",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Shop" },
+        { "type": "link_list", "id": "menu", "label": "Menu", "default": "footer" }
+      ]
+    },
+    {
+      "type": "contact",
+      "name": "Contact",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Contact" },
+        { "type": "text", "id": "phone", "label": "Phone", "default": "1300 000 000" },
+        { "type": "text", "id": "email", "label": "Email", "default": "orders@gofishaquariums.com.au" },
+        { "type": "text", "id": "address", "label": "Address", "default": "12 Hatchery Road, Rocklea QLD 4106" },
+        { "type": "text", "id": "hours", "label": "Hours", "default": "Mon–Fri, 7am–4pm AEST" }
+      ]
+    }
+  ],
+  "enabled_on": { "groups": ["footer"] }
+}
+{% endschema %}

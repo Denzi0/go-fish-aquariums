@@ -1,0 +1,124 @@
+{%- capture price_access %}{% render 'price-access' %}{% endcapture -%}
+{%- paginate collection.products by section.settings.per_page -%}
+<div class="gfa-shell">
+  <nav class="gfa-breadcrumb" aria-label="{{ 'general.breadcrumb' | t }}">
+    <a href="{{ routes.root_url }}">{{ 'general.home' | t }}</a> /
+    <span>{{ collection.title }}</span>
+  </nav>
+
+  <div class="gfa-collection">
+    <aside class="gfa-filters">
+      <form id="gfa-filter-form">
+        {%- if collection.filters.size > 0 -%}
+          {%- for filter in collection.filters -%}
+            <div class="gfa-filters__group">
+              <h3>{{ filter.label }}</h3>
+              {%- case filter.type -%}
+                {%- when 'list' -%}
+                  {%- for value in filter.values -%}
+                    <label class="gfa-check">
+                      <input type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}"
+                             {% if value.active %}checked{% endif %}
+                             {% if value.count == 0 and value.active == false %}disabled{% endif %}>
+                      <span>{{ value.label }}</span>
+                      <span>{{ value.count }}</span>
+                    </label>
+                  {%- endfor -%}
+                {%- when 'price_range' -%}
+                  <div class="gfa-form__grid">
+                    <input class="gfa-field" type="number" name="{{ filter.min_value.param_name }}"
+                           value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"
+                           placeholder="{{ 'collections.min' | t }}" min="0">
+                    <input class="gfa-field" type="number" name="{{ filter.max_value.param_name }}"
+                           value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"
+                           placeholder="{{ 'collections.max' | t }}" min="0">
+                  </div>
+              {%- endcase -%}
+            </div>
+          {%- endfor -%}
+          <noscript><button class="gfa-btn gfa-btn--outline gfa-btn--sm gfa-btn--block" type="submit">{{ 'collections.apply' | t }}</button></noscript>
+        {%- else -%}
+          <div class="gfa-filters__group">
+            <h3>{{ 'collections.filters' | t }}</h3>
+            <p class="gfa-note">{{ 'collections.no_filters' | t }}</p>
+          </div>
+        {%- endif -%}
+      </form>
+    </aside>
+
+    <div>
+      {%- if collection.image and section.settings.show_banner -%}
+        <div class="gfa-colbanner">
+          {{ collection.image | image_url: width: 1400 | image_tag:
+             widths: '600,900,1400', sizes: '(max-width: 900px) 100vw, 900px',
+             loading: 'eager', alt: collection.title | escape }}
+        </div>
+      {%- endif -%}
+
+      <h1 style="margin-bottom:8px">{{ collection.title }}</h1>
+      {%- if collection.description != blank -%}
+        <div class="gfa-lede" style="margin-bottom:24px">{{ collection.description }}</div>
+      {%- endif -%}
+
+      {%- unless price_access contains 'true' -%}
+        {% render 'catalogue-notice' %}
+      {%- endunless -%}
+
+      <div class="gfa-toolbar">
+        <span class="gfa-toolbar__count">
+          <b>{{ collection.products_count }}</b> {{ 'collections.products' | t }}
+        </span>
+
+        <div class="gfa-toolbar__right">
+          <label class="visually-hidden" for="gfa-sort">{{ 'collections.sort_by' | t }}</label>
+          <select id="gfa-sort" name="sort_by" form="gfa-filter-form">
+            {%- assign current_sort = collection.sort_by | default: collection.default_sort_by -%}
+            {%- for option in collection.sort_options -%}
+              <option value="{{ option.value }}"{% if option.value == current_sort %} selected{% endif %}>{{ option.name }}</option>
+            {%- endfor -%}
+          </select>
+
+          <div class="gfa-viewtoggle" data-view-toggle>
+            <button type="button" class="gfa-iconbtn is-active" data-view="grid" aria-label="{{ 'collections.view_grid' | t }}" aria-pressed="true">
+              {% render 'icon', name: 'grid' %}
+            </button>
+            <button type="button" class="gfa-iconbtn" data-view="list" aria-label="{{ 'collections.view_list' | t }}" aria-pressed="false">
+              {% render 'icon', name: 'rows' %}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="gfa-grid" data-product-grid>
+        {%- for product in collection.products -%}
+          {% render 'fish-card', product: product, lazy: forloop.index0 %}
+        {%- else -%}
+          <p class="gfa-note">{{ 'collections.empty' | t }}</p>
+        {%- endfor -%}
+      </div>
+
+      {%- if paginate.pages > 1 -%}
+        <nav class="gfa-pagination" aria-label="{{ 'general.pagination' | t }}">
+          {%- if paginate.previous -%}
+            <a class="gfa-btn gfa-btn--outline gfa-btn--sm" href="{{ paginate.previous.url }}">{{ 'general.previous' | t }}</a>
+          {%- endif -%}
+          <span class="gfa-num">{{ paginate.current_page }} / {{ paginate.pages }}</span>
+          {%- if paginate.next -%}
+            <a class="gfa-btn gfa-btn--outline gfa-btn--sm" href="{{ paginate.next.url }}">{{ 'general.next' | t }}</a>
+          {%- endif -%}
+        </nav>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "Stock list",
+  "settings": [
+    { "type": "range", "id": "per_page", "min": 12, "max": 48, "step": 12, "label": "Products per page", "default": 24 },
+    { "type": "checkbox", "id": "show_banner", "label": "Show the collection image as a banner", "default": true }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,54 @@
+{%- comment -%}
+  fish-placeholder.liquid — drawn stand-in for products without photography.
+  Reads gofish.body_shape metafield: fusiform | cory | betta | koi | angel | pleco
+  Falls back to fusiform. Keeps empty grids looking deliberate rather than broken.
+
+  Optional:
+    tint          hex colour for the silhouette (default deep teal)
+    tint_opacity  0-1, default 0.26. Category circles use ~0.85.
+{%- endcomment -%}
+{%- assign shape = shape | default: 'fusiform' -%}
+{%- assign tint = tint | default: '#0b3a48' -%}
+{%- assign tint_opacity = tint_opacity | default: '0.26' -%}
+<svg class="gfa-fish-svg" viewBox="0 0 200 150" role="img" aria-hidden="true" focusable="false"
+     preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gfaWater{{ shape }}" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#eef4f5"/>
+      <stop offset="100%" stop-color="#dbe8ea"/>
+    </linearGradient>
+  </defs>
+  <rect width="200" height="150" fill="url(#gfaWater{{ shape }})"/>
+  <g fill="{{ tint }}" opacity="{{ tint_opacity }}">
+    {%- case shape -%}
+      {%- when 'cory' -%}
+        <path d="M84 52 L102 22 L120 58 Z" opacity="0.72"/>
+        <path d="M30 96 C44 56, 112 46, 150 68 L182 48 L172 80 L182 112 L150 92 C112 106, 44 110, 30 96 Z"/>
+        <path d="M74 92 C88 104, 98 108, 86 108 Z" opacity="0.72"/>
+      {%- when 'betta' -%}
+        <path d="M124 70 C158 24, 194 36, 186 76 C194 114, 156 124, 124 78 Z" opacity="0.7"/>
+        <path d="M76 54 C86 22, 122 18, 134 44 C114 48, 92 50, 76 54 Z" opacity="0.7"/>
+        <path d="M66 92 C82 124, 124 128, 134 102 C110 104, 84 98, 66 92 Z" opacity="0.7"/>
+        <path d="M44 76 C58 52, 104 48, 126 68 C104 96, 60 100, 44 76 Z"/>
+      {%- when 'koi' -%}
+        <path d="M138 70 C166 30, 192 38, 184 62 C192 78, 186 104, 166 112 C150 102, 142 84, 138 76 Z" opacity="0.7"/>
+        <path d="M76 36 C92 22, 112 28, 120 44 Z" opacity="0.7"/>
+        <path d="M32 76 C42 36, 114 28, 142 68 C116 112, 46 114, 32 76 Z"/>
+      {%- when 'angel' -%}
+        <path d="M74 54 C80 12, 100 10, 112 48 Z" opacity="0.7"/>
+        <path d="M72 92 C76 132, 98 134, 110 96 Z" opacity="0.7"/>
+        <path d="M116 72 L152 44 L144 74 L154 108 Z" opacity="0.7"/>
+        <path d="M56 76 C66 48, 102 44, 118 72 C104 104, 68 106, 56 76 Z"/>
+      {%- when 'pleco' -%}
+        <path d="M70 66 C84 26, 118 30, 126 70 Z" opacity="0.72"/>
+        <path d="M28 92 C48 66, 120 62, 152 78 L182 62 L174 90 L182 118 L152 100 C118 112, 48 110, 28 92 Z"/>
+      {%- else -%}
+        <path d="M82 48 L100 24 L118 52 Z" opacity="0.72"/>
+        <path d="M84 104 L98 122 L110 100 Z" opacity="0.72"/>
+        <path d="M28 78 C46 46, 116 40, 148 64 L182 44 L172 78 L182 112 L148 92 C116 116, 46 110, 28 78 Z"/>
+    {%- endcase -%}
+  </g>
+  <circle cx="158" cy="34" r="3" fill="#0b3a48" opacity="0.12"/>
+  <circle cx="168" cy="22" r="2" fill="#0b3a48" opacity="0.1"/>
+  <circle cx="40" cy="126" r="2.5" fill="#0b3a48" opacity="0.1"/>
+</svg>

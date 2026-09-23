@@ -1,0 +1,7 @@
+{
+  "settings_schema": {
+    "trade_access": { "name": "Trade access" },
+    "stock": { "name": "Stock" },
+    "brand": { "name": "Brand" }
+  }
+}
