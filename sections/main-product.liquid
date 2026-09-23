@@ -36,9 +36,10 @@
     <div>
       <div class="gfa-product__media">
         {%- if product.featured_media -%}
+          {%- assign main_img_alt = product.featured_media.alt | default: product.title -%}
           {{ product.featured_media | image_url: width: 1200 | image_tag:
              widths: '540,760,1000,1200', sizes: '(max-width: 900px) 100vw, 620px',
-             loading: 'eager', alt: product.featured_media.alt | default: product.title | escape }}
+             loading: 'eager', alt: main_img_alt }}
         {%- else -%}
           {% render 'fish-placeholder', shape: mf.body_shape.value %}
         {%- endif -%}

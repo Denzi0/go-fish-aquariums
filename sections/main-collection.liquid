@@ -51,7 +51,7 @@
         <div class="gfa-colbanner">
           {{ collection.image | image_url: width: 1400 | image_tag:
              widths: '600,900,1400', sizes: '(max-width: 900px) 100vw, 900px',
-             loading: 'eager', alt: collection.title | escape }}
+             loading: 'eager', alt: collection.title }}
         </div>
       {%- endif -%}
 

@@ -76,11 +76,12 @@
 <article class="gfa-card{% if stock_state == 'out' %} gfa-card--out{% endif %}" data-fish-card data-product-id="{{ product.id }}">
   <div class="gfa-card__media">
     {%- if product.featured_media -%}
+      {%- assign card_img_alt = product.featured_media.alt | default: product.title -%}
       {{ product.featured_media | image_url: width: 640 | image_tag:
           loading: lazy_attr,
           widths: '258,340,440,640',
           sizes: '(max-width: 640px) 45vw, 280px',
-          alt: product.featured_media.alt | default: product.title | escape,
+          alt: card_img_alt,
           class: 'gfa-card__img' }}
     {%- else -%}
       {%- render 'fish-placeholder', shape: mf.body_shape.value -%}
