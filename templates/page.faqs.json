@@ -11,10 +11,94 @@
   "sections": {
     "main": {
       "type": "main-page",
+      "disabled": true,
       "settings": {}
+    },
+    "faq_VipMbW": {
+      "type": "faq",
+      "blocks": {
+        "question_wV43xD": {
+          "type": "question",
+          "settings": {
+            "question": "How do I purchase Go Fish?",
+            "answer": "<ul><li>Visit your local independent fish shop.</li><li>Ask for Go Fish by name.</li></ul>"
+          }
+        },
+        "question_KxwfDG": {
+          "type": "question",
+          "settings": {
+            "question": "Where does Go Fish come from?",
+            "answer": "<p>Go Fish sources fish from reputable farms and suppliers in Thailand, Indonesia, Malaysia, Sri Lanka and China.</p><p>All our suppliers undergo rigorous vetting to ensure the highest quality and health of the fish. We have maintained partnerships with some suppliers for decades, fostering a collaborative effort that consistently guarantees the best fish.</p>"
+          }
+        },
+        "question_AKD6qd": {
+          "type": "question",
+          "settings": {
+            "question": "Where is Go Fish located?",
+            "answer": "<p>Go Fish operates through local independent fish shops, so visit your nearest independent fish shop to enquire about Go Fish products.</p>"
+          }
+        },
+        "question_gPynyz": {
+          "type": "question",
+          "settings": {
+            "question": "What happens if my local independent store does not stock Go Fish?",
+            "answer": "<p>Please ask them to contact us. We will do our best to source the fish for them.</p>"
+          }
+        },
+        "question_G6wiRa": {
+          "type": "question",
+          "settings": {
+            "question": "Does Go Fish supply direct to the consumer?",
+            "answer": "<p>No — please ask your local store to contact us, and we will do our best to source the fish.</p>"
+          }
+        },
+        "question_tHMBkx": {
+          "type": "question",
+          "settings": {
+            "question": "How often does Go Fish supply its stockists?",
+            "answer": "<p>Typically anywhere from once a week to once a month. If more fish are needed, the frequency increases accordingly.</p>"
+          }
+        },
+        "question_aGnizE": {
+          "type": "question",
+          "settings": {
+            "question": "How often does Go Fish receive shipments from overseas suppliers?",
+            "answer": "<p>On average we receive three shipments per month to maintain adequate stock levels for our retailers.</p>"
+          }
+        },
+        "question_xUkCPj": {
+          "type": "question",
+          "settings": {
+            "question": "What if Go Fish doesn't have the fish I want?",
+            "answer": "<p>Encourage your local store to reach out to us — we would be delighted to welcome them as a Go Fish stockist.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "question_wV43xD",
+        "question_KxwfDG",
+        "question_AKD6qd",
+        "question_gPynyz",
+        "question_G6wiRa",
+        "question_tHMBkx",
+        "question_aGnizE",
+        "question_xUkCPj"
+      ],
+      "name": "FAQs",
+      "settings": {
+        "eyebrow": "Help centre",
+        "heading": "Frequently asked questions",
+        "subheading": "How Go Fish works, where our fish come from, and how to get them into your local store.",
+        "button_label": "Contact us",
+        "button_link": "",
+        "background": "paper",
+        "open_first": true,
+        "schema_markup": true
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "faq_VipMbW"
   ]
 }
