@@ -357,4 +357,78 @@
       });
     });
   }
+
+  /* --- Horizontal chip scroller (blog topics) ------------------------------
+     Arrows, wheel-to-sideways and drag for mouse users; touch scrolls natively. */
+  $$('[data-scroller]').forEach(function (bar) {
+    var track = $('[data-scroller-track]', bar);
+    var prev = $('[data-scroller-prev]', bar);
+    var next = $('[data-scroller-next]', bar);
+    if (!track) return;
+
+    function update() {
+      var max = track.scrollWidth - track.clientWidth;
+      var canPrev = track.scrollLeft > 2;
+      var canNext = track.scrollLeft < max - 2;
+      bar.classList.toggle('can-prev', canPrev);
+      bar.classList.toggle('can-next', canNext);
+      if (prev) prev.hidden = !canPrev;
+      if (next) next.hidden = !canNext;
+    }
+
+    function page(direction) {
+      track.scrollBy({ left: direction * track.clientWidth * 0.7, behavior: 'smooth' });
+    }
+    if (prev) prev.addEventListener('click', function () { page(-1); });
+    if (next) next.addEventListener('click', function () { page(1); });
+
+    track.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+
+    /* Vertical wheel moves the row sideways, but only while there is room,
+       so the page still scrolls once the row hits either end. */
+    track.addEventListener('wheel', function (e) {
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+      var max = track.scrollWidth - track.clientWidth;
+      if (max <= 0) return;
+      if ((e.deltaY < 0 && track.scrollLeft <= 0) || (e.deltaY > 0 && track.scrollLeft >= max)) return;
+      e.preventDefault();
+      track.scrollLeft += e.deltaY;
+    }, { passive: false });
+
+    var startX = 0;
+    var startLeft = 0;
+    var dragging = false;
+    track.addEventListener('pointerdown', function (e) {
+      if (e.pointerType !== 'mouse' || e.button !== 0) return;
+      startX = e.clientX;
+      startLeft = track.scrollLeft;
+      dragging = false;
+      function move(ev) {
+        var dx = ev.clientX - startX;
+        if (!dragging && Math.abs(dx) > 5) {
+          dragging = true;
+          track.classList.add('is-dragging');
+        }
+        if (dragging) track.scrollLeft = startLeft - dx;
+      }
+      function up() {
+        document.removeEventListener('pointermove', move);
+        document.removeEventListener('pointerup', up);
+        /* Let the click that ends a drag fire on nothing, then re-enable links. */
+        setTimeout(function () { track.classList.remove('is-dragging'); }, 0);
+      }
+      document.addEventListener('pointermove', move);
+      document.addEventListener('pointerup', up);
+    });
+    track.addEventListener('dragstart', function (e) { e.preventDefault(); });
+
+    var active = $('.is-active', track);
+    if (active && active.offsetLeft + active.offsetWidth > track.clientWidth) {
+      track.style.scrollBehavior = 'auto';
+      track.scrollLeft = active.offsetLeft - track.clientWidth / 2 + active.offsetWidth / 2;
+      track.style.scrollBehavior = '';
+    }
+    update();
+  });
 })();

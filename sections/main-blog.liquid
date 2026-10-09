@@ -42,7 +42,9 @@
     </div>
 
     {%- if section.settings.show_tags and blog.all_tags.size > 0 -%}
-      <nav class="gfa-topics" aria-label="{{ 'blog.topics' | t }}">
+      <div class="gfa-topicbar" data-scroller>
+        <button class="gfa-topicbar__arrow gfa-topicbar__arrow--prev" type="button" data-scroller-prev aria-label="{{ 'general.previous' | t }}" hidden>{% render 'icon', name: 'arrow-left' %}</button>
+      <nav class="gfa-topics" aria-label="{{ 'blog.topics' | t }}" data-scroller-track>
         <a class="gfa-topic{% if current_tags == blank %} is-active{% endif %}" href="{{ blog.url }}"{% if current_tags == blank %} aria-current="page"{% endif %}>{{ 'blog.all_topics' | t }}</a>
         {%- for tag in blog.all_tags -%}
           {%- if current_tags contains tag -%}
@@ -52,6 +54,8 @@
           {%- endif -%}
         {%- endfor -%}
       </nav>
+        <button class="gfa-topicbar__arrow gfa-topicbar__arrow--next" type="button" data-scroller-next aria-label="{{ 'general.next' | t }}" hidden>{% render 'icon', name: 'arrow-right' %}</button>
+      </div>
     {%- endif -%}
   </div>
 </section>
