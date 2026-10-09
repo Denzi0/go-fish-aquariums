@@ -1,6 +1,30 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
-    "main": { "type": "main-blog", "settings": {} }
+    "main": {
+      "type": "main-blog",
+      "settings": {
+        "eyebrow": "Education Center",
+        "description": "Care guides, species spotlights and news from the Go Fish fish room.",
+        "per_page": 10,
+        "show_featured": true,
+        "show_search": true,
+        "show_tags": true,
+        "show_excerpt": true,
+        "show_author": false,
+        "image_ratio": "3/2"
+      }
+    }
   },
-  "order": ["main"]
+  "order": [
+    "main"
+  ]
 }
