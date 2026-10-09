@@ -1,0 +1,57 @@
+{%- comment -%}
+  {% render 'article-card', article: article, featured: false, show_excerpt: true, show_author: true, ratio: '3/2' %}
+{%- endcomment -%}
+{%- liquid
+  assign words = article.content | strip_html | split: ' ' | size
+  assign minutes = words | divided_by: 200 | at_least: 1
+  assign ratio = ratio | default: '3/2'
+  if featured
+    assign sizes = '(min-width: 900px) 60vw, 100vw'
+    assign heading_tag = 'h2'
+    assign excerpt_words = 42
+  else
+    assign excerpt_words = 22
+    assign sizes = '(min-width: 1080px) 400px, (min-width: 640px) 50vw, 100vw'
+    assign heading_tag = 'h3'
+  endif
+-%}
+<article class="gfa-post{% if featured %} gfa-post--featured{% endif %}">
+  <a class="gfa-post__media" href="{{ article.url }}" style="--ratio: {{ ratio }}" tabindex="-1" aria-hidden="true">
+    {%- if article.image -%}
+      {{ article.image | image_url: width: 1400 | image_tag:
+        loading: lazy,
+        widths: '400, 600, 800, 1000, 1400',
+        sizes: sizes,
+        alt: article.image.alt
+      }}
+    {%- else -%}
+      <span class="gfa-post__placeholder">{% render 'icon', name: 'fish' %}</span>
+    {%- endif -%}
+  </a>
+
+  <div class="gfa-post__body">
+    <p class="gfa-post__meta">
+      {%- if featured -%}<span class="gfa-post__flag">{{ 'blog.featured' | t }}</span>{%- endif -%}
+      {%- if article.tags.size > 0 -%}<span class="gfa-post__tag">{{ article.tags.first }}</span>{%- endif -%}
+      <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date: '%d %b %Y' }}</time>
+      <span aria-hidden="true">·</span>
+      <span>{{ 'blog.read_time' | t: count: minutes }}</span>
+    </p>
+
+    <{{ heading_tag }} class="gfa-post__title"><a href="{{ article.url }}">{{ article.title | escape }}</a></{{ heading_tag }}>
+
+    {%- if show_excerpt -%}
+      <p class="gfa-post__excerpt">{{ article.excerpt_or_content | strip_html | truncatewords: excerpt_words }}</p>
+    {%- endif -%}
+
+    <div class="gfa-post__foot">
+      {%- if show_author and article.author != blank -%}
+        <span class="gfa-post__author">{{ 'blog.by_author' | t: author: article.author }}</span>
+      {%- endif -%}
+      <a class="gfa-post__more" href="{{ article.url }}">
+        {{- 'blog.read_more' | t -}}<span class="visually-hidden">: {{ article.title | escape }}</span>
+        {% render 'icon', name: 'arrow-right' %}
+      </a>
+    </div>
+  </div>
+</article>

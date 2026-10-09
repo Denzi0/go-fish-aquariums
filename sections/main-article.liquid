@@ -1,10 +1,189 @@
-<div class="gfa-shell gfa-band">
-  <article style="max-width:68ch">
-    <h1>{{ article.title }}</h1>
-    <p class="gfa-note" style="margin-top:8px">{{ article.published_at | date: '%d %b %Y' }}</p>
-    <div class="gfa-lede" style="margin-top:24px">{{ article.content }}</div>
-  </article>
-</div>
+{%- liquid
+  assign words = article.content | strip_html | split: ' ' | size
+  assign minutes = words | divided_by: 200 | at_least: 1
+  assign share_url = shop.url | append: article.url
+  assign share_title = article.title | url_param_escape
+-%}
+
+<article class="gfa-article">
+  <header class="gfa-article__head">
+    <div class="gfa-shell gfa-article__narrow">
+      <nav class="gfa-breadcrumb" aria-label="{{ 'general.breadcrumb' | t }}">
+        <a href="{{ routes.root_url }}">{{ 'general.home' | t }}</a>
+        <span aria-hidden="true"> / </span>
+        <a href="{{ blog.url }}">{{ blog.title }}</a>
+      </nav>
+
+      {%- if article.tags.size > 0 -%}
+        <ul class="gfa-article__tags">
+          {%- for tag in article.tags -%}
+            <li><a class="gfa-topic" href="{{ blog.url }}/tagged/{{ tag | handleize }}">{{ tag }}</a></li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+
+      <h1>{{ article.title | escape }}</h1>
+
+      {%- if section.settings.show_excerpt and article.excerpt != blank -%}
+        <p class="gfa-lede gfa-article__excerpt">{{ article.excerpt | strip_html }}</p>
+      {%- endif -%}
+
+      <p class="gfa-article__meta">
+        {%- if section.settings.show_author and article.author != blank -%}
+          <span class="gfa-article__avatar" aria-hidden="true">{{ article.author | slice: 0 }}</span>
+          <span>{{ 'blog.by_author' | t: author: article.author }}</span>
+          <span aria-hidden="true">·</span>
+        {%- endif -%}
+        <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date: '%d %B %Y' }}</time>
+        <span aria-hidden="true">·</span>
+        <span>{{ 'blog.read_time' | t: count: minutes }}</span>
+      </p>
+    </div>
+  </header>
+
+  {%- if article.image and section.settings.show_image -%}
+    <figure class="gfa-shell gfa-article__hero">
+      {{ article.image | image_url: width: 2400 | image_tag:
+        loading: 'eager',
+        fetchpriority: 'high',
+        widths: '600, 900, 1200, 1600, 2000, 2400',
+        sizes: '(min-width: 1320px) 1272px, calc(100vw - 40px)',
+        alt: article.image.alt
+      }}
+    </figure>
+  {%- endif -%}
+
+  <div class="gfa-shell gfa-article__narrow">
+    <div class="gfa-prose">
+      {{ article.content }}
+    </div>
+
+    <footer class="gfa-article__foot">
+      <a class="gfa-link" href="{{ blog.url }}">{{ 'blog.back_to_blog' | t: title: blog.title }}</a>
+
+      {%- if section.settings.show_share -%}
+        <div class="gfa-share">
+          <span class="gfa-share__label">{{ 'blog.share' | t }}</span>
+          <a class="gfa-share__btn" href="https://www.facebook.com/sharer/sharer.php?u={{ share_url | url_param_escape }}" target="_blank" rel="noopener" aria-label="{{ 'blog.share_on' | t: network: 'Facebook' }}">{% render 'icon', name: 'facebook' %}</a>
+          <a class="gfa-share__btn" href="https://twitter.com/intent/tweet?text={{ share_title }}&url={{ share_url | url_param_escape }}" target="_blank" rel="noopener" aria-label="{{ 'blog.share_on' | t: network: 'X' }}">{% render 'icon', name: 'x-social' %}</a>
+          <a class="gfa-share__btn" href="mailto:?subject={{ share_title }}&body={{ share_url | url_param_escape }}" aria-label="{{ 'blog.share_email' | t }}">{% render 'icon', name: 'mail' %}</a>
+        </div>
+      {%- endif -%}
+    </footer>
+
+    {%- if blog.previous_article or blog.next_article -%}
+      <nav class="gfa-articlenav" aria-label="{{ 'general.pagination' | t }}">
+        {%- if blog.previous_article -%}
+          <a class="gfa-articlenav__link" href="{{ blog.previous_article.url }}" rel="prev">
+            <span class="gfa-articlenav__dir">{% render 'icon', name: 'arrow-left' %}{{ 'blog.previous_article' | t }}</span>
+            <span class="gfa-articlenav__title">{{ blog.previous_article.title | escape }}</span>
+          </a>
+        {%- else -%}<span></span>{%- endif -%}
+        {%- if blog.next_article -%}
+          <a class="gfa-articlenav__link gfa-articlenav__link--next" href="{{ blog.next_article.url }}" rel="next">
+            <span class="gfa-articlenav__dir">{{ 'blog.next_article' | t }}{% render 'icon', name: 'arrow-right' %}</span>
+            <span class="gfa-articlenav__title">{{ blog.next_article.title | escape }}</span>
+          </a>
+        {%- endif -%}
+      </nav>
+    {%- endif -%}
+
+    {%- if blog.comments_enabled? -%}
+      <section class="gfa-comments" id="comments">
+        <h2>{{ 'blog.comments' | t }} <span class="gfa-num">({{ article.comments_count }})</span></h2>
+
+        {%- paginate article.comments by 20 -%}
+          {%- for comment in article.comments -%}
+            <div class="gfa-comment" id="{{ comment.id }}">
+              <p class="gfa-comment__meta"><b>{{ comment.author }}</b> · <time datetime="{{ comment.created_at | date: '%Y-%m-%d' }}">{{ comment.created_at | date: '%d %b %Y' }}</time></p>
+              <div class="gfa-comment__body">{{ comment.content }}</div>
+            </div>
+          {%- endfor -%}
+          {% render 'pagination', paginate: paginate, anchor: '#comments' %}
+        {%- endpaginate -%}
+
+        {%- form 'new_comment', article, class: 'gfa-comment-form' -%}
+          <h3>{{ 'blog.leave_comment' | t }}</h3>
+          {%- if form.posted_successfully? -%}
+            <p class="gfa-comment-form__ok" role="status">
+              {%- if blog.moderated? -%}{{ 'blog.comment_moderated' | t }}{%- else -%}{{ 'blog.comment_posted' | t }}{%- endif -%}
+            </p>
+          {%- endif -%}
+          {{ form.errors | default_errors }}
+          <div class="gfa-comment-form__grid">
+            <div>
+              <label class="gfa-label" for="CommentAuthor">{{ 'blog.name' | t }}</label>
+              <input class="gfa-field" id="CommentAuthor" type="text" name="comment[author]" value="{{ form.author }}" autocomplete="name" required>
+            </div>
+            <div>
+              <label class="gfa-label" for="CommentEmail">{{ 'blog.email' | t }}</label>
+              <input class="gfa-field" id="CommentEmail" type="email" name="comment[email]" value="{{ form.email }}" autocomplete="email" required>
+            </div>
+          </div>
+          <label class="gfa-label" for="CommentBody">{{ 'blog.message' | t }}</label>
+          <textarea class="gfa-field" id="CommentBody" name="comment[body]" rows="5" required>{{ form.body }}</textarea>
+          <button class="gfa-btn gfa-btn--primary" type="submit">{{ 'blog.post_comment' | t }}</button>
+        {%- endform -%}
+      </section>
+    {%- endif -%}
+  </div>
+</article>
+
+{%- if section.settings.show_related -%}
+  {%- liquid
+    assign related_count = 0
+    for post in blog.articles limit: 4
+      unless post.id == article.id
+        assign related_count = related_count | plus: 1
+      endunless
+    endfor
+  -%}
+  {%- if related_count > 0 -%}
+    <section class="gfa-band gfa-band--wash">
+      <div class="gfa-shell">
+        <div class="gfa-band-head">
+          <h2>{{ 'blog.more_articles' | t: title: blog.title }}</h2>
+          <a class="gfa-link" href="{{ blog.url }}">{{ 'blog.view_all' | t }}</a>
+        </div>
+        <div class="gfa-posts">
+          {%- assign shown = 0 -%}
+          {%- for post in blog.articles limit: 4 -%}
+            {%- if post.id == article.id or shown == 3 -%}{%- continue -%}{%- endif -%}
+            {% render 'article-card', article: post, featured: false, show_excerpt: false, show_author: false, ratio: '3/2' %}
+            {%- assign shown = shown | plus: 1 -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </section>
+  {%- endif -%}
+{%- endif -%}
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": {{ article.title | json }},
+    "datePublished": {{ article.published_at | date: '%Y-%m-%dT%H:%M:%S%z' | json }},
+    "dateModified": {{ article.updated_at | date: '%Y-%m-%dT%H:%M:%S%z' | json }},
+    {%- if article.image %}
+    "image": [{{ article.image | image_url: width: 1600 | prepend: 'https:' | json }}],
+    {%- endif %}
+    "author": { "@type": "Person", "name": {{ article.author | json }} },
+    "publisher": { "@type": "Organization", "name": {{ shop.name | json }} },
+    "mainEntityOfPage": {{ share_url | json }}
+  }
+</script>
+
 {% schema %}
-{ "name": "Article", "settings": [] }
+{
+  "name": "Article",
+  "tag": "div",
+  "settings": [
+    { "type": "checkbox", "id": "show_image", "label": "Show featured image", "default": true },
+    { "type": "checkbox", "id": "show_excerpt", "label": "Show excerpt under title", "default": true },
+    { "type": "checkbox", "id": "show_author", "label": "Show author", "default": true },
+    { "type": "checkbox", "id": "show_share", "label": "Show share buttons", "default": true },
+    { "type": "checkbox", "id": "show_related", "label": "Show more articles", "default": true }
+  ]
+}
 {% endschema %}

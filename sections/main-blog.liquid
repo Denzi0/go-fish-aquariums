@@ -1,15 +1,122 @@
-<div class="gfa-shell gfa-band">
-  <h1>{{ blog.title }}</h1>
-  <div style="max-width:70ch;margin-top:28px">
-    {%- for article in blog.articles -%}
-      <article style="padding-block:20px;border-bottom:1px solid var(--line)">
-        <h2 style="font-size:1.25rem"><a href="{{ article.url }}">{{ article.title }}</a></h2>
-        <p class="gfa-note" style="margin:6px 0">{{ article.published_at | date: '%d %b %Y' }}</p>
-        <p>{{ article.excerpt_or_content | strip_html | truncate: 180 }}</p>
-      </article>
-    {%- endfor -%}
+{%- paginate blog.articles by section.settings.per_page -%}
+{%- liquid
+  assign show_featured = false
+  if section.settings.show_featured and paginate.current_page == 1 and current_tags == blank and blog.articles.size > 1
+    assign show_featured = true
+  endif
+-%}
+
+<section class="gfa-bloghead">
+  <div class="gfa-shell">
+    <nav class="gfa-breadcrumb gfa-bloghead__crumb" aria-label="{{ 'general.breadcrumb' | t }}">
+      <a href="{{ routes.root_url }}">{{ 'general.home' | t }}</a>
+      <span aria-hidden="true"> / </span>
+      {%- if current_tags -%}
+        <a href="{{ blog.url }}">{{ blog.title }}</a>
+        <span aria-hidden="true"> / </span>
+        <span aria-current="page">{{ current_tags.first }}</span>
+      {%- else -%}
+        <span aria-current="page">{{ blog.title }}</span>
+      {%- endif -%}
+    </nav>
+
+    <div class="gfa-bloghead__in">
+      <div class="gfa-bloghead__copy">
+        {%- if section.settings.eyebrow != blank -%}<p class="gfa-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+        <h1>{% if current_tags %}{{ current_tags.first }}{% else %}{{ blog.title }}{% endif %}</h1>
+        {%- if section.settings.description != blank and current_tags == blank -%}
+          <p class="gfa-lede">{{ section.settings.description }}</p>
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.show_search -%}
+        <form class="gfa-blogsearch" action="{{ routes.search_url }}" method="get" role="search">
+          <input type="hidden" name="type" value="article">
+          <input type="hidden" name="options[prefix]" value="last">
+          <label class="visually-hidden" for="BlogSearch-{{ section.id }}">{{ 'blog.search_label' | t }}</label>
+          {% render 'icon', name: 'search' %}
+          <input id="BlogSearch-{{ section.id }}" type="search" name="q" placeholder="{{ 'blog.search_placeholder' | t }}" autocomplete="off">
+          <button class="gfa-btn gfa-btn--primary gfa-btn--sm" type="submit">{{ 'general.search' | t }}</button>
+        </form>
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.show_tags and blog.all_tags.size > 0 -%}
+      <nav class="gfa-topics" aria-label="{{ 'blog.topics' | t }}">
+        <a class="gfa-topic{% if current_tags == blank %} is-active{% endif %}" href="{{ blog.url }}"{% if current_tags == blank %} aria-current="page"{% endif %}>{{ 'blog.all_topics' | t }}</a>
+        {%- for tag in blog.all_tags -%}
+          {%- if current_tags contains tag -%}
+            <a class="gfa-topic is-active" href="{{ blog.url }}" aria-current="page">{{ tag }}</a>
+          {%- else -%}
+            <a class="gfa-topic" href="{{ blog.url }}/tagged/{{ tag | handleize }}">{{ tag }}</a>
+          {%- endif -%}
+        {%- endfor -%}
+      </nav>
+    {%- endif -%}
   </div>
-</div>
+</section>
+
+<section class="gfa-band gfa-band--tight" id="articles">
+  <div class="gfa-shell">
+    {%- if blog.articles.size == 0 -%}
+      <div class="gfa-blogempty">
+        {% render 'icon', name: 'fish' %}
+        <p>{% if current_tags %}{{ 'blog.empty_tag' | t }}{% else %}{{ 'blog.empty' | t }}{% endif %}</p>
+        {%- if current_tags -%}<a class="gfa-btn gfa-btn--outline" href="{{ blog.url }}">{{ 'blog.view_all' | t }}</a>{%- endif -%}
+      </div>
+    {%- else -%}
+      {%- for article in blog.articles -%}
+        {%- if forloop.first and show_featured -%}
+          {% render 'article-card',
+            article: article,
+            featured: true,
+            show_excerpt: true,
+            show_author: section.settings.show_author,
+            ratio: '16/10'
+          %}
+          {%- continue -%}
+        {%- endif -%}
+        {%- if forloop.first or show_featured and forloop.index == 2 -%}<div class="gfa-posts">{%- endif -%}
+        {% render 'article-card',
+          article: article,
+          featured: false,
+          show_excerpt: section.settings.show_excerpt,
+          show_author: section.settings.show_author,
+          ratio: section.settings.image_ratio
+        %}
+        {%- if forloop.last -%}</div>{%- endif -%}
+      {%- endfor -%}
+
+      {% render 'pagination', paginate: paginate, anchor: '#articles' %}
+    {%- endif -%}
+  </div>
+</section>
+{%- endpaginate -%}
+
 {% schema %}
-{ "name": "Blog", "settings": [] }
+{
+  "name": "Blog",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Journal" },
+    { "type": "textarea", "id": "description", "label": "Description", "default": "Care guides, species spotlights and news from the Go Fish fish room." },
+    { "type": "range", "id": "per_page", "label": "Articles per page", "min": 3, "max": 24, "step": 1, "default": 10 },
+    { "type": "checkbox", "id": "show_featured", "label": "Feature the latest article on page one", "default": true },
+    { "type": "checkbox", "id": "show_search", "label": "Show article search", "default": true },
+    { "type": "checkbox", "id": "show_tags", "label": "Show topic filters (article tags)", "default": true },
+    { "type": "checkbox", "id": "show_excerpt", "label": "Show excerpts", "default": true },
+    { "type": "checkbox", "id": "show_author", "label": "Show author", "default": false },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Card image shape",
+      "options": [
+        { "value": "3/2", "label": "Landscape" },
+        { "value": "1/1", "label": "Square" },
+        { "value": "4/5", "label": "Portrait" }
+      ],
+      "default": "3/2"
+    }
+  ]
+}
 {% endschema %}

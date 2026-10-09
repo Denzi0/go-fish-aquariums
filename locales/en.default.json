@@ -128,6 +128,38 @@
     "no_addresses": "No addresses saved yet.",
     "back_to_account": "Back to account"
   },
+  "blog": {
+    "eyebrow": "Journal",
+    "search_label": "Search articles",
+    "search_placeholder": "Search care guides, species, news",
+    "all_topics": "All",
+    "topics": "Topics",
+    "featured": "Latest",
+    "read_more": "Read article",
+    "read_time": "{{ count }} min read",
+    "by_author": "By {{ author }}",
+    "empty": "No articles here yet.",
+    "empty_tag": "No articles are tagged with that topic yet.",
+    "view_all": "View all articles",
+    "back_to_blog": "Back to {{ title }}",
+    "share": "Share",
+    "share_on": "Share on {{ network }}",
+    "share_email": "Share by email",
+    "previous_article": "Previous article",
+    "next_article": "Next article",
+    "more_articles": "More from {{ title }}",
+    "page": "Page {{ page }}",
+    "comments": "Comments",
+    "comment_count": "{{ count }} comments",
+    "leave_comment": "Leave a comment",
+    "name": "Name",
+    "email": "Email",
+    "message": "Comment",
+    "post_comment": "Post comment",
+    "comment_moderated": "Thanks — your comment will appear once it has been approved.",
+    "comment_posted": "Thanks — your comment has been posted.",
+    "results_articles": "Articles"
+  },
   "gift_cards": {
     "issued": {
       "title": "Gift card"

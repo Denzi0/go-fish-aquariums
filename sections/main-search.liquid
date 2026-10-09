@@ -5,6 +5,10 @@
     <label class="visually-hidden" for="gfa-q">{{ 'general.search' | t }}</label>
     <input class="gfa-field" id="gfa-q" type="search" name="q" value="{{ search.terms | escape }}"
            placeholder="{{ 'general.search_placeholder' | t }}">
+    {%- if search.types.size == 1 and search.types.first == 'article' -%}
+      <input type="hidden" name="type" value="article">
+      <input type="hidden" name="options[prefix]" value="last">
+    {%- endif -%}
     <button class="gfa-btn gfa-btn--primary" type="submit">{{ 'general.search' | t }}</button>
   </form>
 
@@ -13,14 +17,41 @@
   {%- endunless -%}
 
   {%- if search.performed -%}
-    <p class="gfa-note" style="margin-top:18px">{{ search.results_count }} {{ 'collections.products' | t }}</p>
-    <div class="gfa-grid" style="margin-top:24px" data-product-grid>
-      {%- for item in search.results -%}
-        {%- if item.object_type == 'product' -%}
-          {% render 'fish-card', product: item %}
-        {%- endif -%}
-      {%- endfor -%}
-    </div>
+    {%- liquid
+      assign product_count = 0
+      assign article_count = 0
+      for item in search.results
+        if item.object_type == 'product'
+          assign product_count = product_count | plus: 1
+        elsif item.object_type == 'article'
+          assign article_count = article_count | plus: 1
+        endif
+      endfor
+    -%}
+
+    {%- if product_count > 0 or article_count == 0 -%}
+      <p class="gfa-note" style="margin-top:18px">{{ product_count }} {{ 'collections.products' | t }}</p>
+      <div class="gfa-grid" style="margin-top:24px" data-product-grid>
+        {%- for item in search.results -%}
+          {%- if item.object_type == 'product' -%}
+            {% render 'fish-card', product: item %}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- if article_count > 0 -%}
+      <div class="gfa-band-head" style="margin-top:48px">
+        <h2>{{ 'blog.results_articles' | t }} <span class="gfa-num gfa-note">({{ article_count }})</span></h2>
+      </div>
+      <div class="gfa-posts">
+        {%- for item in search.results -%}
+          {%- if item.object_type == 'article' -%}
+            {% render 'article-card', article: item, featured: false, show_excerpt: true, show_author: false, ratio: '3/2' %}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
   {%- endif -%}
 </div>
 {% schema %}

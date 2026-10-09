@@ -1,0 +1,38 @@
+{%- comment -%} {% render 'pagination', paginate: paginate, anchor: '#articles' %} {%- endcomment -%}
+{%- if paginate.pages > 1 -%}
+  <nav class="gfa-pager" aria-label="{{ 'general.pagination' | t }}">
+    {%- if paginate.previous -%}
+      <a class="gfa-pager__step" href="{{ paginate.previous.url }}{{ anchor }}" rel="prev">
+        {% render 'icon', name: 'arrow-left' %}<span>{{ 'general.previous' | t }}</span>
+      </a>
+    {%- else -%}
+      <span class="gfa-pager__step is-disabled" aria-hidden="true">
+        {% render 'icon', name: 'arrow-left' %}<span>{{ 'general.previous' | t }}</span>
+      </span>
+    {%- endif -%}
+
+    <ol class="gfa-pager__pages">
+      {%- for part in paginate.parts -%}
+        <li>
+          {%- if part.is_link -%}
+            <a class="gfa-pager__page gfa-num" href="{{ part.url }}{{ anchor }}" aria-label="{{ 'blog.page' | t: page: part.title }}">{{ part.title }}</a>
+          {%- elsif part.title == '&hellip;' or part.title == '…' -%}
+            <span class="gfa-pager__gap" aria-hidden="true">&hellip;</span>
+          {%- else -%}
+            <span class="gfa-pager__page gfa-num is-current" aria-current="page">{{ part.title }}</span>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ol>
+
+    {%- if paginate.next -%}
+      <a class="gfa-pager__step" href="{{ paginate.next.url }}{{ anchor }}" rel="next">
+        <span>{{ 'general.next' | t }}</span>{% render 'icon', name: 'arrow-right' %}
+      </a>
+    {%- else -%}
+      <span class="gfa-pager__step is-disabled" aria-hidden="true">
+        <span>{{ 'general.next' | t }}</span>{% render 'icon', name: 'arrow-right' %}
+      </span>
+    {%- endif -%}
+  </nav>
+{%- endif -%}
