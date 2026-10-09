@@ -1,0 +1,94 @@
+<section class="gfa-band{% if section.settings.background == 'wash' %} gfa-band--wash{% endif %}" id="faq-{{ section.id }}">
+  <div class="gfa-shell gfa-faq">
+    <div class="gfa-faq__intro">
+      {%- if section.settings.eyebrow != blank -%}<p class="gfa-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      {%- if section.settings.heading != blank -%}<h2>{{ section.settings.heading }}</h2>{%- endif -%}
+      {%- if section.settings.subheading != blank -%}<p class="gfa-faq__sub">{{ section.settings.subheading }}</p>{%- endif -%}
+      {%- if section.settings.button_label != blank and section.settings.button_link != blank -%}
+        <a class="gfa-btn gfa-btn--outline" href="{{ section.settings.button_link }}">{{ section.settings.button_label }}</a>
+      {%- endif -%}
+    </div>
+
+    <div class="gfa-faq__list">
+      {%- for block in section.blocks -%}
+        <details class="gfa-faq__item" {% if forloop.first and section.settings.open_first %}open{% endif %} {{ block.shopify_attributes }}>
+          <summary class="gfa-faq__q">
+            <span class="gfa-faq__index gfa-num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+            <span class="gfa-faq__title">{{ block.settings.question }}</span>
+            <span class="gfa-faq__toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="gfa-faq__a">{{ block.settings.answer }}</div>
+        </details>
+      {%- endfor -%}
+    </div>
+  </div>
+
+  {%- if section.settings.schema_markup and section.blocks.size > 0 -%}
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {%- for block in section.blocks -%}
+            {
+              "@type": "Question",
+              "name": {{ block.settings.question | strip_html | json }},
+              "acceptedAnswer": { "@type": "Answer", "text": {{ block.settings.answer | json }} }
+            }{% unless forloop.last %},{% endunless %}
+          {%- endfor -%}
+        ]
+      }
+    </script>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "FAQs",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Help centre" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Frequently asked questions" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "How Go Fish works, where our fish come from, and how to get them into your local store." },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Contact us" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    {
+      "type": "select",
+      "id": "background",
+      "label": "Background",
+      "options": [
+        { "value": "paper", "label": "White" },
+        { "value": "wash", "label": "Light wash" }
+      ],
+      "default": "paper"
+    },
+    { "type": "checkbox", "id": "open_first", "label": "Open first question by default", "default": true },
+    { "type": "checkbox", "id": "schema_markup", "label": "Add FAQ structured data for search engines", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "Your question" },
+        { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>Your answer.</p>" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQs",
+      "blocks": [
+        { "type": "question", "settings": { "question": "How do I purchase Go Fish?", "answer": "<ul><li>Visit your local independent fish shop.</li><li>Ask for Go Fish by name.</li></ul>" } },
+        { "type": "question", "settings": { "question": "Where does Go Fish come from?", "answer": "<p>Go Fish sources fish from reputable farms and suppliers in Thailand, Indonesia, Malaysia, Sri Lanka and China.</p><p>All our suppliers undergo rigorous vetting to ensure the highest quality and health of the fish. We have maintained partnerships with some suppliers for decades, fostering a collaborative effort that consistently guarantees the best fish.</p>" } },
+        { "type": "question", "settings": { "question": "Where is Go Fish located?", "answer": "<p>Go Fish operates through local independent fish shops, so visit your nearest independent fish shop to enquire about Go Fish products.</p>" } },
+        { "type": "question", "settings": { "question": "What happens if my local independent store does not stock Go Fish?", "answer": "<p>Please ask them to contact us. We will do our best to source the fish for them.</p>" } },
+        { "type": "question", "settings": { "question": "Does Go Fish supply direct to the consumer?", "answer": "<p>No — please ask your local store to contact us, and we will do our best to source the fish.</p>" } },
+        { "type": "question", "settings": { "question": "How often does Go Fish supply its stockists?", "answer": "<p>Typically anywhere from once a week to once a month. If more fish are needed, the frequency increases accordingly.</p>" } },
+        { "type": "question", "settings": { "question": "How often does Go Fish receive shipments from overseas suppliers?", "answer": "<p>On average we receive three shipments per month to maintain adequate stock levels for our retailers.</p>" } },
+        { "type": "question", "settings": { "question": "What if Go Fish doesn't have the fish I want?", "answer": "<p>Encourage your local store to reach out to us — we would be delighted to welcome them as a Go Fish stockist.</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
