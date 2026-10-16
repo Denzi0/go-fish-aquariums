@@ -14,6 +14,23 @@
       "disabled": true,
       "settings": {}
     },
+    "banner_NrTt6q": {
+      "type": "banner",
+      "name": "Banner",
+      "settings": {
+        "focal_point": "center center",
+        "scrim": 70,
+        "height": "medium",
+        "alignment": "left",
+        "eyebrow": "WHO WE ARE",
+        "heading": "Bringing Color to Every Aquarium",
+        "copy": "<p>From vibrant guppies to graceful fancy goldfish, we supply healthy freshwater fish for home hobbyists and retailers alike.<br/></p>",
+        "button_label": "View stocklist",
+        "button_link": "",
+        "button2_label": "",
+        "button2_link": ""
+      }
+    },
     "image_with_text_ckjqxz": {
       "type": "image-with-text",
       "name": "Image with text",
@@ -28,23 +45,6 @@
         "button_link": "",
         "button_style": "primary",
         "background": "paper"
-      }
-    },
-    "banner_NrTt6q": {
-      "type": "banner",
-      "name": "Banner",
-      "settings": {
-        "focal_point": "center center",
-        "scrim": 70,
-        "height": "medium",
-        "alignment": "left",
-        "eyebrow": "New arrivals",
-        "heading": "Fresh shipments every week",
-        "copy": "<p>Hand-selected livestock from trusted farms, conditioned in our facility before it reaches your store.</p>",
-        "button_label": "View stocklist",
-        "button_link": "",
-        "button2_label": "",
-        "button2_link": ""
       }
     }
   },
