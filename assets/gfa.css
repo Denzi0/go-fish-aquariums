@@ -816,12 +816,19 @@ p:last-child { margin-bottom: 0; }
 .gfa-banner--small .gfa-banner__in { min-height: 320px; }
 .gfa-banner--medium .gfa-banner__in { min-height: 440px; }
 .gfa-banner--large .gfa-banner__in { min-height: 600px; }
-.gfa-banner__col { max-width: 640px; }
+.gfa-banner__col { max-width: min(760px, 100%); }
 .gfa-banner--center .gfa-banner__in { justify-content: center; text-align: center; }
 .gfa-banner--center .gfa-hero__eyebrow, .gfa-banner--center .gfa-banner__cta { justify-content: center; }
-.gfa-banner h2 { color: #fff; margin-bottom: var(--sp-4); }
+.gfa-banner h2 {
+  color: #fff;
+  margin-bottom: var(--sp-5);
+  font-size: clamp(2.5rem, 1.6rem + 3.6vw, 4rem);
+  letter-spacing: -0.032em;
+  overflow-wrap: break-word;
+  text-wrap: balance;
+}
 .gfa-banner__copy { color: rgba(255, 255, 255, 0.82); font-size: 1.0625rem; max-width: 56ch; }
-.gfa-banner--center .gfa-banner__copy { margin-inline: auto; }
+.gfa-banner--center .gfa-banner__col, .gfa-banner--center .gfa-banner__copy { margin-inline: auto; }
 .gfa-banner__cta { display: flex; flex-wrap: wrap; gap: var(--sp-3); margin-top: var(--sp-6); }
 
 /* --- Image with text ----------------------------------------------------- */
@@ -1608,6 +1615,16 @@ a.gfa-pager__step:hover { border-color: var(--ink); background: var(--wash); }
   .gfa-form__grid { grid-template-columns: 1fr; }
   .gfa-faq__q { grid-template-columns: 1.75rem 1fr 26px; font-size: 1rem; padding: 16px 0; }
   .gfa-faq__a { padding: 0 0 18px calc(1.75rem + var(--sp-3)); }
+  .gfa-banner h2 { font-size: clamp(2rem, 1.2rem + 4.4vw, 2.5rem); margin-bottom: var(--sp-4); }
+  .gfa-banner__copy { font-size: 1rem; }
+  .gfa-banner__cta { margin-top: var(--sp-5); }
+  .gfa-banner__cta .gfa-btn { flex: 1 1 100%; }
+  .gfa-banner--small .gfa-banner__in { min-height: 220px; }
+  .gfa-banner--medium .gfa-banner__in { min-height: 300px; }
+  .gfa-banner--large .gfa-banner__in { min-height: 420px; }
+  .gfa-imgtext__body h2 { max-width: none; }
+  .gfa-imgtext__body .gfa-btn { width: 100%; }
+  .gfa-imgtext__copy { margin: var(--sp-3) 0 var(--sp-5); }
   .gfa-posts { grid-template-columns: 1fr; gap: var(--sp-6); }
   .gfa-pager__step { padding: 0 11px; }
   .gfa-pager__step span { display: none; }
