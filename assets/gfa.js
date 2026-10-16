@@ -431,4 +431,93 @@
     }
     update();
   });
+
+  /* Stockists: live search, state filter and a shared map panel. */
+  $$('[data-stockists]').forEach(function (root) {
+    var input = $('[data-stockists-search]', root);
+    var clear = $('[data-stockists-clear]', root);
+    var items = $$('[data-stockist]', root);
+    var stateBtns = $$('[data-stockists-state]', root);
+    var count = $('[data-stockists-count]', root);
+    var empty = $('[data-stockists-empty]', root);
+    var list = $('[data-stockists-list]', root);
+    var map = $('[data-stockists-map]', root);
+    var mapName = $('[data-stockists-map-name]', root);
+    var state = 'all';
+
+    var run = function () {
+      var term = input.value.trim().toLowerCase();
+      var words = term.split(/\s+/).filter(Boolean);
+      var shown = 0;
+      items.forEach(function (item) {
+        var hay = item.getAttribute('data-search');
+        var match = (state === 'all' || item.getAttribute('data-state') === state) &&
+          words.every(function (w) { return hay.indexOf(w) !== -1; });
+        item.hidden = !match;
+        if (match) shown++;
+      });
+      count.innerHTML = 'Showing <b class="gfa-num">' + shown + '</b> ' + (shown === 1 ? 'stockist' : 'stockists');
+      clear.hidden = !term;
+      empty.hidden = shown > 0;
+      list.hidden = shown === 0;
+      if (shown === 0) $('[data-stockists-term]', empty).textContent = input.value.trim() || state;
+    };
+
+    input.addEventListener('input', run);
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && input.value) { input.value = ''; run(); }
+    });
+    clear.addEventListener('click', function () { input.value = ''; run(); input.focus(); });
+    $('[data-stockists-reset]', root).addEventListener('click', function () {
+      input.value = '';
+      stateBtns.forEach(function (b) { if (b.getAttribute('data-stockists-state') === 'all') b.click(); });
+      run();
+      input.focus();
+    });
+
+    stateBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        state = btn.getAttribute('data-stockists-state');
+        stateBtns.forEach(function (b) {
+          var on = b === btn;
+          b.classList.toggle('is-active', on);
+          b.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+        run();
+      });
+    });
+
+    /* Long descriptions are clamped; offer Read more only where text is cut off. */
+    items.forEach(function (item) {
+      var desc = $('[data-stockist-desc]', item);
+      var more = $('[data-stockist-more]', item);
+      if (!desc || !more) return;
+      if (desc.scrollHeight > desc.clientHeight + 2) more.hidden = false;
+      more.addEventListener('click', function () {
+        var open = item.classList.toggle('is-expanded');
+        more.setAttribute('aria-expanded', open ? 'true' : 'false');
+        more.textContent = open ? 'Show less' : 'Read more';
+      });
+    });
+
+    if (map) {
+      var current = items.filter(function (i) { return i.hasAttribute('data-map'); })[0];
+      if (current && map.offsetParent !== null) current.classList.add('is-current');
+      root.addEventListener('click', function (e) {
+        var btn = e.target.closest('[data-stockist-show]');
+        if (!btn) return;
+        var item = btn.closest('[data-stockist]');
+        map.src = 'https://maps.google.com/maps?q=' + item.getAttribute('data-map') + '&z=14&output=embed';
+        var name = $('.gfa-stockist__name', item).textContent;
+        map.title = 'Map showing ' + name;
+        mapName.textContent = name;
+        if (current) current.classList.remove('is-current');
+        current = item;
+        item.classList.add('is-current');
+      });
+    }
+
+    var q = new URLSearchParams(window.location.search).get('q');
+    if (q) { input.value = q; run(); }
+  });
 })();

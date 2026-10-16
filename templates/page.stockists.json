@@ -1,0 +1,562 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "banner": {
+      "type": "banner",
+      "settings": {
+        "image": "shopify://shop_images/Our_Stockist_BG_8e4b2179-5328-4431-84be-69019a102623.webp",
+        "focal_point": "center center",
+        "scrim": 55,
+        "height": "small",
+        "alignment": "left",
+        "eyebrow": "Wholesale only",
+        "heading": "Our Stockists",
+        "copy": "<p>Ask for Go Fish at your local independent aquarium store.</p>",
+        "button_label": "",
+        "button_link": "",
+        "button2_label": "",
+        "button2_link": ""
+      }
+    },
+    "stockists": {
+      "type": "stockists",
+      "blocks": {
+        "stockist_wetdreamsaquatics": {
+          "type": "stockist",
+          "settings": {
+            "name": "Wet Dreams Aquatics",
+            "logo_background": "light",
+            "address": "4135 Warrego Hwy, Plainland QLD 4341",
+            "state": "QLD",
+            "description": "Contact your Friendly Fishy Store for Great Prices & Know-it-All Staff! Don’t forget our Dog wash",
+            "link": "https://www.facebook.com/wetdreamsaquatics/",
+            "search_terms": ""
+          }
+        },
+        "stockist_signatureaquariums": {
+          "type": "stockist",
+          "settings": {
+            "name": "Signature Aquariums",
+            "logo_background": "dark",
+            "address": "95 Churchill Rd, Kilburn SA 5084",
+            "state": "SA",
+            "description": "trusted name for rare and exotic fish, built on loyal customers and decades of experience.\nDriven by passion and pride, Signature Aquariums creates tailored setups and trusted advice for collectors across South Australia.",
+            "link": "https://signatureaquariums.com.au/",
+            "search_terms": "Adelaide",
+            "logo": "shopify://shop_images/SA-white-logotype.png"
+          }
+        },
+        "stockist_kingsoftheaquarium": {
+          "type": "stockist",
+          "settings": {
+            "name": "Kings Of The Aquarium",
+            "logo_background": "light",
+            "address": "72 Yellow Brick Rd, Old Beach TAS 7017",
+            "state": "TAS",
+            "description": "Kings Of The Aquarium provides the highest quality freshwater tropical fish Australia wide. Our fish room has hundreds of different species of fish, each one carefully selected to ensure the best possible quality for our customers.",
+            "link": "https://www.kingsoftheaquarium.com.au/",
+            "search_terms": "Hobart",
+            "logo": "shopify://shop_images/kings-aqurium-logo.jpg"
+          }
+        },
+        "stockist_aquariumworld": {
+          "type": "stockist",
+          "settings": {
+            "name": "Aquarium World",
+            "logo_background": "light",
+            "address": "292 Hanson Rd, Wingfield SA 5013",
+            "state": "SA",
+            "description": "South Australia's Aquarium World provides an extensive range of fish products and accessories. Stocking an extensive variety of Tropical, Cold water & native fish.",
+            "link": "https://www.aquariumworldsa.com.au/",
+            "search_terms": "Adelaide",
+            "logo": "shopify://shop_images/aqurium-worl-logo.png"
+          }
+        },
+        "stockist_beyondaquatics": {
+          "type": "stockist",
+          "settings": {
+            "name": "Beyond Aquatics",
+            "logo_background": "light",
+            "address": "",
+            "state": "none",
+            "description": "At Beyond Aquatics Aquarium , we are passionate about making your aquarium dreams come true. Our goal is to provide the best aquarium design and equipment available in the market. Whether you prefer to maintain a freshwater or saltwater aquarium, we’ve got you covered.",
+            "link": "https://www.beyondaquatics.com.au/",
+            "search_terms": "",
+            "logo": "shopify://shop_images/Screenshot_2024-07-27_at_11_33_edited.avif"
+          }
+        },
+        "stockist_concordpets": {
+          "type": "stockist",
+          "settings": {
+            "name": "Concord Pets",
+            "logo_background": "light",
+            "address": "105 Queen Street, North Strathfield NSW",
+            "state": "NSW",
+            "description": "Concord Pets is a family run and owned pet shop located at 105 Queen Street, North Strathfield. We supply a wide range of premium pet care supplies & pets.",
+            "link": "https://www.concordpets.com.au/",
+            "search_terms": "Concord Sydney",
+            "logo": "shopify://shop_images/concord-pets-logo.png"
+          }
+        },
+        "stockist_finvisionaquariums": {
+          "type": "stockist",
+          "settings": {
+            "name": "Finvision Aquariums",
+            "logo_background": "light",
+            "address": "U4/83 Gavenlock Rd, Tuggerah NSW 2259",
+            "state": "NSW",
+            "description": "The Central Coast Premier destination for Freshwater & Marine Fish, Corals & Aquariums. Retail Store, Custom Tank/Pond Builds, Aquarium/Pond Servicing & more!",
+            "link": "https://www.finvisionaquariums.com.au",
+            "search_terms": "Central Coast"
+          }
+        },
+        "stockist_fishcity": {
+          "type": "stockist",
+          "settings": {
+            "name": "Fish City",
+            "logo_background": "light",
+            "address": "10/109-127 Batt St, Penrith NSW 2750",
+            "state": "NSW",
+            "description": "Our store was established in 2015 with the sole objective of offering pet enthusiasts a one stop solution to all their needs. We are backed by a support staff of highly passionate and dedicated hobbyists taking care of the store 7 days a week. Our store is well stocked and is one of the best aquarium stores in Sydney.",
+            "link": "https://fishcityaquarium.com.au/",
+            "search_terms": "Jamisontown Sydney",
+            "logo": "shopify://shop_images/logo_aquarium.png"
+          }
+        },
+        "stockist_aquazoo": {
+          "type": "stockist",
+          "settings": {
+            "name": "Aqua Zoo",
+            "logo_background": "dark",
+            "address": "1/85 Lasso Rd, Gregory Hills NSW 2557",
+            "state": "NSW",
+            "description": "Aquazoo is a family owned business and brings a new dimension in aquarium shops for both professional aquarists and hobbyists alike.Our staff have over 3 decades in experience and can help navigate through our extensive range of tropical & marine fish, plants, corals, fish food, and anything else you need to set up or maintain your home aquarium.",
+            "link": "https://www.aquazoo.net.au/",
+            "search_terms": "Aquazoo Macarthur Sydney",
+            "logo": "shopify://shop_images/AZ-Logo-White.png"
+          }
+        },
+        "stockist_macarthurpets": {
+          "type": "stockist",
+          "settings": {
+            "name": "Macarthur Pets",
+            "logo_background": "light",
+            "address": "Unit 14/2-64 Steer Rd, Gregory Hills NSW 2557",
+            "state": "NSW",
+            "description": "Over the past 10 years, Macarthur Pets has been the leading pet store in the Macarthur region. Now located in Gregory Hills next to Services NSW, we carry an extensive range of pets to suit all types of families and pet enthusiasts, from puppies, kittens, rabbits and guinea pigs to birds, reptiles and fish. Whether you’re looking for your very first family pet or looking for something a little quirky and unusual, our team will guide you in the right direction!",
+            "link": "https://macarthurpets.com.au/",
+            "search_terms": "Macarthur Sydney",
+            "logo": "shopify://shop_images/new-logo-orange_1561x250_5c95d159-d186-4771-8cc8-aef816979384.webp"
+          }
+        },
+        "stockist_hitekaquariums": {
+          "type": "stockist",
+          "settings": {
+            "name": "Hi-Tek Aquariums",
+            "logo_background": "dark",
+            "address": "732 Pittwater Rd, Brookvale NSW 2100",
+            "state": "NSW",
+            "description": "Since establishing in 1993 Hi-Tek Aquariums has grown into one of the largest aquarium shops on Sydney’s Northern beaches. Hi-Tek’s knowledgeable staff are determined to educate our customers on how to be self-reliant and successful in their hobby. We aim to make fish keeping a rewarding experience, whether a single fighting fish, a boundary-pushing high-tech custom designed reef system or anything in between, the right customer service and realistic expert advice from Hi-Tek will help choose of the right aquarium for you.",
+            "link": "https://www.hi-tekaquariums.com.au/",
+            "search_terms": "Northern Beaches Sydney",
+            "logo": "shopify://shop_images/logo.png"
+          }
+        },
+        "stockist_hurstvilleaquarium": {
+          "type": "stockist",
+          "settings": {
+            "name": "Hurstville Aquarium",
+            "logo_background": "light",
+            "address": "3/110 Queens Rd, Hurstville NSW 2220",
+            "state": "NSW",
+            "description": "Hurstville Aquarium comes under new ownership by a passionate enthusiast that started out with his first tank bought from the same store! With a background in African Cichlids and now a passion for Marine and Aquascaping. We are always constantly looking to evolve and improve the way our store operates to cater for a wide variety of clientele with passions for different aspects in the hobby.",
+            "link": "https://hurstvilleaquarium.com.au/",
+            "search_terms": "Sydney",
+            "logo": "shopify://shop_images/logo_hurstville_aquarium_500x-removebg-preview.png"
+          }
+        },
+        "stockist_zenaquarium": {
+          "type": "stockist",
+          "settings": {
+            "name": "Zen Aquarium",
+            "logo_background": "light",
+            "address": "Paddy's Market Flemington, Building D 250/318 Parramatta Rd, Homebush West NSW 2140",
+            "state": "NSW",
+            "description": "Zen Aquarium is a small family business that has been servicing Australia’s fish community for over 15 years at Paddy's Markets Flemington. With a variety of high-quality fish at some of Australia’s best prices. Since Covid pandemic in 2021 we made the tough decision to bring our fish online to be able to save our families business as well as be able to ship our special fish to customers interstate.",
+            "link": "https://zenaquariumau.com/",
+            "search_terms": "Paddy's Markets Sydney",
+            "logo": "shopify://shop_images/302288882_479427134198074_4613435423872169085_n-removebg-preview.png"
+          }
+        },
+        "stockist_newtownaquarium": {
+          "type": "stockist",
+          "settings": {
+            "name": "Newtown Aquarium",
+            "logo_background": "light",
+            "address": "66A Princes Hwy, St Peters NSW 2044",
+            "state": "NSW",
+            "description": "Newtown Aquarium specialize in Freshwater, Tropical, and Marine Fishes, Corals, and Invertebrates, offering a diverse selection to meet the needs of both novice and experienced aquarists. Our expertly curated collection ensures high-quality and healthy specimens, whether you're looking to start a new tank or expand your current aquatic ecosystem. Explore our range and discover the vibrant beauty of underwater life with our premium aquatic pets and supplies.",
+            "link": "https://newtownaquarium.com.au",
+            "search_terms": "Newtown Sydney",
+            "logo": "shopify://shop_images/300954713_490190893114828_4335769878513774652_n-removebg-preview.png"
+          }
+        },
+        "stockist_fishtopiaaquarium": {
+          "type": "stockist",
+          "settings": {
+            "name": "Fishtopia Aquarium",
+            "logo_background": "dark",
+            "address": "1/18 Blaxland Rd, Campbelltown NSW 2560",
+            "state": "NSW",
+            "description": "Fishtopia Aquarium is undoubtedly one of Sydney’s largest retail aquarium stores. With over 10,000 litres of fresh water tanks alone we have a massive range of Koi and Goldfish, Natives, American and African Cichlids, Discus and hundreds of varieties of community fish for sale. We also have a 4000 litre dedicated saltwater fish system and 10 metres of coral tanks to inspect, as well as invertebrates and live rock systems.",
+            "link": "https://www.fishtopiaaquarium.com.au/",
+            "search_terms": "Sydney",
+            "logo": "shopify://shop_images/logo_405312e1-f7d8-4854-a2e9-dcbdfc4aab68.png"
+          }
+        },
+        "stockist_finepebbleaquarium": {
+          "type": "stockist",
+          "settings": {
+            "name": "Fine Pebble Aquarium",
+            "logo_background": "light",
+            "address": "672 Parramatta Rd, Croydon NSW 2132",
+            "state": "NSW",
+            "description": "Fine Pebble Aquarium,We provide delivery services and support to Sydney and surrounding areas, as well as shipping our products throughout Australia. Our product range includes Aquariums, Fish Tanks, CO2 Equipment, Filtration, Fish Food, Freshwater Supplements and much more!",
+            "link": "https://www.finepebbleaquarium.com.au/",
+            "search_terms": "Sydney",
+            "logo": "shopify://shop_images/cropped-Logo-header3-180x90.png"
+          }
+        },
+        "stockist_bandcaquarium": {
+          "type": "stockist",
+          "settings": {
+            "name": "B and C Aquarium",
+            "logo_background": "light",
+            "address": "Shop 2/505-507 Bunnerong Rd, Matraville NSW 2036",
+            "state": "NSW",
+            "description": "B & C Aquarium is a government approved importer of live stock supplies ranging from the best breeders from around the globe. Step inside this Atlantic paradise to indulge your aquatic needs, or take advantage of their in-house maintenance to guarantee your tanks are always well served. At B&C Aquarium they stock an excellent collection of Discus and tropical fresh water fish.",
+            "link": "https://www.bcaquarium.com.au/",
+            "search_terms": "B&C Sydney",
+            "logo": "shopify://shop_images/bc_logo.png"
+          }
+        },
+        "stockist_marrickvilleaquarium": {
+          "type": "stockist",
+          "settings": {
+            "name": "Marrickville Aquarium",
+            "logo_background": "light",
+            "address": "318 Marrickville Rd, Marrickville NSW 2204",
+            "state": "NSW",
+            "description": "Marickville Aquarium, we believe in bringing the beauty and tranquility of the underwater world right into your home or office. Whether you're a seasoned aquarist or just starting your journey, we have everything you need to create and maintain",
+            "link": "",
+            "search_terms": "Sydney"
+          }
+        },
+        "stockist_bespokeaquariums": {
+          "type": "stockist",
+          "settings": {
+            "name": "Bespoke Aquariums",
+            "logo_background": "light",
+            "address": "2/32 Third Ave, Blacktown NSW 2148",
+            "state": "NSW",
+            "description": "Bespoke Aquariums is based in Blacktown Sydney with a 600 sqm retail outlet. With 50+ years of combined experience, we are confident that we can address all your aquarium needs.",
+            "link": "https://www.bespokeaquariums.com.au/",
+            "search_terms": "Sydney",
+            "logo": "shopify://shop_images/trademark-cropped-black-copy.png"
+          }
+        },
+        "stockist_leaquaticaquarium": {
+          "type": "stockist",
+          "settings": {
+            "name": "Le Aquatic Aquarium",
+            "logo_background": "light",
+            "address": "6/169 Hume Hwy, Lansvale NSW 2166",
+            "state": "NSW",
+            "description": "Le Aquatic is your one-stop shop for all aquarium supplies and equipment. We offer high-quality filters, heaters, lighting systems, and water conditioners to ensure your aquatic environment remains clean and stable. Our range of food and supplements caters to the dietary needs of all types of fish and marine life, helping them thrive and display their natural behaviors.",
+            "link": "https://www.facebook.com/LeAquatic/",
+            "search_terms": "Sydney"
+          }
+        },
+        "stockist_fisharefriends": {
+          "type": "stockist",
+          "settings": {
+            "name": "Fish are Friends",
+            "logo_background": "light",
+            "address": "1/16 Swettenham Rd, Minto NSW 2566",
+            "state": "NSW",
+            "description": "At Fish are Friends, we believe that aquariums are more than just glass tanks—they're miniature ecosystems that bring tranquility, beauty, and a touch of nature into your home or office. Our mission is to help both novice and experienced aquarists create and maintain stunning aquatic environments where fish can thrive.",
+            "link": "https://www.facebook.com/FishareFriendsminto/",
+            "search_terms": "Sydney",
+            "logo": "shopify://shop_images/292044774_469208185207050_2466481810829067585_n-removebg-preview.png"
+          }
+        },
+        "stockist_canleyvaleaquarium": {
+          "type": "stockist",
+          "settings": {
+            "name": "Canley Vale Aquarium",
+            "logo_background": "light",
+            "address": "5 Canley Vale Rd, Canley Vale NSW 2166",
+            "state": "NSW",
+            "description": "Canley Vale Aquarium, we are passionate about bringing the beauty and tranquility of aquatic life into your home or workplace. Whether you're an experienced aquarist or just starting your journey, we offer everything you need to create and maintain a vibrant and healthy aquarium.",
+            "link": "https://canleyvaleaquarium.com.au/",
+            "search_terms": "Sydney"
+          }
+        },
+        "stockist_thefishbowlaquarium": {
+          "type": "stockist",
+          "settings": {
+            "name": "The Fish Bowl Aquarium",
+            "logo_background": "light",
+            "address": "359 Princes Hwy, Carlton NSW 2218",
+            "state": "NSW",
+            "description": "Fish Bowl Aquarium, we are dedicated to bringing the mesmerizing beauty of aquatic life into your home or workplace. Whether you’re an experienced aquarist or just beginning your underwater adventure, we have everything you need to create and maintain an impressive and thriving aquarium.",
+            "link": "",
+            "search_terms": "Sydney"
+          }
+        },
+        "stockist_waverockaquarium": {
+          "type": "stockist",
+          "settings": {
+            "name": "Waverock Aquarium",
+            "logo_background": "light",
+            "address": "Wattle St, Asquith NSW 2077",
+            "state": "NSW",
+            "description": "Waverock Aquarium, we are passionate about bringing the enchanting world of aquatic life into your home or office. Whether you are an experienced aquarist or a beginner, we provide everything you need to create and maintain a stunning and healthy aquarium",
+            "link": "https://waverockaquarium.com.au/",
+            "search_terms": "Sydney"
+          }
+        },
+        "stockist_aquapet": {
+          "type": "stockist",
+          "settings": {
+            "name": "Aqua Pet",
+            "logo_background": "light",
+            "address": "5/2 Castro Way, Derrimut VIC 3030",
+            "state": "VIC",
+            "description": "It is Our Dream to bring our Passion and Experience with Fish, Bespoke Aquariums and Fish Tank installations to every Melbourne Home and Commercial Space.",
+            "link": "https://aquapet.com.au/",
+            "search_terms": "AquaPet Melbourne",
+            "logo": "shopify://shop_images/aqua-pet.png"
+          }
+        },
+        "stockist_auraaquarium": {
+          "type": "stockist",
+          "settings": {
+            "name": "Aura Aquarium",
+            "logo_background": "light",
+            "address": "19/3 Kelso Cres, Moorebank NSW 2170",
+            "state": "NSW",
+            "description": "Welcome to Aura Aquarium! We specialise in providing exotic fish, aquatic plants, and premium aquascaping supplies throughout Australia, helping people across the country build and maintain stunning underwater environments.",
+            "link": "https://www.auraaquarium.com/",
+            "search_terms": "Sydney",
+            "logo": "shopify://shop_images/logo_1024x_9b13b502-f4e6-4159-8df9-98dab9f74eec.png"
+          }
+        },
+        "stockist_blacktownpetproduce": {
+          "type": "stockist",
+          "settings": {
+            "name": "Blacktown Pet & Produce",
+            "logo_background": "light",
+            "address": "1/47 Fourth Ave, Blacktown NSW 2148",
+            "state": "NSW",
+            "description": "Established in 1948, Blacktown Pet and Produce is one of the oldest produce stores in Western Sydney. We carry a great selection of fish, fish tanks, fish tank ornamnents, aquariums, aquarium filters, aquarium pumps and other aquarium products as well as a comprehensive range of high quality feed for fish, birds, chickens, dogs and rabbits.",
+            "link": "https://www.blacktownaquarium.com.au/",
+            "search_terms": "Sydney"
+          }
+        },
+        "stockist_brisbanediscusaquari": {
+          "type": "stockist",
+          "settings": {
+            "name": "Brisbane Discus & Aquariums",
+            "logo_background": "light",
+            "address": "1/8 Finsbury St, Newmarket QLD 4051",
+            "state": "QLD",
+            "description": "At Brisbane Discus & Aquariums, we are dedicated to providing you with the finest selection of discus fish and aquarium products. Our passion for aquatic life drives us to offer only the highest quality fish, plants, and accessories to enhance your aquarium experience. We believe that a well-maintained aquarium can be a stunning centerpiece in any home or office, bringing tranquility and beauty to your space.",
+            "link": "https://www.brisbanediscus.com.au/",
+            "search_terms": "Brisbane"
+          }
+        },
+        "stockist_campsieaquariumpetsu": {
+          "type": "stockist",
+          "settings": {
+            "name": "Campsie Aquarium & Pet Supply",
+            "logo_background": "light",
+            "address": "Shop 4/62-74 Beamish St, Campsie NSW 2194",
+            "state": "NSW",
+            "description": "We supply all kinds of gold fish, tropical fish and other pet fish as well as their related products such as foodstuff, containers tropical water plants etc.",
+            "link": "https://aquariumandpetsupply.com.au/",
+            "search_terms": "Sydney"
+          }
+        },
+        "stockist_kellyvillepets": {
+          "type": "stockist",
+          "settings": {
+            "name": "Kellyville Pets",
+            "logo_background": "light",
+            "address": "Shop 1/15 Millcroft Way, Beaumont Hills NSW 2155",
+            "state": "NSW",
+            "description": "Welcome to Kellyville Pets, where the magic of pet ownership comes to life. As a destination store, we pride ourselves on offering unforgettable experiences for both pets and their people. Our brand mission is clear: to enhance the lives of pets and their owners through education, responsible pet pairing, and overall wellness.\nSpanning nearly an acre, our destination location is more than just a pet store—it's an experience. Whether you're a seasoned pet owner, looking for a companion or simply looking to explore, we invite you to experience the magic of Kellyville Pets.",
+            "link": "https://www.kellyvillepets.com.au",
+            "search_terms": "Kellyville Sydney",
+            "logo": "shopify://shop_images/Kellyville-Pets_200x80_123x49_0bc09368-a853-4611-b9be-0fd6d994f7f1.png"
+          }
+        },
+        "stockist_melbournetropicalfis": {
+          "type": "stockist",
+          "settings": {
+            "name": "Melbourne Tropical Fish",
+            "logo_background": "light",
+            "address": "Factory 2/41/43 Sinclair Rd, Dandenong VIC 3175",
+            "state": "VIC",
+            "description": "Melbourne Tropical Fish is a second generation family owned business that have been in existence for over 40 years. We pride ourselves on offering value for money and old fashioned customer service. Our staff have extensive knowledge of ornamental fish, including breeding, and caring for them. Our team enjoys sharing this knowledge with our fish community, in addition to offering you the highest quality fish for your aquarium or garden pond.",
+            "link": "https://melbournetropicalfish.com.au/",
+            "search_terms": "Melbourne"
+          }
+        },
+        "stockist_roxyaquarium": {
+          "type": "stockist",
+          "settings": {
+            "name": "Roxy Aquarium",
+            "logo_background": "light",
+            "address": "1B Fleet St, Somerton VIC 3062",
+            "state": "VIC",
+            "description": "Roxy Aquarium, based in Melbourne, proudly offers Australia's widest selection of fish and aquatic supplies. As the country's premier online destination, we cater to enthusiasts and beginners alike, providing access to an extensive range of exotic fish, vibrant corals, and top-notch aquarium equipment.",
+            "link": "https://roxyaquarium.com.au/",
+            "search_terms": "Melbourne",
+            "logo": "shopify://shop_images/Roxy-Aquarium-New-Logo-dash.svg"
+          }
+        },
+        "stockist_thetechden": {
+          "type": "stockist",
+          "settings": {
+            "name": "The Tech Den",
+            "logo_background": "dark",
+            "address": "24 Alta Rd, Caboolture QLD 4510",
+            "state": "QLD",
+            "description": "Welcome to The Tech Den, Australia's Largest retail aquarium shop, providing leading brands of fish tank supplies. We supply a wide range of products Australia-wide right from the convenience of our online website, whilst also having a physical store based locally in Brisbane, Queensland. Our aquarium supplies and fish tank range are competitively priced.",
+            "link": "https://www.thetechden.com.au/",
+            "search_terms": "Brisbane",
+            "logo": "shopify://shop_images/The_Tech_Den_logo_final_800px_800x_1600x_5bfc0b08-774e-4bfd-b8c3-0fa351773c08.png"
+          }
+        },
+        "stockist_trueblueaquariums": {
+          "type": "stockist",
+          "settings": {
+            "name": "True Blue Aquariums",
+            "logo_background": "light",
+            "address": "452 Sheridan St, Cairns North QLD 4870",
+            "state": "QLD",
+            "description": "True Blue Aquariums is your ultimate destination for all things aquatic. We are passionate about helping you create the perfect aquatic environment, whether you're a novice or a seasoned aquarist. Our extensive selection of fish, plants, and aquarium supplies ensures you have everything you need to build and maintain a thriving aquarium.",
+            "link": "https://trueblueaquatics.wixsite.com/",
+            "search_terms": "Cairns"
+          }
+        },
+        "stockist_fishrockaquarium": {
+          "type": "stockist",
+          "settings": {
+            "name": "Fish Rock Aquarium",
+            "logo_background": "light",
+            "address": "350A Penshurst St, North Willoughby NSW 2068",
+            "state": "NSW",
+            "description": "At Fish Rock Aquarium, we are passionate about bringing the beauty and tranquility of aquatic life into your home or business. Whether you are an experienced aquarist or just starting out, we have everything you need to create and maintain a stunning underwater world.",
+            "link": "https://www.instagram.com/fishrockaquarium/",
+            "search_terms": "Sydney"
+          }
+        },
+        "stockist_rjaquarium": {
+          "type": "stockist",
+          "settings": {
+            "name": "RJ Aquarium",
+            "logo_background": "light",
+            "address": "3 Cleeve Cl, Mount Druitt NSW 2770",
+            "state": "NSW",
+            "description": "At RJ Aquarium, we are passionate about sharing the wonders of aquatic life with our customers. Whether you're a seasoned aquarist or just starting out, we offer everything you need to create and maintain a beautiful and thriving aquarium.",
+            "link": "https://www.instagram.com/rj_aquarium/",
+            "search_terms": "Sydney"
+          }
+        },
+        "stockist_letranaquariumworld": {
+          "type": "stockist",
+          "settings": {
+            "name": "Le Tran Aquarium World",
+            "logo_background": "light",
+            "address": "2/26 Henry St, Penrith NSW 2750",
+            "state": "NSW",
+            "description": "At Le Tran Aquarium World, we are dedicated to bringing the beauty and tranquility of aquatic life into your home or business. Whether you are an experienced aquarist or just beginning your journey, we have everything you need to create and maintain a stunning underwater environment.",
+            "link": "https://le-tran-aquarium-world.edan.io/",
+            "search_terms": "Sydney"
+          }
+        }
+      },
+      "block_order": [
+        "stockist_wetdreamsaquatics",
+        "stockist_signatureaquariums",
+        "stockist_kingsoftheaquarium",
+        "stockist_aquariumworld",
+        "stockist_beyondaquatics",
+        "stockist_concordpets",
+        "stockist_finvisionaquariums",
+        "stockist_fishcity",
+        "stockist_aquazoo",
+        "stockist_macarthurpets",
+        "stockist_hitekaquariums",
+        "stockist_hurstvilleaquarium",
+        "stockist_zenaquarium",
+        "stockist_newtownaquarium",
+        "stockist_fishtopiaaquarium",
+        "stockist_finepebbleaquarium",
+        "stockist_bandcaquarium",
+        "stockist_marrickvilleaquarium",
+        "stockist_bespokeaquariums",
+        "stockist_leaquaticaquarium",
+        "stockist_fisharefriends",
+        "stockist_canleyvaleaquarium",
+        "stockist_thefishbowlaquarium",
+        "stockist_waverockaquarium",
+        "stockist_aquapet",
+        "stockist_auraaquarium",
+        "stockist_blacktownpetproduce",
+        "stockist_brisbanediscusaquari",
+        "stockist_campsieaquariumpetsu",
+        "stockist_kellyvillepets",
+        "stockist_melbournetropicalfis",
+        "stockist_roxyaquarium",
+        "stockist_thetechden",
+        "stockist_trueblueaquariums",
+        "stockist_fishrockaquarium",
+        "stockist_rjaquarium",
+        "stockist_letranaquariumworld"
+      ],
+      "settings": {
+        "eyebrow": "Find Go Fish near you",
+        "heading": "Come visit our pet store stockists",
+        "subheading": "Go Fish is wholesale only. Ask for Go Fish at your local independent aquarium store.",
+        "search_placeholder": "Search by store, suburb, postcode or state",
+        "show_states": true,
+        "show_map": true,
+        "background": "paper",
+        "empty_text": "Your local store doesn't stock Go Fish yet? Ask them to contact us and we will do our best to source the fish for them.",
+        "empty_button_label": "Contact us",
+        "empty_button_link": ""
+      }
+    }
+  },
+  "order": [
+    "main",
+    "banner",
+    "stockists"
+  ]
+}

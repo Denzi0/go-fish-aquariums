@@ -844,6 +844,93 @@ p:last-child { margin-bottom: 0; }
 .gfa-imgtext__copy:last-child { margin-bottom: 0; }
 .gfa-imgtext__copy a { color: var(--current-dk); font-weight: 600; border-bottom: 1px solid rgba(18, 128, 143, 0.35); }
 
+/* --- Stockists ------------------------------------------------------------ */
+.gfa-stockists__head { max-width: 720px; margin-bottom: var(--sp-6); }
+.gfa-stockists__sub { color: var(--muted); max-width: 56ch; margin: var(--sp-3) 0 0; font-size: 0.9688rem; }
+.gfa-stockists__tools { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-3) var(--sp-4); margin-bottom: var(--sp-4); }
+.gfa-stockists__search { position: relative; flex: 1 1 340px; max-width: 520px; }
+.gfa-stockists__search > svg { position: absolute; left: 14px; top: 50%; width: 19px; height: 19px; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
+.gfa-stockists__search .gfa-field { min-height: 50px; padding-left: 44px; padding-right: 44px; font-size: 1rem; }
+.gfa-stockists__search .gfa-field::-webkit-search-cancel-button { display: none; }
+.gfa-stockists__clear {
+  position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; border: 0; border-radius: var(--r-chip); background: transparent; color: var(--muted); cursor: pointer;
+}
+.gfa-stockists__clear:hover { background: var(--wash); color: var(--ink); }
+.gfa-stockists__clear svg { width: 16px; height: 16px; }
+.gfa-stockists__clear[hidden] { display: none; }
+.gfa-stockists__states { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.gfa-stockists__states .gfa-topic { cursor: pointer; gap: 6px; }
+.gfa-stockists__states .gfa-num { font-size: 0.75rem; font-weight: 500; opacity: 0.7; }
+.gfa-stockists__count { font-size: 0.875rem; color: var(--muted); margin: 0 0 var(--sp-4); }
+.gfa-stockists__count b { color: var(--ink); font-weight: 600; }
+
+.gfa-stockists__layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--sp-6); align-items: start; }
+.gfa-stockists__layout.has-map { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); }
+.gfa-stockists__list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr)); }
+.gfa-stockists__layout.has-map .gfa-stockists__list { grid-template-columns: minmax(0, 1fr); }
+.gfa-stockists__list[hidden] { display: none; }
+
+.gfa-stockist {
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr);
+  gap: var(--sp-4);
+  padding: var(--sp-4);
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+  background: var(--paper);
+  transition: border-color 0.16s var(--ease), box-shadow 0.16s var(--ease);
+}
+.gfa-stockist[hidden] { display: none; }
+.gfa-stockist:hover { border-color: var(--line-strong); }
+.gfa-stockist.is-current { border-color: var(--current); box-shadow: 0 0 0 1px var(--current); }
+.gfa-stockist__logo {
+  display: flex; align-items: center; justify-content: center;
+  aspect-ratio: 1; padding: 10px; overflow: hidden;
+  border: 1px solid var(--wash-2); border-radius: var(--r-field); background: var(--wash);
+}
+.gfa-stockist__logo--dark { background: var(--abyss); border-color: var(--abyss); }
+.gfa-stockist__logo img { width: 100%; height: 100%; object-fit: contain; }
+.gfa-stockist__initials { font-family: var(--f-num); font-size: 1.5rem; font-weight: 500; color: var(--current-dk); letter-spacing: 0.04em; }
+.gfa-stockist__logo--dark .gfa-stockist__initials { color: #8fd8dd; }
+.gfa-stockist__body { min-width: 0; display: flex; flex-direction: column; }
+.gfa-stockist__top { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--sp-3); }
+.gfa-stockist__name { font-size: 1.0625rem; line-height: 1.3; letter-spacing: -0.012em; }
+.gfa-stockist__state {
+  flex: none; padding: 2px 8px; border-radius: var(--r-chip);
+  background: var(--current-pale); color: var(--current-dk);
+  font-family: var(--f-num); font-size: 0.75rem; font-weight: 500;
+}
+.gfa-stockist__address { display: flex; gap: 6px; margin-top: 6px; font-style: normal; font-size: 0.875rem; color: var(--ink-soft); line-height: 1.45; }
+.gfa-stockist__address svg { flex: none; width: 16px; height: 16px; margin-top: 1px; color: var(--current); }
+.gfa-stockist__desc {
+  margin: var(--sp-3) 0 0; font-size: 0.875rem; color: var(--muted); line-height: 1.55;
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden;
+}
+.gfa-stockist.is-expanded .gfa-stockist__desc { -webkit-line-clamp: unset; display: block; }
+.gfa-stockist__more { align-self: flex-start; margin-top: 4px; padding: 0; border: 0; background: none; font-size: 0.8125rem; font-weight: 600; color: var(--current-dk); cursor: pointer; }
+.gfa-stockist__more:hover { text-decoration: underline; }
+.gfa-stockist__more[hidden] { display: none; }
+.gfa-stockist__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-3); margin-top: auto; padding-top: var(--sp-4); }
+.gfa-stockist__link { display: inline-flex; align-items: center; gap: 5px; font-size: 0.875rem; font-weight: 600; color: var(--current-dk); }
+.gfa-stockist__link svg { width: 14px; height: 14px; }
+.gfa-stockist__link:hover { text-decoration: underline; }
+.gfa-stockist__show { display: none; }
+.gfa-stockists__layout.has-map .gfa-stockist__show { display: inline-flex; }
+
+.gfa-stockists__map { position: sticky; top: 96px; }
+.gfa-stockists__mapframe { aspect-ratio: 4 / 5; max-height: calc(100vh - 160px); min-height: 360px; border: 1px solid var(--line); border-radius: var(--r-card); overflow: hidden; background: var(--wash-2); }
+.gfa-stockists__mapframe iframe { display: block; width: 100%; height: 100%; border: 0; }
+.gfa-stockists__mapname { display: flex; align-items: center; gap: 6px; margin: var(--sp-3) 0 0; font-size: 0.875rem; font-weight: 600; color: var(--ink-soft); }
+.gfa-stockists__mapname svg { width: 16px; height: 16px; color: var(--current); }
+
+.gfa-stockists__empty { padding: var(--sp-7) var(--sp-5); border: 1px dashed var(--line-strong); border-radius: var(--r-card); text-align: center; }
+.gfa-stockists__empty[hidden] { display: none; }
+.gfa-stockists__empty h3 { overflow-wrap: anywhere; }
+.gfa-stockists__empty p { color: var(--muted); max-width: 52ch; margin: var(--sp-3) auto var(--sp-5); font-size: 0.9375rem; }
+.gfa-stockists__empty-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--sp-3); }
+
 /* --- Blog ------------------------------------------------------------------ */
 .gfa-bloghead {
   background:
@@ -1583,6 +1670,11 @@ a.gfa-pager__step:hover { border-color: var(--ink); background: var(--wash); }
   .gfa-faq { grid-template-columns: 1fr; gap: var(--sp-6); }
   .gfa-faq__intro { position: static; }
   .gfa-imgtext { grid-template-columns: 1fr; gap: var(--sp-6); }
+  .gfa-stockists__layout.has-map { grid-template-columns: minmax(0, 1fr); }
+  .gfa-stockists__layout.has-map .gfa-stockists__list { grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr)); }
+  .gfa-stockists__map { display: none; }
+  .gfa-stockists__layout.has-map .gfa-stockist__show { display: none; }
+  .gfa-stockists__search { max-width: none; flex-basis: 100%; }
   .gfa-imgtext--right .gfa-imgtext__media { order: 0; }
   .gfa-banner__in { padding-block: var(--sp-7); }
   .gfa-banner--small .gfa-banner__in { min-height: 260px; }
@@ -1625,6 +1717,13 @@ a.gfa-pager__step:hover { border-color: var(--ink); background: var(--wash); }
   .gfa-imgtext__body h2 { max-width: none; }
   .gfa-imgtext__body .gfa-btn { width: 100%; }
   .gfa-imgtext__copy { margin: var(--sp-3) 0 var(--sp-5); }
+  .gfa-stockists__states { flex-wrap: nowrap; overflow-x: auto; margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); scrollbar-width: none; }
+  .gfa-stockists__states::-webkit-scrollbar { display: none; }
+  .gfa-stockist { grid-template-columns: 72px minmax(0, 1fr); gap: var(--sp-3); padding: 14px; }
+  .gfa-stockist__logo { padding: 6px; }
+  .gfa-stockist__initials { font-size: 1.125rem; }
+  .gfa-stockist__name { font-size: 1rem; }
+  .gfa-stockist__actions .gfa-btn { flex: 1 1 auto; }
   .gfa-posts { grid-template-columns: 1fr; gap: var(--sp-6); }
   .gfa-pager__step { padding: 0 11px; }
   .gfa-pager__step span { display: none; }

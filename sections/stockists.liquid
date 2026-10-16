@@ -1,0 +1,247 @@
+{%- liquid
+  assign state_codes = 'NSW,VIC,QLD,SA,TAS,WA,NT,ACT' | split: ','
+  assign state_names = 'new south wales,victoria,queensland,south australia,tasmania,western australia,northern territory,australian capital territory' | split: ','
+  assign first_mapped = nil
+  for block in section.blocks
+    if block.settings.address != blank
+      assign first_mapped = block
+      break
+    endif
+  endfor
+-%}
+<section class="gfa-band{% if section.settings.background == 'wash' %} gfa-band--wash{% endif %}" id="stockists-{{ section.id }}" data-stockists>
+  <div class="gfa-shell">
+    <header class="gfa-stockists__head">
+      {%- if section.settings.eyebrow != blank -%}<p class="gfa-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      {%- if section.settings.heading != blank -%}<h2>{{ section.settings.heading }}</h2>{%- endif -%}
+      {%- if section.settings.subheading != blank -%}<p class="gfa-stockists__sub">{{ section.settings.subheading }}</p>{%- endif -%}
+    </header>
+
+    <div class="gfa-stockists__tools">
+      <div class="gfa-stockists__search">
+        <label class="visually-hidden" for="StockistSearch-{{ section.id }}">{{ section.settings.search_placeholder }}</label>
+        {% render 'icon', name: 'search' %}
+        <input class="gfa-field" type="search" id="StockistSearch-{{ section.id }}"
+               placeholder="{{ section.settings.search_placeholder | escape }}"
+               autocomplete="off" spellcheck="false" enterkeyhint="search" data-stockists-search>
+        <button class="gfa-stockists__clear" type="button" aria-label="Clear search" hidden data-stockists-clear>{% render 'icon', name: 'close' %}</button>
+      </div>
+
+      {%- if section.settings.show_states -%}
+        <div class="gfa-stockists__states" role="group" aria-label="Filter by state">
+          <button class="gfa-topic is-active" type="button" aria-pressed="true" data-stockists-state="all">
+            All <span class="gfa-num">{{ section.blocks.size }}</span>
+          </button>
+          {%- for code in state_codes -%}
+            {%- assign in_state = 0 -%}
+            {%- for block in section.blocks -%}
+              {%- if block.settings.state == code -%}{%- assign in_state = in_state | plus: 1 -%}{%- endif -%}
+            {%- endfor -%}
+            {%- if in_state > 0 -%}
+              <button class="gfa-topic" type="button" aria-pressed="false" data-stockists-state="{{ code }}">
+                {{ code }} <span class="gfa-num">{{ in_state }}</span>
+              </button>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <p class="gfa-stockists__count" aria-live="polite" data-stockists-count>
+      Showing <b class="gfa-num">{{ section.blocks.size }}</b> {{ section.blocks.size | pluralize: 'stockist', 'stockists' }}
+    </p>
+
+    <div class="gfa-stockists__layout{% if section.settings.show_map %} has-map{% endif %}">
+      <ul class="gfa-stockists__list" role="list" data-stockists-list>
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign name = block.settings.name | strip
+            assign address = block.settings.address | strip
+            assign state = block.settings.state
+            assign state_name = ''
+            for code in state_codes
+              if code == state
+                assign state_name = state_names[forloop.index0]
+              endif
+            endfor
+
+            assign map_query = name
+            if address != blank
+              assign map_query = name | append: ', ' | append: address
+            endif
+
+            assign link = block.settings.link
+            assign link_label = 'Website'
+            if link contains 'facebook.com'
+              assign link_label = 'Facebook'
+            elsif link contains 'instagram.com'
+              assign link_label = 'Instagram'
+            endif
+
+            assign words = name | split: ' '
+            assign initials = words[0] | slice: 0
+            if words.size > 1
+              assign second = words[1] | slice: 0
+              assign initials = initials | append: second
+            endif
+
+            capture haystack
+              echo name | append: ' ' | append: address | append: ' ' | append: state | append: ' ' | append: state_name | append: ' ' | append: block.settings.search_terms
+            endcapture
+          -%}
+          <li class="gfa-stockist" data-stockist data-state="{{ state }}"
+              data-search="{{ haystack | strip_newlines | downcase | escape }}"
+              {% if address != blank %}data-map="{{ map_query | url_encode }}"{% endif %}
+              {{ block.shopify_attributes }}>
+            <div class="gfa-stockist__logo{% if block.settings.logo_background == 'dark' %} gfa-stockist__logo--dark{% endif %}">
+              {%- if block.settings.logo -%}
+                {{ block.settings.logo | image_url: width: 480 | image_tag:
+                   widths: '240,360,480',
+                   sizes: '160px',
+                   loading: 'lazy',
+                   alt: name }}
+              {%- else -%}
+                <span class="gfa-stockist__initials" aria-hidden="true">{{ initials | upcase }}</span>
+              {%- endif -%}
+            </div>
+
+            <div class="gfa-stockist__body">
+              <div class="gfa-stockist__top">
+                <h3 class="gfa-stockist__name">{{ name | escape }}</h3>
+                {%- if state_name != blank -%}<span class="gfa-stockist__state">{{ state }}</span>{%- endif -%}
+              </div>
+
+              {%- if address != blank -%}
+                <address class="gfa-stockist__address">{% render 'icon', name: 'pin' %}<span>{{ address | escape }}</span></address>
+              {%- endif -%}
+
+              {%- if block.settings.description != blank -%}
+                <p class="gfa-stockist__desc" data-stockist-desc>{{ block.settings.description | escape | newline_to_br }}</p>
+                <button class="gfa-stockist__more" type="button" aria-expanded="false" hidden data-stockist-more>Read more</button>
+              {%- endif -%}
+
+              <div class="gfa-stockist__actions">
+                {%- if address != blank -%}
+                  <a class="gfa-btn gfa-btn--sm gfa-btn--primary" href="https://www.google.com/maps/search/?api=1&query={{ map_query | url_encode }}" target="_blank" rel="noopener">
+                    Get directions
+                  </a>
+                  {%- if section.settings.show_map -%}
+                    <button class="gfa-btn gfa-btn--sm gfa-btn--outline gfa-stockist__show" type="button" data-stockist-show>Show on map</button>
+                  {%- endif -%}
+                {%- endif -%}
+                {%- if link != blank -%}
+                  <a class="gfa-stockist__link" href="{{ link }}" target="_blank" rel="noopener">
+                    {{ link_label }} {% render 'icon', name: 'external' %}<span class="visually-hidden"> for {{ name | escape }} (opens in a new tab)</span>
+                  </a>
+                {%- endif -%}
+              </div>
+            </div>
+          </li>
+        {%- endfor -%}
+      </ul>
+
+      {%- if section.settings.show_map and first_mapped -%}
+        {%- assign first_query = first_mapped.settings.name | strip | append: ', ' | append: first_mapped.settings.address -%}
+        <aside class="gfa-stockists__map" aria-label="Stockist map">
+          <div class="gfa-stockists__mapframe">
+            <iframe src="https://maps.google.com/maps?q={{ first_query | url_encode }}&z=14&output=embed"
+                    title="Map showing {{ first_mapped.settings.name | escape }}"
+                    loading="lazy" referrerpolicy="no-referrer-when-downgrade" data-stockists-map></iframe>
+          </div>
+          <p class="gfa-stockists__mapname">{% render 'icon', name: 'pin' %}<span data-stockists-map-name>{{ first_mapped.settings.name | escape }}</span></p>
+        </aside>
+      {%- endif -%}
+    </div>
+
+    <div class="gfa-stockists__empty" hidden data-stockists-empty>
+      <h3>No stockists match "<span data-stockists-term></span>"</h3>
+      <p>{{ section.settings.empty_text }}</p>
+      <div class="gfa-stockists__empty-actions">
+        <button class="gfa-btn gfa-btn--outline" type="button" data-stockists-reset>Clear search</button>
+        {%- if section.settings.empty_button_label != blank and section.settings.empty_button_link != blank -%}
+          <a class="gfa-btn gfa-btn--primary" href="{{ section.settings.empty_button_link }}">{{ section.settings.empty_button_label }}</a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Stockists",
+  "tag": "section",
+  "max_blocks": 50,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Find Go Fish near you" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Come visit our pet store stockists" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Go Fish is wholesale only. Ask for Go Fish at your local independent aquarium store." },
+    { "type": "text", "id": "search_placeholder", "label": "Search placeholder", "default": "Search by store, suburb, postcode or state" },
+    { "type": "checkbox", "id": "show_states", "label": "Show state filters", "default": true },
+    { "type": "checkbox", "id": "show_map", "label": "Show map beside the list", "info": "The map is hidden on small screens, where Get directions opens Google Maps instead.", "default": true },
+    {
+      "type": "select",
+      "id": "background",
+      "label": "Background",
+      "options": [
+        { "value": "paper", "label": "White" },
+        { "value": "wash", "label": "Light wash" }
+      ],
+      "default": "paper"
+    },
+    { "type": "header", "content": "No results" },
+    { "type": "textarea", "id": "empty_text", "label": "Message", "default": "Your local store doesn't stock Go Fish yet? Ask them to contact us and we will do our best to source the fish for them." },
+    { "type": "text", "id": "empty_button_label", "label": "Button label", "default": "Contact us" },
+    { "type": "url", "id": "empty_button_link", "label": "Button link" }
+  ],
+  "blocks": [
+    {
+      "type": "stockist",
+      "name": "Stockist",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Store name", "default": "Store name" },
+        { "type": "image_picker", "id": "logo", "label": "Logo", "info": "Without a logo, the store's initials are shown." },
+        {
+          "type": "select",
+          "id": "logo_background",
+          "label": "Logo background",
+          "info": "Use Dark for white logos.",
+          "options": [
+            { "value": "light", "label": "Light" },
+            { "value": "dark", "label": "Dark" }
+          ],
+          "default": "light"
+        },
+        { "type": "text", "id": "address", "label": "Address", "info": "Used for the map and Get directions. Leave blank to hide both." },
+        {
+          "type": "select",
+          "id": "state",
+          "label": "State",
+          "options": [
+            { "value": "none", "label": "Not set" },
+            { "value": "NSW", "label": "NSW" },
+            { "value": "VIC", "label": "VIC" },
+            { "value": "QLD", "label": "QLD" },
+            { "value": "SA", "label": "SA" },
+            { "value": "TAS", "label": "TAS" },
+            { "value": "WA", "label": "WA" },
+            { "value": "NT", "label": "NT" },
+            { "value": "ACT", "label": "ACT" }
+          ],
+          "default": "NSW"
+        },
+        { "type": "textarea", "id": "description", "label": "Description" },
+        { "type": "url", "id": "link", "label": "Website or social link", "info": "Facebook and Instagram links are labelled automatically." },
+        { "type": "text", "id": "search_terms", "label": "Extra search words", "info": "Hidden words that also match this store, e.g. a nearby suburb or region." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Stockists",
+      "blocks": [
+        { "type": "stockist", "settings": { "name": "Store name", "address": "1 Example St, Sydney NSW 2000", "state": "NSW", "description": "A short description of the store." } }
+      ]
+    }
+  ]
+}
+{% endschema %}
