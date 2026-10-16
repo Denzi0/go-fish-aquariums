@@ -29,10 +29,28 @@
         "button_style": "primary",
         "background": "paper"
       }
+    },
+    "banner_NrTt6q": {
+      "type": "banner",
+      "name": "Banner",
+      "settings": {
+        "focal_point": "center center",
+        "scrim": 70,
+        "height": "medium",
+        "alignment": "left",
+        "eyebrow": "New arrivals",
+        "heading": "Fresh shipments every week",
+        "copy": "<p>Hand-selected livestock from trusted farms, conditioned in our facility before it reaches your store.</p>",
+        "button_label": "View stocklist",
+        "button_link": "",
+        "button2_label": "",
+        "button2_link": ""
+      }
     }
   },
   "order": [
     "main",
+    "banner_NrTt6q",
     "image_with_text_ckjqxz"
   ]
 }
