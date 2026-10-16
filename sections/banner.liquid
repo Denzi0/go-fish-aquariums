@@ -1,0 +1,106 @@
+<section class="gfa-banner gfa-banner--{{ section.settings.height }} gfa-banner--{{ section.settings.alignment }}" id="banner-{{ section.id }}">
+  <div class="gfa-banner__media" aria-hidden="true" style="--focal: {{ section.settings.focal_point }};">
+    {%- if section.settings.image -%}
+      {{ section.settings.image | image_url: width: 2400 | image_tag:
+         widths: '800,1200,1600,2000,2400',
+         sizes: '100vw',
+         loading: 'lazy',
+         alt: '' }}
+    {%- else -%}
+      <picture>
+        <source srcset="{{ 'hero-water.webp' | asset_url }}" type="image/webp">
+        <img src="{{ 'hero-water.jpg' | asset_url }}" alt="" loading="lazy" width="1000" height="497">
+      </picture>
+    {%- endif -%}
+  </div>
+
+  <span class="gfa-banner__scrim" aria-hidden="true"
+        style="--scrim: {{ section.settings.scrim | divided_by: 100.0 }};"></span>
+
+  <div class="gfa-shell gfa-banner__in">
+    <div class="gfa-banner__col">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="gfa-hero__eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2>{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.copy != blank -%}
+        <div class="gfa-banner__copy">{{ section.settings.copy }}</div>
+      {%- endif -%}
+
+      {%- liquid
+        assign show_btn = false
+        if section.settings.button_label != blank and section.settings.button_link != blank
+          assign show_btn = true
+        endif
+        assign show_btn2 = false
+        if section.settings.button2_label != blank and section.settings.button2_link != blank
+          assign show_btn2 = true
+        endif
+      -%}
+      {%- if show_btn or show_btn2 -%}
+        <div class="gfa-banner__cta">
+          {%- if show_btn -%}
+            <a class="gfa-btn gfa-btn--primary" href="{{ section.settings.button_link }}">{{ section.settings.button_label }}</a>
+          {%- endif -%}
+          {%- if show_btn2 -%}
+            <a class="gfa-btn gfa-btn--onDark" href="{{ section.settings.button2_link }}">{{ section.settings.button2_label }}</a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Banner",
+  "tag": "section",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Background image", "info": "Uses the default water image until you pick one." },
+    {
+      "type": "select",
+      "id": "focal_point",
+      "label": "Image focus",
+      "options": [
+        { "value": "left center", "label": "Left" },
+        { "value": "center center", "label": "Centre" },
+        { "value": "right center", "label": "Right" }
+      ],
+      "default": "center center"
+    },
+    { "type": "range", "id": "scrim", "label": "Overlay darkness", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 70 },
+    {
+      "type": "select",
+      "id": "height",
+      "label": "Height",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Content alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Centre" }
+      ],
+      "default": "left"
+    },
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "New arrivals" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Fresh shipments every week" },
+    { "type": "richtext", "id": "copy", "label": "Text", "default": "<p>Hand-selected livestock from trusted farms, conditioned in our facility before it reaches your store.</p>" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "View stocklist" },
+    { "type": "url", "id": "button_link", "label": "Button link", "info": "The button is hidden until you set a link." },
+    { "type": "text", "id": "button2_label", "label": "Second button label" },
+    { "type": "url", "id": "button2_link", "label": "Second button link" }
+  ],
+  "presets": [{ "name": "Banner" }]
+}
+{% endschema %}
