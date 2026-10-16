@@ -1,0 +1,1506 @@
+{%- comment -%}
+  GoFishAqua About Us section
+  File: sections/gofishaqua-about-us.liquid
+  Online Store 2.0 section. Every piece of content and styling is controlled from the Theme Editor.
+  Blocks: Story text, Button, Second image, Image badge, Feature card (add, remove, reorder and hide in the editor).
+  All classes, IDs and custom properties use the "gofishaqua" prefix and are scoped per section instance.
+{%- endcomment -%}
+
+{%- liquid
+  assign ss = section.settings
+  assign gfa_root_id = 'gofishaqua-about-us-' | append: section.id
+
+  assign gfa_has_header = false
+  if ss.show_section_header
+    if ss.section_subtitle != blank or ss.section_heading != blank or ss.section_intro != blank
+      assign gfa_has_header = true
+    endif
+  endif
+
+  if gfa_has_header and ss.section_heading != blank
+    assign gfa_content_tag = 'h3'
+    assign gfa_card_tag = 'h4'
+  else
+    assign gfa_content_tag = 'h2'
+    assign gfa_card_tag = 'h3'
+  endif
+
+  case ss.image_ratio
+    when 'portrait'
+      assign gfa_ratio = '4 / 5'
+    when 'square'
+      assign gfa_ratio = '1 / 1'
+    when 'landscape'
+      assign gfa_ratio = '4 / 3'
+    else
+      if ss.image != blank
+        assign gfa_ratio = ss.image.aspect_ratio
+      else
+        assign gfa_ratio = '4 / 5'
+      endif
+  endcase
+
+  assign gfa_accent_soft = ss.accent_color | color_modify: 'alpha', 0.12
+  assign gfa_accent_ring = ss.accent_color | color_modify: 'alpha', 0.22
+
+  if ss.layout_width == 'full'
+    assign gfa_main_sizes = '(min-width: 990px) 50vw, 100vw'
+    assign gfa_second_sizes = '(min-width: 990px) 22vw, 45vw'
+  else
+    assign gfa_half = ss.max_width | divided_by: 2
+    assign gfa_fifth = ss.max_width | divided_by: 5
+    assign gfa_main_sizes = '(min-width: ' | append: ss.max_width | append: 'px) ' | append: gfa_half | append: 'px, (min-width: 990px) 50vw, 100vw'
+    assign gfa_second_sizes = '(min-width: ' | append: ss.max_width | append: 'px) ' | append: gfa_fifth | append: 'px, (min-width: 990px) 22vw, 45vw'
+  endif
+
+  assign gfa_badge = nil
+  assign gfa_collage = nil
+  assign gfa_feature_count = 0
+  for block in section.blocks
+    if block.type == 'badge' and gfa_badge == nil
+      assign gfa_badge = block
+    endif
+    if block.type == 'collage' and gfa_collage == nil
+      assign gfa_collage = block
+    endif
+    if block.type == 'feature'
+      assign gfa_feature_count = gfa_feature_count | plus: 1
+    endif
+  endfor
+-%}
+
+{%- capture gfa_features -%}
+  {%- if gfa_feature_count > 0 -%}
+    <ul
+      class="gofishaqua-about-us__features gofishaqua-about-us__features--{{ ss.features_position }} gofishaqua-about-us__features--{{ ss.card_style }} gofishaqua-about-us__features--align-{{ ss.card_text_align }}"
+      role="list"
+    >
+      {%- for block in section.blocks -%}
+        {%- if block.type != 'feature' -%}
+          {%- continue -%}
+        {%- endif -%}
+        {%- liquid
+          assign bs = block.settings
+          assign gfa_card_alt = bs.image_alt | default: bs.image.alt
+          assign gfa_is_cover = false
+          if bs.image != blank and bs.media_style == 'cover'
+            assign gfa_is_cover = true
+          endif
+        -%}
+        <li
+          class="gofishaqua-about-us__feature{% if gfa_is_cover %} gofishaqua-about-us__feature--cover{% endif %}"
+          {{ block.shopify_attributes }}
+        >
+          {%- if gfa_is_cover -%}
+            <div class="gofishaqua-about-us__feature-cover">
+              {{
+                bs.image
+                | image_url: width: 900
+                | image_tag:
+                  widths: '300, 450, 600, 900',
+                  sizes: '(min-width: 990px) 30vw, (min-width: 750px) 50vw, 100vw',
+                  loading: 'lazy',
+                  alt: gfa_card_alt,
+                  class: 'gofishaqua-about-us__feature-cover-img'
+              }}
+            </div>
+          {%- elsif bs.image != blank -%}
+            <span class="gofishaqua-about-us__feature-icon gofishaqua-about-us__feature-icon--image">
+              {{
+                bs.image
+                | image_url: width: 160
+                | image_tag:
+                  widths: '56, 112, 160',
+                  sizes: '56px',
+                  loading: 'lazy',
+                  alt: gfa_card_alt,
+                  class: 'gofishaqua-about-us__feature-icon-img'
+              }}
+            </span>
+          {%- elsif bs.icon != 'none' -%}
+            <span class="gofishaqua-about-us__feature-icon" aria-hidden="true">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                {%- case bs.icon -%}
+                  {%- when 'fish' -%}
+                    <path d="M3 12c2.5-4 7.5-6 12-3.5L20 5v14l-5-3.5C10.5 18 5.5 16 3 12Z"/><circle cx="8" cy="11" r="0.9" fill="currentColor" stroke="none"/>
+                  {%- when 'plant' -%}
+                    <path d="M12 21V11"/><path d="M12 11c0-3.5-2.5-6-6-6 0 3.5 2.5 6 6 6Z"/><path d="M12 14c0-3.5 2.5-6 6-6 0 3.5-2.5 6-6 6Z"/><path d="M8 21h8"/>
+                  {%- when 'leaf' -%}
+                    <path d="M5 20c0-9 6-15 15-15 0 9-6 15-15 15Z"/><path d="M5 20 13 12"/>
+                  {%- when 'droplet' -%}
+                    <path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11Z"/>
+                  {%- when 'shield' -%}
+                    <path d="M12 3 4.5 6v6c0 4.4 3.2 8.2 7.5 9 4.3-.8 7.5-4.6 7.5-9V6L12 3Z"/><path d="m9 12 2 2 4-4"/>
+                  {%- when 'heart' -%}
+                    <path d="M12 20s-7.5-4.6-7.5-10.2A4.2 4.2 0 0 1 12 7.3a4.2 4.2 0 0 1 7.5 2.5C19.5 15.4 12 20 12 20Z"/>
+                  {%- when 'truck' -%}
+                    <path d="M3 6.5h11v9.5H3z"/><path d="M14 9.5h4l3 3V16h-7"/><circle cx="7" cy="17.5" r="1.6"/><circle cx="17" cy="17.5" r="1.6"/>
+                  {%- when 'star' -%}
+                    <path d="m12 3.5 2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.8-5.2 2.8 1-5.8-4.3-4.1 5.9-.9L12 3.5Z"/>
+                  {%- when 'award' -%}
+                    <circle cx="12" cy="9" r="5"/><path d="m8.6 13-1.4 8 4.8-2.8 4.8 2.8-1.4-8"/>
+                  {%- when 'community' -%}
+                    <circle cx="9" cy="8.5" r="3"/><path d="M3.5 20c0-3.1 2.5-5.5 5.5-5.5s5.5 2.4 5.5 5.5"/><path d="M15.5 5.6a3 3 0 0 1 0 5.8"/><path d="M17.5 14.8c1.8.7 3 2.6 3 5.2"/>
+                {%- endcase -%}
+              </svg>
+            </span>
+          {%- endif -%}
+
+          <div class="gofishaqua-about-us__feature-body">
+            {%- if bs.title != blank -%}
+              <{{ gfa_card_tag }} class="gofishaqua-about-us__feature-title">{{ bs.title | escape }}</{{ gfa_card_tag }}>
+            {%- endif -%}
+            {%- if bs.text != blank -%}
+              <div class="gofishaqua-about-us__feature-text">{{ bs.text }}</div>
+            {%- endif -%}
+            {%- if bs.link != blank and bs.link_label != blank -%}
+              <a class="gofishaqua-about-us__feature-link" href="{{ bs.link }}">{{ bs.link_label | escape }}</a>
+            {%- endif -%}
+          </div>
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+{%- endcapture -%}
+
+<div
+  id="{{ gfa_root_id }}"
+  class="gofishaqua-about-us gofishaqua-about-us--{{ ss.layout_width }} gofishaqua-about-us--image-{{ ss.image_position }} gofishaqua-about-us--mobile-{{ ss.mobile_order }} gofishaqua-about-us--shape-{{ ss.image_shape }}{% if gfa_collage != nil %} gofishaqua-about-us--has-collage{% endif %}{% unless ss.show_image %} gofishaqua-about-us--no-image{% endunless %}"
+  data-gofishaqua-section="about-us"
+  style="
+    --gofishaqua-about-bg: {{ ss.background_color }};
+    {%- if ss.background_gradient != blank -%}--gofishaqua-about-bg-image: {{ ss.background_gradient }};{%- endif -%}
+    --gofishaqua-about-text: {{ ss.text_color }};
+    --gofishaqua-about-heading: {{ ss.heading_color }};
+    --gofishaqua-about-accent: {{ ss.accent_color }};
+    --gofishaqua-about-accent-soft: {{ gfa_accent_soft }};
+    --gofishaqua-about-accent-ring: {{ gfa_accent_ring }};
+    --gofishaqua-about-card-bg: {{ ss.card_background }};
+    --gofishaqua-about-card-border: {{ ss.card_border_color }};
+    --gofishaqua-about-btn-bg: {{ ss.button_color }};
+    --gofishaqua-about-btn-text: {{ ss.button_text_color }};
+    --gofishaqua-about-radius: {{ ss.border_radius }}px;
+    --gofishaqua-about-btn-radius: {{ ss.button_radius }}px;
+    --gofishaqua-about-max-width: {{ ss.max_width }}px;
+    --gofishaqua-about-gap: {{ ss.column_gap }}px;
+    --gofishaqua-about-cols-d: {{ ss.columns_desktop }};
+    --gofishaqua-about-cols-m: {{ ss.columns_mobile }};
+    --gofishaqua-about-pt-d: {{ ss.padding_top_desktop }}px;
+    --gofishaqua-about-pb-d: {{ ss.padding_bottom_desktop }}px;
+    --gofishaqua-about-pt-m: {{ ss.padding_top_mobile }}px;
+    --gofishaqua-about-pb-m: {{ ss.padding_bottom_mobile }}px;
+    --gofishaqua-about-h-size-d: {{ ss.heading_size_desktop }}px;
+    --gofishaqua-about-h-size-m: {{ ss.heading_size_mobile }}px;
+    --gofishaqua-about-body-size: {{ ss.body_size }}px;
+  "
+>
+  {%- if ss.show_decor -%}
+    <div class="gofishaqua-about-us__decor" aria-hidden="true">
+      <span class="gofishaqua-about-us__ripple gofishaqua-about-us__ripple--1"></span>
+      <span class="gofishaqua-about-us__ripple gofishaqua-about-us__ripple--2"></span>
+      <span class="gofishaqua-about-us__ripple gofishaqua-about-us__ripple--3"></span>
+    </div>
+  {%- endif -%}
+
+  <div class="gofishaqua-about-us__container">
+    {%- if gfa_has_header -%}
+      <header class="gofishaqua-about-us__header gofishaqua-about-us__header--{{ ss.header_alignment }}">
+        {%- if ss.section_subtitle != blank -%}
+          <p class="gofishaqua-about-us__subtitle">{{ ss.section_subtitle | escape }}</p>
+        {%- endif -%}
+        {%- if ss.section_heading != blank -%}
+          <h2 class="gofishaqua-about-us__heading" id="{{ gfa_root_id }}-heading">{{ ss.section_heading }}</h2>
+        {%- endif -%}
+        {%- if ss.section_intro != blank -%}
+          <div class="gofishaqua-about-us__intro">{{ ss.section_intro }}</div>
+        {%- endif -%}
+      </header>
+    {%- endif -%}
+
+    <div class="gofishaqua-about-us__grid">
+      {%- if ss.show_image -%}
+        <div class="gofishaqua-about-us__media">
+          <div class="gofishaqua-about-us__frame gofishaqua-about-us__frame--main" style="--gofishaqua-about-ratio: {{ gfa_ratio }};">
+            {%- if ss.image != blank -%}
+              {%- liquid
+                assign gfa_main_alt = ss.image_alt | default: ss.image.alt
+                assign gfa_main_pos = ss.image.presentation.focal_point | default: '50% 50%'
+                assign gfa_main_style = 'object-position: ' | append: gfa_main_pos | append: ';'
+              -%}
+              {{
+                ss.image
+                | image_url: width: 1600
+                | image_tag:
+                  widths: '375, 550, 750, 1000, 1200, 1600',
+                  sizes: gfa_main_sizes,
+                  loading: 'lazy',
+                  alt: gfa_main_alt,
+                  class: 'gofishaqua-about-us__img',
+                  style: gfa_main_style
+              }}
+            {%- else -%}
+              {{ 'lifestyle-1' | placeholder_svg_tag: 'gofishaqua-about-us__img gofishaqua-about-us__placeholder' }}
+            {%- endif -%}
+
+            {%- if gfa_badge != nil and gfa_badge.settings.badge_number != blank -%}
+              <div
+                class="gofishaqua-about-us__badge gofishaqua-about-us__badge--{{ gfa_badge.settings.badge_position }}"
+                {{ gfa_badge.shopify_attributes }}
+              >
+                <span class="gofishaqua-about-us__badge-number">{{ gfa_badge.settings.badge_number | escape }}</span>
+                {%- if gfa_badge.settings.badge_label != blank -%}
+                  <span class="gofishaqua-about-us__badge-label">{{ gfa_badge.settings.badge_label | escape }}</span>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          </div>
+
+          {%- if gfa_collage != nil -%}
+            {%- assign gfa_second_image = gfa_collage.settings.image -%}
+            <div class="gofishaqua-about-us__frame gofishaqua-about-us__frame--secondary" {{ gfa_collage.shopify_attributes }}>
+              {%- if gfa_second_image != blank -%}
+                {%- liquid
+                  assign gfa_second_alt = gfa_collage.settings.image_alt | default: gfa_second_image.alt
+                  assign gfa_second_pos = gfa_second_image.presentation.focal_point | default: '50% 50%'
+                  assign gfa_second_style = 'object-position: ' | append: gfa_second_pos | append: ';'
+                -%}
+                {{
+                  gfa_second_image
+                  | image_url: width: 900
+                  | image_tag:
+                    widths: '240, 360, 480, 600, 900',
+                    sizes: gfa_second_sizes,
+                    loading: 'lazy',
+                    alt: gfa_second_alt,
+                    class: 'gofishaqua-about-us__img',
+                    style: gfa_second_style
+                }}
+              {%- else -%}
+                {{ 'lifestyle-2' | placeholder_svg_tag: 'gofishaqua-about-us__img gofishaqua-about-us__placeholder' }}
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      <div class="gofishaqua-about-us__content gofishaqua-about-us__content--{{ ss.content_alignment }}">
+        {%- assign gfa_in_actions = false -%}
+        {%- for block in section.blocks -%}
+          {%- assign bs = block.settings -%}
+          {%- case block.type -%}
+            {%- when 'text' -%}
+              <div class="gofishaqua-about-us__story" {{ block.shopify_attributes }}>
+                {%- if bs.eyebrow != blank -%}
+                  <p class="gofishaqua-about-us__subtitle">{{ bs.eyebrow | escape }}</p>
+                {%- endif -%}
+                {%- if bs.heading != blank -%}
+                  <{{ gfa_content_tag }} class="gofishaqua-about-us__title">{{ bs.heading }}</{{ gfa_content_tag }}>
+                {%- endif -%}
+                {%- if bs.text != blank -%}
+                  <div class="gofishaqua-about-us__text">{{ bs.text }}</div>
+                {%- endif -%}
+              </div>
+
+            {%- when 'button' -%}
+              {%- unless gfa_in_actions -%}
+                <div class="gofishaqua-about-us__actions">
+                {%- assign gfa_in_actions = true -%}
+              {%- endunless -%}
+
+              {%- if bs.label != blank -%}
+                {%- if bs.link != blank -%}
+                  <a
+                    href="{{ bs.link }}"
+                    class="gofishaqua-about-us__button gofishaqua-about-us__button--{{ bs.style }}"
+                    {{ block.shopify_attributes }}
+                  >
+                    {{- bs.label | escape -}}
+                  </a>
+                {%- else -%}
+                  <a
+                    role="link"
+                    aria-disabled="true"
+                    class="gofishaqua-about-us__button gofishaqua-about-us__button--{{ bs.style }} gofishaqua-about-us__button--disabled"
+                    {{ block.shopify_attributes }}
+                  >
+                    {{- bs.label | escape -}}
+                  </a>
+                {%- endif -%}
+              {%- endif -%}
+
+              {%- assign gfa_next = section.blocks[forloop.index] -%}
+              {%- if forloop.last or gfa_next.type != 'button' -%}
+                </div>
+                {%- assign gfa_in_actions = false -%}
+              {%- endif -%}
+          {%- endcase -%}
+        {%- endfor -%}
+
+        {%- if ss.features_position == 'beside' -%}
+          {{ gfa_features }}
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- if ss.features_position == 'below' -%}
+      {{ gfa_features }}
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .gofishaqua-about-us {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: var(--gofishaqua-about-bg-image, var(--gofishaqua-about-bg));
+    color: var(--gofishaqua-about-text);
+    padding-top: var(--gofishaqua-about-pt-m);
+    padding-bottom: var(--gofishaqua-about-pb-m);
+  }
+
+  .gofishaqua-about-us *,
+  .gofishaqua-about-us *::before,
+  .gofishaqua-about-us *::after {
+    box-sizing: border-box;
+  }
+
+  .gofishaqua-about-us__container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: var(--gofishaqua-about-max-width);
+    margin: 0 auto;
+    padding: 0 1.25rem;
+  }
+
+  .gofishaqua-about-us--full .gofishaqua-about-us__container {
+    max-width: none;
+  }
+
+  /* Decorative water ripples: static, behind content, never affect layout */
+  .gofishaqua-about-us__decor {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .gofishaqua-about-us__ripple {
+    position: absolute;
+    top: 4%;
+    right: -18%;
+    width: 70vw;
+    max-width: 640px;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    border: 1px solid var(--gofishaqua-about-accent-ring);
+  }
+
+  .gofishaqua-about-us__ripple--2 {
+    transform: scale(0.72);
+  }
+
+  .gofishaqua-about-us__ripple--3 {
+    transform: scale(0.44);
+    border-color: transparent;
+    background-color: var(--gofishaqua-about-accent-soft);
+  }
+
+  .gofishaqua-about-us--image-left .gofishaqua-about-us__ripple {
+    right: auto;
+    left: -18%;
+  }
+
+  /* Section header */
+  .gofishaqua-about-us__header {
+    max-width: 46rem;
+    margin: 0 0 2.5rem;
+  }
+
+  .gofishaqua-about-us__header--center {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+
+  .gofishaqua-about-us__subtitle {
+    margin: 0 0 0.75rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--gofishaqua-about-accent);
+  }
+
+  .gofishaqua-about-us__heading,
+  .gofishaqua-about-us__title {
+    margin: 0;
+    font-family: var(--font-heading-family, inherit);
+    font-weight: var(--font-heading-weight, 700);
+    font-size: var(--gofishaqua-about-h-size-m);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    color: var(--gofishaqua-about-heading);
+    overflow-wrap: break-word;
+    text-wrap: balance;
+  }
+
+  .gofishaqua-about-us__title {
+    font-size: calc(var(--gofishaqua-about-h-size-m) * 0.86);
+  }
+
+  .gofishaqua-about-us__intro,
+  .gofishaqua-about-us__text {
+    font-size: var(--gofishaqua-about-body-size);
+    line-height: 1.7;
+  }
+
+  .gofishaqua-about-us__intro {
+    margin-top: 1rem;
+  }
+
+  .gofishaqua-about-us__text {
+    max-width: 38rem;
+  }
+
+  .gofishaqua-about-us__title + .gofishaqua-about-us__text {
+    margin-top: 1.25rem;
+  }
+
+  .gofishaqua-about-us__intro > *,
+  .gofishaqua-about-us__text > *,
+  .gofishaqua-about-us__feature-text > * {
+    margin: 0 0 1em;
+  }
+
+  .gofishaqua-about-us__intro > *:last-child,
+  .gofishaqua-about-us__text > *:last-child,
+  .gofishaqua-about-us__feature-text > *:last-child {
+    margin-bottom: 0;
+  }
+
+  .gofishaqua-about-us__intro a,
+  .gofishaqua-about-us__text a,
+  .gofishaqua-about-us__feature-text a {
+    color: var(--gofishaqua-about-accent);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  /* Layout grid */
+  .gofishaqua-about-us__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.5rem;
+    align-items: center;
+  }
+
+  .gofishaqua-about-us--mobile-content-first .gofishaqua-about-us__media {
+    order: 2;
+  }
+
+  /* Media */
+  .gofishaqua-about-us__media {
+    position: relative;
+    min-width: 0;
+  }
+
+  .gofishaqua-about-us--has-collage .gofishaqua-about-us__media {
+    padding-right: 16%;
+    padding-bottom: 12%;
+  }
+
+  .gofishaqua-about-us__frame {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--gofishaqua-about-accent-soft);
+  }
+
+  .gofishaqua-about-us__frame--main {
+    aspect-ratio: var(--gofishaqua-about-ratio, 4 / 5);
+    border-radius: var(--gofishaqua-about-radius);
+  }
+
+  .gofishaqua-about-us--shape-arch .gofishaqua-about-us__frame--main {
+    border-radius: 999px 999px var(--gofishaqua-about-radius) var(--gofishaqua-about-radius);
+  }
+
+  .gofishaqua-about-us--shape-pebble .gofishaqua-about-us__frame--main {
+    border-radius: 58% 42% 46% 54% / 44% 52% 48% 56%;
+  }
+
+  .gofishaqua-about-us__frame--secondary {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 44%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    border: 6px solid var(--gofishaqua-about-bg);
+  }
+
+  .gofishaqua-about-us__img,
+  .gofishaqua-about-us__frame svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .gofishaqua-about-us__placeholder {
+    background-color: var(--gofishaqua-about-accent-soft);
+    fill: var(--gofishaqua-about-accent);
+    opacity: 0.6;
+  }
+
+  .gofishaqua-about-us__badge {
+    position: absolute;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    max-width: calc(100% - 2rem);
+    padding: 0.875rem 1.125rem;
+    border-radius: 1rem;
+    background-color: var(--gofishaqua-about-accent);
+    color: var(--gofishaqua-about-bg);
+    line-height: 1.2;
+  }
+
+  .gofishaqua-about-us__badge--bottom-left { left: 1rem; bottom: 1rem; }
+  .gofishaqua-about-us__badge--bottom-right { right: 1rem; bottom: 1rem; }
+  .gofishaqua-about-us__badge--top-left { left: 1rem; top: 1rem; }
+  .gofishaqua-about-us__badge--top-right { right: 1rem; top: 1rem; }
+
+  .gofishaqua-about-us--shape-arch .gofishaqua-about-us__badge--top-left,
+  .gofishaqua-about-us--shape-arch .gofishaqua-about-us__badge--top-right,
+  .gofishaqua-about-us--shape-pebble .gofishaqua-about-us__badge--top-left,
+  .gofishaqua-about-us--shape-pebble .gofishaqua-about-us__badge--top-right {
+    top: 30%;
+  }
+
+  .gofishaqua-about-us__badge-number {
+    font-family: var(--font-heading-family, inherit);
+    font-size: 1.75rem;
+    font-weight: 700;
+  }
+
+  .gofishaqua-about-us__badge-label {
+    font-size: 0.875rem;
+  }
+
+  /* Content column */
+  .gofishaqua-about-us__content {
+    min-width: 0;
+  }
+
+  .gofishaqua-about-us__story + .gofishaqua-about-us__story {
+    margin-top: 2rem;
+  }
+
+  .gofishaqua-about-us__content--center {
+    text-align: center;
+  }
+
+  .gofishaqua-about-us__content--center .gofishaqua-about-us__text {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .gofishaqua-about-us__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+
+  .gofishaqua-about-us__actions:first-child {
+    margin-top: 0;
+  }
+
+  .gofishaqua-about-us__content--center .gofishaqua-about-us__actions {
+    justify-content: center;
+  }
+
+  .gofishaqua-about-us__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3rem;
+    padding: 0.8125rem 1.75rem;
+    border: 2px solid var(--gofishaqua-about-btn-bg);
+    border-radius: var(--gofishaqua-about-btn-radius);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.2;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+  }
+
+  .gofishaqua-about-us__button--solid {
+    background-color: var(--gofishaqua-about-btn-bg);
+    color: var(--gofishaqua-about-btn-text);
+  }
+
+  .gofishaqua-about-us__button--outline {
+    background-color: transparent;
+    color: var(--gofishaqua-about-btn-bg);
+  }
+
+  .gofishaqua-about-us__button:focus-visible,
+  .gofishaqua-about-us__feature-link:focus-visible {
+    outline: 2px solid var(--gofishaqua-about-accent);
+    outline-offset: 3px;
+  }
+
+  .gofishaqua-about-us__button--disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  /* Feature cards */
+  .gofishaqua-about-us__features {
+    list-style: none;
+    margin: 3rem 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(var(--gofishaqua-about-cols-m), minmax(0, 1fr));
+    gap: 1.75rem;
+    text-align: left;
+  }
+
+  .gofishaqua-about-us__features--beside {
+    margin-top: 2rem;
+  }
+
+  .gofishaqua-about-us__feature {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+    min-width: 0;
+    margin: 0;
+  }
+
+  .gofishaqua-about-us__features--plain .gofishaqua-about-us__feature {
+    padding-top: 1.25rem;
+    border-top: 2px solid var(--gofishaqua-about-card-border);
+  }
+
+  .gofishaqua-about-us__features--panel .gofishaqua-about-us__feature {
+    padding: 1.5rem;
+    border: 1px solid var(--gofishaqua-about-card-border);
+    border-radius: var(--gofishaqua-about-radius);
+    background-color: var(--gofishaqua-about-card-bg);
+  }
+
+  .gofishaqua-about-us__features--panel .gofishaqua-about-us__feature--cover {
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .gofishaqua-about-us__features--panel .gofishaqua-about-us__feature--cover .gofishaqua-about-us__feature-body {
+    padding: 0 1.5rem 1.5rem;
+  }
+
+  .gofishaqua-about-us__features--align-center .gofishaqua-about-us__feature {
+    align-items: center;
+    text-align: center;
+  }
+
+  .gofishaqua-about-us__feature-cover {
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    border-radius: calc(var(--gofishaqua-about-radius) * 0.75);
+  }
+
+  .gofishaqua-about-us__features--panel .gofishaqua-about-us__feature-cover {
+    border-radius: 0;
+  }
+
+  .gofishaqua-about-us__feature-cover-img,
+  .gofishaqua-about-us__feature-icon-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .gofishaqua-about-us__feature-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 3.5rem;
+    height: 3.5rem;
+    overflow: hidden;
+    border-radius: 50%;
+    background-color: var(--gofishaqua-about-accent-soft);
+    color: var(--gofishaqua-about-accent);
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  .gofishaqua-about-us__feature-icon svg {
+    width: 1.625rem;
+    height: 1.625rem;
+  }
+
+  .gofishaqua-about-us__feature-body {
+    min-width: 0;
+  }
+
+  .gofishaqua-about-us__feature-title {
+    margin: 0 0 0.375rem;
+    font-family: var(--font-heading-family, inherit);
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--gofishaqua-about-heading);
+  }
+
+  .gofishaqua-about-us__feature-text {
+    font-size: calc(var(--gofishaqua-about-body-size) * 0.94);
+    line-height: 1.6;
+  }
+
+  .gofishaqua-about-us__feature-link {
+    display: inline-block;
+    margin-top: 0.75rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--gofishaqua-about-accent);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.25em;
+  }
+
+  @media (hover: hover) {
+    .gofishaqua-about-us__button--solid:hover {
+      background-color: transparent;
+      color: var(--gofishaqua-about-btn-bg);
+    }
+
+    .gofishaqua-about-us__button--outline:hover {
+      background-color: var(--gofishaqua-about-btn-bg);
+      color: var(--gofishaqua-about-btn-text);
+    }
+
+    .gofishaqua-about-us__feature:hover .gofishaqua-about-us__feature-icon:not(.gofishaqua-about-us__feature-icon--image) {
+      background-color: var(--gofishaqua-about-accent);
+      color: var(--gofishaqua-about-bg);
+    }
+
+    .gofishaqua-about-us__feature-link:hover {
+      text-decoration-thickness: 2px;
+    }
+  }
+
+  /* Tablet */
+  @media screen and (min-width: 750px) {
+    .gofishaqua-about-us__container {
+      padding: 0 2.5rem;
+    }
+
+    .gofishaqua-about-us__features {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .gofishaqua-about-us__ripple {
+      width: 52vw;
+    }
+  }
+
+  /* Desktop */
+  @media screen and (min-width: 990px) {
+    .gofishaqua-about-us {
+      padding-top: var(--gofishaqua-about-pt-d);
+      padding-bottom: var(--gofishaqua-about-pb-d);
+    }
+
+    .gofishaqua-about-us__header {
+      margin-bottom: 3.5rem;
+    }
+
+    .gofishaqua-about-us__heading {
+      font-size: var(--gofishaqua-about-h-size-d);
+    }
+
+    .gofishaqua-about-us__title {
+      font-size: calc(var(--gofishaqua-about-h-size-d) * 0.86);
+    }
+
+    .gofishaqua-about-us__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--gofishaqua-about-gap);
+    }
+
+    .gofishaqua-about-us--no-image .gofishaqua-about-us__grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .gofishaqua-about-us--mobile-content-first .gofishaqua-about-us__media {
+      order: 0;
+    }
+
+    .gofishaqua-about-us--image-right .gofishaqua-about-us__media {
+      order: 2;
+    }
+
+    .gofishaqua-about-us--image-right.gofishaqua-about-us--has-collage .gofishaqua-about-us__media {
+      padding-right: 0;
+      padding-left: 16%;
+    }
+
+    .gofishaqua-about-us--image-right .gofishaqua-about-us__frame--secondary {
+      right: auto;
+      left: 0;
+    }
+
+    .gofishaqua-about-us__features--below {
+      margin-top: 4.5rem;
+      grid-template-columns: repeat(var(--gofishaqua-about-cols-d), minmax(0, 1fr));
+    }
+
+    .gofishaqua-about-us__features--beside {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gofishaqua-about-us *,
+    .gofishaqua-about-us *::before,
+    .gofishaqua-about-us *::after {
+      transition: none !important;
+      animation: none !important;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "GoFishAqua About Us",
+  "tag": "section",
+  "class": "gofishaqua-about-us-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "max_blocks": 16,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section heading"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_section_header",
+      "label": "Show section heading",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "section_subtitle",
+      "label": "Subtitle",
+      "default": "Our story"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "section_heading",
+      "label": "Heading",
+      "default": "Healthy fish, happy tanks"
+    },
+    {
+      "type": "richtext",
+      "id": "section_intro",
+      "label": "Intro text"
+    },
+    {
+      "type": "select",
+      "id": "header_alignment",
+      "label": "Heading alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Centre" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_image",
+      "label": "Show image",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Main image",
+      "info": "Set a focal point on the image in the editor to control cropping."
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Main image alt text",
+      "info": "Describe the image for screen readers. Leave blank to use the alt text saved in Files."
+    },
+    {
+      "type": "select",
+      "id": "image_shape",
+      "label": "Image shape",
+      "options": [
+        { "value": "rounded", "label": "Rounded rectangle" },
+        { "value": "arch", "label": "Arch" },
+        { "value": "pebble", "label": "Pebble" }
+      ],
+      "default": "arch"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Image ratio",
+      "options": [
+        { "value": "portrait", "label": "Portrait (4:5)" },
+        { "value": "square", "label": "Square (1:1)" },
+        { "value": "landscape", "label": "Landscape (4:3)" },
+        { "value": "adapt", "label": "Adapt to image" }
+      ],
+      "default": "portrait"
+    },
+    {
+      "type": "paragraph",
+      "content": "Add a Second image block to create a collage, or an Image badge block to highlight a key fact."
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position on desktop",
+      "options": [
+        { "value": "left", "label": "Image left, text right" },
+        { "value": "right", "label": "Image right, text left" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "mobile_order",
+      "label": "Order on mobile",
+      "options": [
+        { "value": "image-first", "label": "Image first" },
+        { "value": "content-first", "label": "Text first" }
+      ],
+      "default": "image-first"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Story text alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Centre" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "layout_width",
+      "label": "Section width",
+      "options": [
+        { "value": "contained", "label": "Contained" },
+        { "value": "full", "label": "Full width" }
+      ],
+      "default": "contained"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Contained max width",
+      "min": 1000,
+      "max": 1800,
+      "step": 20,
+      "unit": "px",
+      "default": 1280
+    },
+    {
+      "type": "range",
+      "id": "column_gap",
+      "label": "Space between image and text on desktop",
+      "min": 24,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "button_radius",
+      "label": "Button corner radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "checkbox",
+      "id": "show_decor",
+      "label": "Show decorative water ripples",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Feature cards"
+    },
+    {
+      "type": "paragraph",
+      "content": "Add, remove and reorder feature cards using the blocks in the sidebar."
+    },
+    {
+      "type": "select",
+      "id": "features_position",
+      "label": "Card position",
+      "options": [
+        { "value": "below", "label": "Below image and story" },
+        { "value": "beside", "label": "Inside story column" }
+      ],
+      "default": "below"
+    },
+    {
+      "type": "select",
+      "id": "card_style",
+      "label": "Card style",
+      "options": [
+        { "value": "plain", "label": "Plain with top line" },
+        { "value": "panel", "label": "Panel with background" }
+      ],
+      "default": "plain"
+    },
+    {
+      "type": "select",
+      "id": "card_text_align",
+      "label": "Card text alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Centre" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Cards per row on desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "columns_mobile",
+      "label": "Cards per row on mobile",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 1
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "heading_size_desktop",
+      "label": "Heading size on desktop",
+      "min": 24,
+      "max": 72,
+      "step": 2,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "label": "Heading size on mobile",
+      "min": 20,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "body_size",
+      "label": "Body text size",
+      "min": 14,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "default": 17
+    },
+    {
+      "type": "header",
+      "content": "Colours"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#EEF5F2"
+    },
+    {
+      "type": "color_background",
+      "id": "background_gradient",
+      "label": "Background gradient",
+      "info": "Optional. Overrides the background colour when set."
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Headings",
+      "default": "#12383D"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#3D5457"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent",
+      "info": "Used for small headings, icons, links, the badge and ripples.",
+      "default": "#2D6A57"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button",
+      "default": "#12383D"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "info": "Used with the panel card style.",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Card line and border",
+      "default": "#C9DDD6"
+    },
+    {
+      "type": "header",
+      "content": "Section spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "label": "Top padding on desktop",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 104
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "label": "Bottom padding on desktop",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 104
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Top padding on mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Bottom padding on mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Story text",
+      "settings": [
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "label": "Small heading",
+          "default": "About GoFishAqua"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Built by fishkeepers, for fishkeepers"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Tell your brand story here: how you started, what you care about and what customers can expect from you.</p>"
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "Button",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Button text",
+          "default": "Shop the range"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Button link",
+          "default": "/collections/all"
+        },
+        {
+          "type": "select",
+          "id": "style",
+          "label": "Button style",
+          "options": [
+            { "value": "solid", "label": "Solid" },
+            { "value": "outline", "label": "Outline" }
+          ],
+          "default": "solid"
+        }
+      ]
+    },
+    {
+      "type": "collage",
+      "name": "Second image",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Shown as a round inset over the main image."
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Image alt text",
+          "info": "Leave blank to use the alt text saved in Files."
+        }
+      ]
+    },
+    {
+      "type": "badge",
+      "name": "Image badge",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "badge_number",
+          "label": "Highlight",
+          "default": "10+"
+        },
+        {
+          "type": "text",
+          "id": "badge_label",
+          "label": "Label",
+          "default": "Years keeping fish"
+        },
+        {
+          "type": "select",
+          "id": "badge_position",
+          "label": "Position on image",
+          "options": [
+            { "value": "bottom-left", "label": "Bottom left" },
+            { "value": "bottom-right", "label": "Bottom right" },
+            { "value": "top-left", "label": "Top left" },
+            { "value": "top-right", "label": "Top right" }
+          ],
+          "default": "bottom-left"
+        }
+      ]
+    },
+    {
+      "type": "feature",
+      "name": "Feature card",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "none", "label": "None" },
+            { "value": "fish", "label": "Fish" },
+            { "value": "plant", "label": "Aquatic plant" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "droplet", "label": "Water drop" },
+            { "value": "shield", "label": "Health check" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "truck", "label": "Delivery" },
+            { "value": "star", "label": "Star" },
+            { "value": "award", "label": "Award" },
+            { "value": "community", "label": "Community" }
+          ],
+          "default": "fish"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Custom image or icon",
+          "info": "Replaces the built-in icon when added."
+        },
+        {
+          "type": "select",
+          "id": "media_style",
+          "label": "Custom image style",
+          "options": [
+            { "value": "icon", "label": "Small round icon" },
+            { "value": "cover", "label": "Full-width photo" }
+          ],
+          "default": "icon"
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Image alt text"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Feature title"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Description",
+          "default": "<p>Share a short detail about what makes this part of your business special.</p>"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Link text"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "GoFishAqua About Us",
+      "blocks": [
+        {
+          "type": "collage"
+        },
+        {
+          "type": "text",
+          "settings": {
+            "eyebrow": "About GoFishAqua",
+            "heading": "Built by fishkeepers, for fishkeepers",
+            "text": "<p>GoFishAqua started with a single tank and a lot of curiosity. Today we help fishkeepers of every level build balanced, beautiful aquariums with healthy livestock, quality foods and honest advice.</p><p>Every fish we stock is chosen with care and settled in before it heads to its new home, so you can spend less time worrying and more time enjoying your tank.</p>"
+          }
+        },
+        {
+          "type": "button",
+          "settings": {
+            "label": "Shop the range",
+            "link": "/collections/all",
+            "style": "solid"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "fish",
+            "title": "Healthy, hand-picked fish",
+            "text": "<p>Livestock is observed and fed well before it is ready for sale.</p>"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "plant",
+            "title": "Aquascaping know-how",
+            "text": "<p>Plants, substrates and layouts that suit your tank, your fish and your routine.</p>"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "droplet",
+            "title": "Quality foods and care",
+            "text": "<p>Foods and water care products we use and trust in our own aquariums.</p>"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "community",
+            "title": "Advice you can rely on",
+            "text": "<p>Straight answers for beginners and experienced keepers alike, before and after you buy.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
