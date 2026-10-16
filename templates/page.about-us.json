@@ -11,10 +11,28 @@
   "sections": {
     "main": {
       "type": "main-page",
+      "disabled": true,
       "settings": {}
+    },
+    "image_with_text_ckjqxz": {
+      "type": "image-with-text",
+      "name": "Image with text",
+      "settings": {
+        "image": "shopify://shop_images/unnamed_12.webp",
+        "image_position": "left",
+        "image_ratio": "portrait",
+        "eyebrow": "About Go Fish",
+        "heading": "Healthy fish, sourced with care",
+        "copy": "<p>Welcome to the magnificent world of<strong> Go Fish Aquariums</strong>! We are an importer, quarantine and wholesaler of freshwater fish to independent pet/fish retail stores Australia wide. With a history spanning over two decades, we have firmly established ourselves as one of the most trusted names in the pet fish&nbsp;industry, renowned for our uncompromising commitment to delivering the finest quality fish at unparalleled prices. We hold nothing dearer than the health and happiness of our fish, and it is this passion that drives us to utilise our centralised systems and extensive experience to guarantee that our stock is free from any diseases, infections, or harmful bacteria. Such an unwavering dedication to the welfare of our fish has earned us the trust of our stockists.<br/><br/>We only serve retail aquarium stores. Ensures that you receive high-quality fish. The Pigeon Checkerboard Discus thrives in a well-maintained tank. It reaches its full potential with the right tankmates. These include the graceful <a href=\"https://gofishaquariums.com.au/products/red-red-white-calico-copy\">Red Fantail</a>. These two species combine to create a balanced aquatic display.<br/><br/>Invest in the <a href=\"https://gofishaquariums.com.au/products/pigeon-checkerboard\">Pigeon Checkerboard Discus </a>to improve the appearance of your aquarium. With our skilled help and wide range of choices. Your store will attract clients who are looking for the best. Visit <a href=\"https://gofishaquariums.com.au/pages/contact\">Go Fish Aquariums</a>today. Explore our fantastic fish selection. It includes the lovely Red Fantail. They can provide an exciting aquatic experience.<br/><br/></p>",
+        "button_label": "Learn more",
+        "button_link": "",
+        "button_style": "primary",
+        "background": "paper"
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "image_with_text_ckjqxz"
   ]
 }
