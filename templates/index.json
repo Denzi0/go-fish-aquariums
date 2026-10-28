@@ -299,7 +299,7 @@
       "name": "Stats strip",
       "settings": {
         "heading": "Go Fish at a glance",
-        "style": "dark"
+        "style": "light"
       }
     }
   },

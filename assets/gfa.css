@@ -2072,14 +2072,23 @@ a.gfa-pager__step:hover { border-color: var(--ink); background: var(--wash); }
 /* ==========================================================================
    Art direction layer — bold.
    Expanded heavy display type, oversized numerals, square edges, flat colour
-   blocks instead of shadows, and one bright accent (--glow) that only ever
-   appears on dark water. Kept last so it reads as one decision; its own
-   breakpoints follow at the end.
+   blocks instead of shadows. One palette everywhere: navy ink, a single teal
+   for every action, warm sand for quiet backgrounds, white. --glow is a soft
+   aqua kept for small labels on dark only. Kept last so it reads as one
+   decision; its own breakpoints follow at the end.
    ========================================================================== */
 :root {
-  --glow: #5ee6d8;
-  --glow-soft: rgba(94, 230, 216, 0.16);
-  --r-chip: 0px;
+  --current: #0f7c8a;
+  --current-dk: #0a5d68;
+  --current-pale: #e0efee;
+  --wash: #f6f3ee;
+  --wash-2: #ece6dc;
+  --line: #e4ddd1;
+  --line-strong: #c8bfb0;
+  --muted: #5d6b6f;
+  --muted-2: #858f92;
+  --glow: #9adfe0;
+  --r-chip: 8px;
   --r-field: 10px;   /* buttons, fields, small panels: softly rounded */
   --r-card: 2px;     /* big blocks (tiles, hero, frames) stay square */
   --r-friendly: 18px;
@@ -2114,34 +2123,64 @@ h3 { font-weight: 700; letter-spacing: -0.02em; }
 }
 .gfa-eyebrow::before { content: ""; width: 28px; height: 2px; background: currentColor; flex: none; }
 .gfa-hero__eyebrow { color: var(--glow); }
-.gfa-hero__eyebrow::before { width: 28px; height: 2px; background: var(--glow); }
+.gfa-hero__eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--glow); }
 .gfa-band--dark .gfa-eyebrow { color: var(--glow); }
 
 /* --- Buttons --------------------------------------------------------------- */
+/* Water fill: on hover a slowly turning, softly rounded square rises from
+   below the button like water filling a tank. Two layers (a pale crest and
+   the body of water) give the ripple. --fill sets the water colour and
+   --fill-text the label colour once it is submerged. */
 .gfa-btn {
+  --fill: var(--abyss);
+  --fill-text: #fff;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
   min-height: 52px;
   padding: 0 28px;
   font-weight: 700;
   letter-spacing: -0.005em;
-  transition: background-color 0.16s var(--ease), border-color 0.16s var(--ease), color 0.16s var(--ease), transform 0.16s var(--ease);
+  transition: color 0.35s var(--ease), border-color 0.35s var(--ease), transform 0.16s var(--ease);
 }
-.gfa-btn:hover { transform: translateY(-1px); }
+.gfa-btn::before,
+.gfa-btn::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 50%;
+  top: 100%;
+  width: max(300%, 320px);
+  aspect-ratio: 1;
+  background: var(--fill);
+  transform: translateX(-50%) rotate(0deg);
+  transition: top 0.75s cubic-bezier(0.3, 0.6, 0.3, 1);
+  pointer-events: none;
+}
+.gfa-btn::before { border-radius: 38%; opacity: 0.45; }
+.gfa-btn::after { border-radius: 42%; transition-delay: 0.06s; }
+.gfa-btn:hover,
+.gfa-btn:focus-visible { color: var(--fill-text); transform: translateY(-1px); }
+.gfa-btn:hover::before,
+.gfa-btn:focus-visible::before { top: -275%; animation: gfa-ripple 3.2s linear infinite reverse; }
+.gfa-btn:hover::after,
+.gfa-btn:focus-visible::after { top: -260%; animation: gfa-ripple 2.6s linear infinite; }
+.gfa-btn[disabled]::before, .gfa-btn[disabled]::after { display: none; }
+@keyframes gfa-ripple { to { transform: translateX(-50%) rotate(360deg); } }
+
 .gfa-btn--sm { min-height: 40px; padding: 0 16px; border-radius: 8px; }
-.gfa-btn--outline { border-width: 2px; border-color: var(--ink); }
-.gfa-btn--outline:hover { background: var(--ink); color: #fff; }
-.gfa-btn--onDark { border-width: 2px; border-color: rgba(255, 255, 255, 0.6); }
-.gfa-btn--onDark:hover { background: #fff; color: var(--abyss); border-color: #fff; }
-/* On dark water the primary action switches to the bright accent. */
+.gfa-btn--primary, .gfa-btn--primary:hover { background: var(--current); color: #fff; }
+.gfa-btn--dark, .gfa-btn--dark:hover { background: var(--abyss); color: #fff; --fill: var(--current); }
+.gfa-btn--outline, .gfa-btn--outline:hover { background: transparent; border-width: 2px; border-color: var(--current); color: var(--current-dk); --fill: var(--current); }
+.gfa-btn--onDark, .gfa-btn--onDark:hover { background: transparent; border-width: 2px; border-color: rgba(255, 255, 255, 0.7); color: #fff; --fill: #fff; --fill-text: var(--abyss); }
+/* On dark water the teal button fills with white. */
 .gfa-hero .gfa-btn--primary,
 .gfa-banner .gfa-btn--primary,
 .gfa-band--dark .gfa-btn--primary,
 .gfa-colhero--image .gfa-btn--primary,
-.gfa-footer .gfa-btn--primary { background: var(--glow); color: var(--abyss); }
-.gfa-hero .gfa-btn--primary:hover,
-.gfa-banner .gfa-btn--primary:hover,
-.gfa-band--dark .gfa-btn--primary:hover,
-.gfa-colhero--image .gfa-btn--primary:hover,
-.gfa-footer .gfa-btn--primary:hover { background: #fff; color: var(--abyss); }
+.gfa-footer .gfa-btn--primary { --fill: #fff; --fill-text: var(--current-dk); }
+/* The header action matches every other primary button. */
+.gfa-header .gfa-btn--dark, .gfa-mobilenav .gfa-btn--dark { background: var(--current); --fill: var(--abyss); }
 .gfa-link { border-bottom-width: 2px; }
 
 /* --- Section heads: big headline left, supporting line right --------------- */
@@ -2190,7 +2229,7 @@ h3 { font-weight: 700; letter-spacing: -0.02em; }
   font-stretch: 112%;
   letter-spacing: -0.04em;
   line-height: 1;
-  color: var(--glow);
+  color: #fff;
   margin-bottom: 6px;
 }
 .gfa-hero__proof div span { font-size: 0.875rem; }
@@ -2206,8 +2245,11 @@ h3 { font-weight: 700; letter-spacing: -0.02em; }
   line-height: 0.9;
 }
 .gfa-stats__item dt { font-size: 0.9375rem; font-weight: 500; margin-top: var(--sp-2); }
+.gfa-stats { background: var(--wash); border-bottom: 0; }
+.gfa-stats__item { border-left-color: var(--line); }
+.gfa-stats__item dd { color: var(--current); }
 .gfa-stats--dark { background: var(--abyss); border-top: 1px solid rgba(255, 255, 255, 0.12); }
-.gfa-stats--dark .gfa-stats__item dd { color: var(--glow); }
+.gfa-stats--dark .gfa-stats__item dd { color: #fff; }
 
 /* --- Category tiles -------------------------------------------------------- */
 .gfa-cats { gap: var(--sp-3); }
@@ -2216,7 +2258,7 @@ h3 { font-weight: 700; letter-spacing: -0.02em; }
 .gfa-cat__body { padding: var(--sp-5) 64px var(--sp-5) var(--sp-5); }
 .gfa-cat__body strong { font-family: var(--f-display); font-size: clamp(1.125rem, 0.95rem + 0.5vw, 1.5rem); overflow-wrap: anywhere; font-weight: 800; font-stretch: 112%; letter-spacing: -0.03em; line-height: 1; }
 .gfa-cat__arrow { width: 40px; height: 40px; border-radius: var(--r-field); right: var(--sp-5); bottom: var(--sp-5); }
-.gfa-cat:hover .gfa-cat__arrow { background: var(--glow); color: var(--abyss); }
+.gfa-cat:hover .gfa-cat__arrow { background: var(--current); color: #fff; }
 
 /* --- Product cards: the friendly part of the system ------------------------
    Rounded, photo inset on its own rounded corners, pill badges, specs in a
@@ -2257,7 +2299,7 @@ h3 { font-weight: 700; letter-spacing: -0.02em; }
   padding: 10px 12px;
   border: 0;
   border-radius: 12px;
-  background: var(--current-pale);
+  background: var(--wash);
   color: var(--current-dk);
   font-weight: 500;
 }
@@ -2268,10 +2310,13 @@ h3 { font-weight: 700; letter-spacing: -0.02em; }
 .gfa-card__foot { padding: 14px 0 0; }
 .gfa-card__foot .gfa-btn { min-height: 44px; border-radius: 12px; }
 /* Card actions are always filled teal, never a white outline. */
-.gfa-card__foot .gfa-btn--outline { background: var(--current); border: 0; color: #fff; }
-.gfa-card__foot .gfa-btn--outline:hover { background: var(--current-dk); color: #fff; }
+.gfa-card__foot .gfa-btn--outline,
+.gfa-card__foot .gfa-btn--outline:hover { background: var(--current); border: 0; color: #fff; --fill: var(--abyss); --fill-text: #fff; }
 .gfa-qty { border-radius: 12px; }
 .gfa-card--out:hover { transform: none; }
+/* Sold-out cards dim the photo only, so buttons stay one colour across the grid. */
+.gfa-card--out { opacity: 1; }
+.gfa-card--out .gfa-card__media { opacity: 0.8; }
 /* Dense list view keeps its flat rows. */
 .gfa-grid[data-view="list"] .gfa-card:hover { transform: none; box-shadow: none; }
 .gfa-grid[data-view="list"] .gfa-spec { padding: 0; background: none; border-radius: 0; }
@@ -2315,7 +2360,7 @@ h3 { font-weight: 700; letter-spacing: -0.02em; }
 }
 .gfa-steps__item h3 { font-size: 1.375rem; }
 .gfa-band--dark .gfa-steps__item { border-top-color: rgba(255, 255, 255, 0.5); background: transparent; }
-.gfa-band--dark .gfa-steps__num { background: none; color: var(--glow); }
+.gfa-band--dark .gfa-steps__num { background: none; color: #fff; }
 
 /* --- Reasons --------------------------------------------------------------- */
 .gfa-reasons { gap: 0; }
@@ -2351,8 +2396,13 @@ h3 { font-weight: 700; letter-spacing: -0.02em; }
   font-weight: 800;
   font-stretch: 112%;
   letter-spacing: -0.04em;
-  color: var(--glow);
+  color: #fff;
 }
+.gfa-band--dark:has(> .gfa-cta) { background: var(--current); }
+.gfa-band--dark:has(> .gfa-cta) .gfa-cta p { color: rgba(255, 255, 255, 0.86); }
+.gfa-band--dark:has(> .gfa-cta) .gfa-checklist { border-top-color: rgba(255, 255, 255, 0.6); }
+.gfa-band--dark:has(> .gfa-cta) .gfa-checklist li { border-bottom-color: rgba(255, 255, 255, 0.22); color: #fff; }
+.gfa-band--dark:has(> .gfa-cta) .gfa-btn--primary { background: #fff; color: var(--current-dk); --fill: var(--abyss); --fill-text: #fff; }
 
 /* --- Collection hero ------------------------------------------------------- */
 .gfa-colhero h1 { font-size: clamp(2.75rem, 1.6rem + 4.6vw, 5.5rem); }
@@ -2445,6 +2495,7 @@ h3 { font-weight: 700; letter-spacing: -0.02em; }
 
 @media (prefers-reduced-motion: reduce) {
   .gfa-btn:hover, .gfa-card:hover { transform: none; }
+  .gfa-btn::before, .gfa-btn::after { transition: none; animation: none !important; }
 }
 
 /* Plain content pages keep a large but not poster-sized title. */
