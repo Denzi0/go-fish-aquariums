@@ -100,7 +100,12 @@
     "view_grid": "Grid view",
     "view_list": "List view",
     "view_range": "View range",
-    "no_products": "No products here yet."
+    "no_products": "No products here yet.",
+    "read_more": "Read more",
+    "about": "About {{ title }}",
+    "clear_all": "Clear all",
+    "remove_filter": "Remove filter: {{ label }}",
+    "show_results": "Show {{ count }} products"
   },
   "cart": {
     "title": "Your order",

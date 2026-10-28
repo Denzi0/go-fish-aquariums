@@ -108,6 +108,47 @@
     filterForm.addEventListener('change', function () { filterForm.submit(); });
   }
 
+  /* Sort sits outside the filter form; carry it through so filters keep the sort. */
+  var sortSelect = $('[data-sort-select]');
+  if (sortSelect) {
+    sortSelect.addEventListener('change', function () {
+      var mirror = filterForm && $('[data-sort-mirror]', filterForm);
+      if (mirror) {
+        mirror.value = sortSelect.value;
+        filterForm.submit();
+      } else {
+        var url = new URL(window.location.href);
+        url.searchParams.set('sort_by', sortSelect.value);
+        url.searchParams.delete('page');
+        window.location.href = url.toString();
+      }
+    });
+  }
+
+  /* Phones: filters open as a drawer from the toolbar button. */
+  var filtersPanel = $('[data-filters]');
+  if (filtersPanel) {
+    var filterButtons = $$('[data-filters-toggle]');
+    var setFilters = function (open) {
+      filtersPanel.classList.toggle('is-open', open);
+      document.documentElement.classList.toggle('gfa-lock', open);
+      filterButtons.forEach(function (b) {
+        if (b.hasAttribute('aria-expanded')) b.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    };
+    filterButtons.forEach(function (b) {
+      b.addEventListener('click', function () { setFilters(!filtersPanel.classList.contains('is-open')); });
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && filtersPanel.classList.contains('is-open')) setFilters(false);
+    });
+    document.addEventListener('click', function (e) {
+      if (!filtersPanel.classList.contains('is-open')) return;
+      if (filtersPanel.contains(e.target) || e.target.closest('[data-filters-toggle]')) return;
+      setFilters(false);
+    });
+  }
+
   /* --- Dropdown menus ------------------------------------------------------ */
   function closeMenus(except) {
     $$('[data-menu-btn]').forEach(function (btn) {
