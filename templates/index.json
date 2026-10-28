@@ -153,6 +153,61 @@
         "background": "paper"
       }
     },
+    "process_steps_RbLrzR": {
+      "type": "process-steps",
+      "blocks": {
+        "step_eER7k9": {
+          "type": "step",
+          "settings": {
+            "title": "Sourced",
+            "text": "From vetted farms and suppliers in Thailand, Indonesia, Malaysia, Sri Lanka and China."
+          }
+        },
+        "step_YUHtjB": {
+          "type": "step",
+          "settings": {
+            "title": "Quarantined",
+            "text": "Every shipment is held and checked before it goes on the list."
+          }
+        },
+        "step_GVb4TF": {
+          "type": "step",
+          "settings": {
+            "title": "Delivered",
+            "text": "Supplied to independent stores weekly to monthly, depending on what you need."
+          }
+        }
+      },
+      "block_order": [
+        "step_eER7k9",
+        "step_YUHtjB",
+        "step_GVb4TF"
+      ],
+      "name": "Process steps",
+      "settings": {
+        "eyebrow": "How we work",
+        "heading": "From the farm to your store",
+        "subheading": "",
+        "link_label": "",
+        "link_url": "",
+        "background": "wash"
+      }
+    },
+    "stockists_teaser_684bCC": {
+      "type": "stockists-teaser",
+      "name": "Stockists (short)",
+      "settings": {
+        "stockists_page": "",
+        "eyebrow": "Stockists",
+        "heading": "Find Go Fish near you",
+        "copy": "Go Fish fish are sold through 37 independent aquarium and pet stores across Australia.",
+        "placeholder": "Suburb, postcode or store name",
+        "button_label": "Find a store",
+        "states": "NSW, VIC, QLD, SA, TAS",
+        "all_label": "View all stockists",
+        "background": "paper"
+      }
+    },
     "wholesale_cta_6wCgxH": {
       "type": "wholesale-cta",
       "blocks": {
@@ -160,7 +215,7 @@
           "type": "item",
           "settings": {
             "value": "ABN",
-            "text": "Registered Australian business"
+            "text": "Registered Australian business or NZ equivalent"
           }
         },
         "item_Gawf7M": {
@@ -195,339 +250,64 @@
       "settings": {
         "heading": "Open a trade account",
         "copy": "Pricing and stock counts are visible to approved trade customers only. Send through your ABN and we will usually have you set up within one business day.",
-        "cta_label": "Apply for B2B pricing",
+        "cta_label": "Apply for an account",
         "cta_url": "",
-        "cta2_label": "Contact us",
-        "cta2_url": "/pages/contact"
+        "cta2_label": "Talk to a rep",
+        "cta2_url": ""
       }
     },
-    "stats_home": {
+    "stats_strip_gMLrNd": {
       "type": "stats-strip",
       "blocks": {
-        "stat_years": {
+        "stat_PeNwGf": {
           "type": "stat",
           "settings": {
             "value": "20+",
-            "label": "Years supplying Australian stores"
+            "label": "Years in the trade"
           }
         },
-        "stat_ship": {
+        "stat_PeEiBa": {
           "type": "stat",
           "settings": {
             "value": "3",
             "label": "Overseas shipments a month"
           }
         },
-        "stat_countries": {
+        "stat_Ekk9Cc": {
           "type": "stat",
           "settings": {
             "value": "5",
             "label": "Source countries"
           }
         },
-        "stat_stockists": {
+        "stat_T68niP": {
           "type": "stat",
           "settings": {
-            "value": "37",
-            "label": "Independent stockists"
+            "value": "7 days",
+            "label": "Open 10am to 4pm"
           }
         }
       },
       "block_order": [
-        "stat_years",
-        "stat_ship",
-        "stat_countries",
-        "stat_stockists"
+        "stat_PeNwGf",
+        "stat_PeEiBa",
+        "stat_Ekk9Cc",
+        "stat_T68niP"
       ],
+      "name": "Stats strip",
       "settings": {
         "heading": "Go Fish at a glance",
         "style": "light"
-      }
-    },
-    "about_home": {
-      "type": "image-with-text",
-      "settings": {
-        "image": "shopify://shop_images/unnamed_12.webp",
-        "image_position": "right",
-        "image_ratio": "landscape",
-        "eyebrow": "About Go Fish",
-        "heading": "Healthy freshwater fish for independent stores",
-        "copy": "<p>Go Fish Aquariums is an importer, quarantine and wholesaler of freshwater fish, supplying independent pet and fish retail stores Australia wide. For more than two decades, stockists have relied on us for healthy fish at fair prices.</p><p>Every shipment goes through our centralised systems before it is offered, so the fish that reach your tanks are settled, healthy and ready to sell.</p>",
-        "button_label": "Our story",
-        "button_link": "/pages/about-us",
-        "button_style": "primary",
-        "background": "paper"
-      }
-    },
-    "process_home": {
-      "type": "process-steps",
-      "blocks": {
-        "step_source": {
-          "type": "step",
-          "settings": {
-            "title": "Sourced",
-            "text": "From vetted farms and suppliers in Thailand, Indonesia, Malaysia, Sri Lanka and China. Some partnerships go back decades."
-          }
-        },
-        "step_quarantine": {
-          "type": "step",
-          "settings": {
-            "title": "Quarantined",
-            "text": "Around three shipments land each month. Every one is held and health-checked before it goes on the list."
-          }
-        },
-        "step_list": {
-          "type": "step",
-          "settings": {
-            "title": "Listed",
-            "text": "Settled stock goes on the stock list with sizes and availability, so you can plan your order."
-          }
-        },
-        "step_deliver": {
-          "type": "step",
-          "settings": {
-            "title": "Delivered",
-            "text": "Supplied to your store anywhere from weekly to monthly, more often when you need it."
-          }
-        }
-      },
-      "block_order": [
-        "step_source",
-        "step_quarantine",
-        "step_list",
-        "step_deliver"
-      ],
-      "settings": {
-        "eyebrow": "How we work",
-        "heading": "From the farm to your store",
-        "subheading": "Importing, quarantine and wholesale under one roof.",
-        "link_label": "",
-        "link_url": "",
-        "background": "dark"
-      }
-    },
-    "why_home": {
-      "type": "why-choose",
-      "blocks": {
-        "reason_retail": {
-          "type": "reason",
-          "settings": {
-            "title": "Retail stores only",
-            "text": "We supply independent aquarium and pet stores, never the public, so we never compete with our stockists."
-          }
-        },
-        "reason_health": {
-          "type": "reason",
-          "settings": {
-            "title": "Quarantined before sale",
-            "text": "Stock is held and checked before it is offered, to keep disease and harmful bacteria out of your tanks."
-          }
-        },
-        "reason_suppliers": {
-          "type": "reason",
-          "settings": {
-            "title": "Long-standing suppliers",
-            "text": "Vetted farm partners, some for decades, keep quality consistent from one shipment to the next."
-          }
-        },
-        "reason_source": {
-          "type": "reason",
-          "settings": {
-            "title": "We will find it for you",
-            "text": "Not on the list? Tell us what you are after and we will do our best to source it."
-          }
-        }
-      },
-      "block_order": [
-        "reason_retail",
-        "reason_health",
-        "reason_suppliers",
-        "reason_source"
-      ],
-      "settings": {
-        "heading": "Why stores choose Go Fish",
-        "subheading": ""
-      }
-    },
-    "faq_home": {
-      "type": "faq",
-      "blocks": {
-        "q_where": {
-          "type": "question",
-          "settings": {
-            "question": "Where does Go Fish come from?",
-            "answer": "<p>Go Fish sources fish from reputable farms and suppliers in Thailand, Indonesia, Malaysia, Sri Lanka and China. Every supplier is vetted for quality and fish health, and some partnerships go back decades.</p>"
-          }
-        },
-        "q_direct": {
-          "type": "question",
-          "settings": {
-            "question": "Does Go Fish supply direct to the public?",
-            "answer": "<p>No. We only supply independent aquarium and pet stores. Ask your local store to contact us and we will do our best to source the fish for them.</p>"
-          }
-        },
-        "q_often": {
-          "type": "question",
-          "settings": {
-            "question": "How often does Go Fish supply its stockists?",
-            "answer": "<p>Typically anywhere from once a week to once a month. If more fish are needed, the frequency increases accordingly.</p>"
-          }
-        },
-        "q_shipments": {
-          "type": "question",
-          "settings": {
-            "question": "How often do new shipments arrive?",
-            "answer": "<p>On average we receive three shipments a month from overseas suppliers to keep stock levels up for our retailers.</p>"
-          }
-        },
-        "q_account": {
-          "type": "question",
-          "settings": {
-            "question": "How do I open a trade account?",
-            "answer": "<p>Fill in the B2B application with your business details and ABN. We review every application by hand and email you an invite once it is approved. Your wholesale pricing appears as soon as you sign in.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "q_where",
-        "q_direct",
-        "q_often",
-        "q_shipments",
-        "q_account"
-      ],
-      "settings": {
-        "eyebrow": "Questions",
-        "heading": "Good to know",
-        "subheading": "How Go Fish works and how to get our fish into your store.",
-        "button_label": "All FAQs",
-        "button_link": "/pages/faqs",
-        "background": "paper",
-        "open_first": true,
-        "schema_markup": false
-      }
-    },
-    "blog_home": {
-      "type": "featured-articles",
-      "settings": {
-        "blog": "",
-        "eyebrow": "Education Center",
-        "heading": "Care guides and species spotlights",
-        "subheading": "",
-        "count": 3,
-        "show_excerpt": true,
-        "link_label": "All articles",
-        "background": "wash"
-      }
-    },
-    "stockists_home": {
-      "type": "stockists-teaser",
-      "blocks": {
-        "store_1": {
-          "type": "store",
-          "settings": {
-            "name": "Concord Pets",
-            "logo": "shopify://shop_images/concord-pets-logo.png",
-            "logo_background": "light",
-            "link": "https://www.concordpets.com.au/"
-          }
-        },
-        "store_2": {
-          "type": "store",
-          "settings": {
-            "name": "Aqua Zoo",
-            "logo": "shopify://shop_images/AZ-Logo-White.png",
-            "logo_background": "dark",
-            "link": "https://www.aquazoo.net.au/"
-          }
-        },
-        "store_3": {
-          "type": "store",
-          "settings": {
-            "name": "Hurstville Aquarium",
-            "logo": "shopify://shop_images/logo_hurstville_aquarium_500x-removebg-preview.png",
-            "logo_background": "light",
-            "link": "https://hurstvilleaquarium.com.au/"
-          }
-        },
-        "store_4": {
-          "type": "store",
-          "settings": {
-            "name": "Signature Aquariums",
-            "logo": "shopify://shop_images/SA-white-logotype.png",
-            "logo_background": "dark",
-            "link": "https://signatureaquariums.com.au/"
-          }
-        },
-        "store_5": {
-          "type": "store",
-          "settings": {
-            "name": "Kings Of The Aquarium",
-            "logo": "shopify://shop_images/kings-aqurium-logo.jpg",
-            "logo_background": "light",
-            "link": "https://www.kingsoftheaquarium.com.au/"
-          }
-        },
-        "store_6": {
-          "type": "store",
-          "settings": {
-            "name": "The Tech Den",
-            "logo": "shopify://shop_images/The_Tech_Den_logo_final_800px_800x_1600x_5bfc0b08-774e-4bfd-b8c3-0fa351773c08.png",
-            "logo_background": "dark",
-            "link": "https://www.thetechden.com.au/"
-          }
-        },
-        "store_7": {
-          "type": "store",
-          "settings": {
-            "name": "Aqua Pet",
-            "logo": "shopify://shop_images/aqua-pet.png",
-            "logo_background": "light",
-            "link": "https://aquapet.com.au/"
-          }
-        },
-        "store_8": {
-          "type": "store",
-          "settings": {
-            "name": "Kellyville Pets",
-            "logo": "shopify://shop_images/Kellyville-Pets_200x80_123x49_0bc09368-a853-4611-b9be-0fd6d994f7f1.png",
-            "logo_background": "light",
-            "link": "https://www.kellyvillepets.com.au"
-          }
-        }
-      },
-      "block_order": [
-        "store_1",
-        "store_2",
-        "store_3",
-        "store_4",
-        "store_5",
-        "store_6",
-        "store_7",
-        "store_8"
-      ],
-      "settings": {
-        "eyebrow": "Stockists",
-        "heading": "Find Go Fish near you",
-        "copy": "Go Fish fish are sold through 37 independent aquarium and pet stores across NSW, VIC, QLD, SA and TAS. Search for your nearest store.",
-        "placeholder": "Suburb, postcode or store name",
-        "button_label": "Find a store",
-        "states": "NSW, VIC, QLD, SA, TAS",
-        "all_label": "View all stockists",
-        "background": "paper"
       }
     }
   },
   "order": [
     "hero_stocklist_Einh4H",
-    "stats_home",
+    "stats_strip_gMLrNd",
     "category_grid_pmbQHC",
-    "about_home",
     "featured_fish_TxRyYf",
-    "process_home",
-    "why_home",
-    "stockists_home",
-    "faq_home",
-    "blog_home",
+    "process_steps_RbLrzR",
+    "stockists_teaser_684bCC",
     "wholesale_cta_6wCgxH"
   ]
 }
