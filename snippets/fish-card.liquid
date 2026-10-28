@@ -165,8 +165,7 @@
     {%- endif -%}
   {%- else -%}
     <p class="gfa-card__gate">
-      <a href="{{ routes.account_login_url }}">{{ 'customer.log_in' | t }}</a>
-      {{ 'products.gate_suffix' | t }}
+      <a href="{{ settings.b2b_page.url | default: '/pages/b2b-application' }}">{{ 'products.gate_register' | t }}</a>
     </p>
   {%- endif -%}
 
@@ -214,8 +213,8 @@
         </button>
       </form>
     {%- elsif show_price == false -%}
-      <a class="gfa-btn gfa-btn--outline gfa-btn--sm gfa-btn--block" href="{{ routes.account_login_url }}">
-        {{ 'customer.log_in' | t }}
+      <a class="gfa-btn gfa-btn--outline gfa-btn--sm gfa-btn--block" href="{{ product.url }}#enquire">
+        {{ 'products.contact_us' | t }}
       </a>
     {%- else -%}
       <a class="gfa-btn gfa-btn--outline gfa-btn--sm gfa-btn--block" href="{{ product.url }}">

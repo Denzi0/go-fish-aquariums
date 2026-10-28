@@ -27,7 +27,7 @@
     <hr style="border:0;border-top:1px solid var(--line);margin:24px 0">
     <h2 style="font-size:1rem">{{ 'customer.no_account' | t }}</h2>
     <p class="gfa-note" style="margin:8px 0 14px">{{ 'customer.apply_note' | t }}</p>
-    <a class="gfa-btn gfa-btn--outline gfa-btn--block" href="{{ routes.account_register_url }}">{{ 'customer.apply' | t }}</a>
+    <a class="gfa-btn gfa-btn--outline gfa-btn--block" href="{{ settings.b2b_page.url | default: '/pages/b2b-application' }}">{{ 'customer.apply_b2b' | t }}</a>
   </div>
 </div>
 {% schema %}

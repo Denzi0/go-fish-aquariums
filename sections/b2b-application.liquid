@@ -1,0 +1,194 @@
+{%- comment -%}
+  b2b-application.liquid — B2B / trade account application.
+
+  Submits through Shopify's contact form: the application is emailed to the
+  store's sender address and nothing is unlocked automatically. To approve,
+  create the customer (or open the existing one), add the trade tag from
+  Theme settings → Trade access, and send the account invite.
+{%- endcomment -%}
+{%- assign form_id = 'B2BApplication-' | append: section.id -%}
+<section class="gfa-band{% if section.settings.background == 'wash' %} gfa-band--wash{% endif %}">
+  <div class="gfa-shell gfa-apply">
+    <header class="gfa-apply__head">
+      {%- if section.settings.eyebrow != blank -%}<p class="gfa-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h1>{{ section.settings.heading }}</h1>
+      {%- if section.settings.intro != blank -%}<div class="gfa-lede">{{ section.settings.intro }}</div>{%- endif -%}
+
+      {%- if section.blocks.size > 0 -%}
+        <ol class="gfa-apply__steps">
+          {%- for block in section.blocks -%}
+            <li {{ block.shopify_attributes }}>
+              <strong>{{ block.settings.title }}</strong>
+              {%- if block.settings.text != blank -%}<span>{{ block.settings.text }}</span>{%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ol>
+      {%- endif -%}
+    </header>
+
+    <div class="gfa-panel gfa-apply__panel">
+      {%- form 'contact', id: form_id, class: 'gfa-apply__form' -%}
+        {%- if form.posted_successfully? -%}
+          <div class="gfa-enquiry__done" role="status" tabindex="-1" data-enquiry-done>
+            {% render 'icon', name: 'check' %}
+            <div>
+              <strong>{{ section.settings.success_heading }}</strong>
+              <p>{{ section.settings.success_text }}</p>
+              <a class="gfa-btn gfa-btn--outline" href="{{ routes.all_products_collection_url }}">{{ 'general.browse_stock' | t }}</a>
+            </div>
+          </div>
+        {%- else -%}
+          {%- if form.errors -%}
+            <div class="gfa-errors" role="alert">
+              {{ 'customer.check_fields' | t }}
+              <ul>{% for field in form.errors %}<li>{{ form.errors.translated_fields[field] | capitalize }} {{ form.errors.messages[field] }}</li>{% endfor %}</ul>
+            </div>
+          {%- endif -%}
+
+          <input type="hidden" name="contact[Form]" value="B2B application">
+          <input type="hidden" name="contact[tags]" value="b2b-application">
+
+          <fieldset class="gfa-apply__group">
+            <legend>Business</legend>
+            <div class="gfa-form__grid">
+              <div class="gfa-form__row">
+                <label class="gfa-label" for="{{ form_id }}-business">{{ 'customer.business_name' | t }} *</label>
+                <input class="gfa-field" id="{{ form_id }}-business" type="text" name="contact[Business name]" autocomplete="organization" required data-prefill="business">
+              </div>
+              <div class="gfa-form__row">
+                <label class="gfa-label" for="{{ form_id }}-abn">{{ 'customer.abn' | t }} *</label>
+                <input class="gfa-field" id="{{ form_id }}-abn" type="text" name="contact[ABN]" inputmode="numeric" pattern="[0-9 ]{11,14}" title="11-digit ABN" required>
+              </div>
+            </div>
+            <div class="gfa-form__grid">
+              <div class="gfa-form__row">
+                <label class="gfa-label" for="{{ form_id }}-type">{{ 'customer.business_type' | t }} *</label>
+                <select class="gfa-field" id="{{ form_id }}-type" name="contact[Business type]" required>
+                  <option value="" disabled selected>Select one</option>
+                  <option>{{ 'customer.type_retail' | t }}</option>
+                  <option>{{ 'customer.type_chain' | t }}</option>
+                  <option>{{ 'customer.type_aquascape' | t }}</option>
+                  <option>{{ 'customer.type_breeder' | t }}</option>
+                  <option>{{ 'customer.type_other' | t }}</option>
+                </select>
+              </div>
+              <div class="gfa-form__row">
+                <label class="gfa-label" for="{{ form_id }}-website">Website or social page</label>
+                <input class="gfa-field" id="{{ form_id }}-website" type="text" name="contact[Website]" inputmode="url" autocomplete="url" placeholder="https://">
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="gfa-apply__group">
+            <legend>Contact</legend>
+            <div class="gfa-form__grid">
+              <div class="gfa-form__row">
+                <label class="gfa-label" for="{{ form_id }}-name">Contact name *</label>
+                <input class="gfa-field" id="{{ form_id }}-name" type="text" name="contact[name]" autocomplete="name" required data-prefill="name">
+              </div>
+              <div class="gfa-form__row">
+                <label class="gfa-label" for="{{ form_id }}-role">Position</label>
+                <input class="gfa-field" id="{{ form_id }}-role" type="text" name="contact[Position]" autocomplete="organization-title">
+              </div>
+            </div>
+            <div class="gfa-form__grid">
+              <div class="gfa-form__row">
+                <label class="gfa-label" for="{{ form_id }}-email">{{ 'customer.email' | t }} *</label>
+                <input class="gfa-field" id="{{ form_id }}-email" type="email" name="contact[email]" autocomplete="email" required data-prefill="email">
+              </div>
+              <div class="gfa-form__row">
+                <label class="gfa-label" for="{{ form_id }}-phone">{{ 'customer.phone' | t }} *</label>
+                <input class="gfa-field" id="{{ form_id }}-phone" type="tel" name="contact[phone]" autocomplete="tel" required data-prefill="phone">
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="gfa-apply__group">
+            <legend>Delivery address</legend>
+            <div class="gfa-form__row">
+              <label class="gfa-label" for="{{ form_id }}-street">Street address *</label>
+              <input class="gfa-field" id="{{ form_id }}-street" type="text" name="contact[Street address]" autocomplete="street-address" required>
+            </div>
+            <div class="gfa-form__grid gfa-form__grid--3">
+              <div class="gfa-form__row">
+                <label class="gfa-label" for="{{ form_id }}-suburb">Suburb *</label>
+                <input class="gfa-field" id="{{ form_id }}-suburb" type="text" name="contact[Suburb]" autocomplete="address-level2" required>
+              </div>
+              <div class="gfa-form__row">
+                <label class="gfa-label" for="{{ form_id }}-state">State *</label>
+                <select class="gfa-field" id="{{ form_id }}-state" name="contact[State]" autocomplete="address-level1" required>
+                  <option value="" disabled selected>Select</option>
+                  {%- assign states = 'NSW,VIC,QLD,SA,WA,TAS,NT,ACT' | split: ',' -%}
+                  {%- for st in states -%}<option>{{ st }}</option>{%- endfor -%}
+                </select>
+              </div>
+              <div class="gfa-form__row">
+                <label class="gfa-label" for="{{ form_id }}-postcode">Postcode *</label>
+                <input class="gfa-field" id="{{ form_id }}-postcode" type="text" name="contact[Postcode]" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="postal-code" required>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="gfa-apply__group">
+            <legend>Trading</legend>
+            <div class="gfa-form__grid">
+              <div class="gfa-form__row">
+                <label class="gfa-label" for="{{ form_id }}-spend">Expected monthly order</label>
+                <select class="gfa-field" id="{{ form_id }}-spend" name="contact[Expected monthly order]">
+                  <option>Under $500</option>
+                  <option>$500 – $2,000</option>
+                  <option>$2,000 – $5,000</option>
+                  <option>Over $5,000</option>
+                </select>
+              </div>
+              <div class="gfa-form__row">
+                <label class="gfa-label" for="{{ form_id }}-heard">How did you hear about us?</label>
+                <input class="gfa-field" id="{{ form_id }}-heard" type="text" name="contact[Heard about us]">
+              </div>
+            </div>
+            <div class="gfa-form__row">
+              <label class="gfa-label" for="{{ form_id }}-body">What are you looking to stock?</label>
+              <textarea class="gfa-field" id="{{ form_id }}-body" name="contact[body]" rows="4" data-prefill="message"></textarea>
+            </div>
+          </fieldset>
+
+          <label class="gfa-apply__confirm">
+            <input type="checkbox" name="contact[Confirms registered business]" value="Yes" required>
+            <span>{{ section.settings.confirm_text }}</span>
+          </label>
+
+          <button class="gfa-btn gfa-btn--primary gfa-btn--block" type="submit">{{ 'customer.submit_application' | t }}</button>
+          {%- if section.settings.footnote != blank -%}<p class="gfa-note gfa-apply__foot">{{ section.settings.footnote }}</p>{%- endif -%}
+        {%- endif -%}
+      {%- endform -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "B2B application",
+  "settings": [
+    { "type": "paragraph", "content": "Applications are emailed to your store's sender email. Nothing is approved automatically: add the trade tag (Theme settings → Trade access) to the customer and send them an account invite." },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Trade accounts" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Apply for B2B pricing" },
+    { "type": "richtext", "id": "intro", "label": "Intro", "default": "<p>Wholesale pricing is open to registered Australian businesses that resell or display aquarium livestock. Tell us about your business and we will review every application by hand.</p>" },
+    { "type": "text", "id": "confirm_text", "label": "Confirmation checkbox", "default": "I confirm this is a registered business and the details above are correct." },
+    { "type": "text", "id": "footnote", "label": "Footnote", "default": "We usually respond within one business day." },
+    { "type": "text", "id": "success_heading", "label": "Success heading", "default": "Application received" },
+    { "type": "textarea", "id": "success_text", "label": "Success message", "default": "Thanks. We will check your details and email you an invite to set up your account. Pricing appears as soon as you sign in." },
+    { "type": "select", "id": "background", "label": "Background", "default": "plain", "options": [ { "value": "plain", "label": "Plain" }, { "value": "wash", "label": "Light wash" } ] }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Step" },
+        { "type": "text", "id": "text", "label": "Text" }
+      ]
+    }
+  ],
+  "presets": [ { "name": "B2B application" } ]
+}
+{% endschema %}

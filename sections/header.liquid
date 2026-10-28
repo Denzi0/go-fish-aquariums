@@ -1,5 +1,9 @@
 {%- capture price_access %}{% render 'price-access' %}{% endcapture -%}
-{%- assign menu = section.settings.menu -%}
+{%- liquid
+  assign menu = section.settings.menu
+  assign contact_url = section.settings.contact_url | default: settings.contact_page.url | default: '/pages/contact'
+  assign b2b_url = settings.b2b_page.url | default: '/pages/b2b-application'
+-%}
 
 <header class="gfa-header" data-header>
   {%- comment -%} Row 1 (the announcement bar) is its own section. Row 2: brand, search, account. {%- endcomment -%}
@@ -49,16 +53,16 @@
 
         {%- if customer -%}
           {%- if section.settings.quick_order_url != blank -%}
-            <a class="gfa-btn gfa-btn--outline gfa-btn--sm" href="{{ section.settings.quick_order_url }}">
+            <a class="gfa-btn gfa-btn--outline gfa-btn--sm gfa-header__cta" href="{{ section.settings.quick_order_url }}">
               {{ 'general.quick_order' | t }}
             </a>
           {%- endif -%}
-          <a class="gfa-btn gfa-btn--dark gfa-btn--sm" href="{{ routes.account_url }}">
+          <a class="gfa-btn gfa-btn--dark gfa-btn--sm gfa-header__cta" href="{{ routes.account_url }}">
             {{ 'customer.my_account' | t }}
           </a>
         {%- else -%}
-          <a class="gfa-btn gfa-btn--dark gfa-btn--sm" href="{{ routes.account_login_url }}">
-            {{ section.settings.login_label }}
+          <a class="gfa-btn gfa-btn--dark gfa-btn--sm gfa-header__cta" href="{{ contact_url }}">
+            {{ section.settings.contact_label }}
           </a>
         {%- endif -%}
 
@@ -149,6 +153,21 @@
           <a href="{{ link.url }}">{{ link.title }}</a>
         {%- endif -%}
       {%- endfor -%}
+
+      {%- comment -%} The header buttons are hidden on phones; they live here instead. {%- endcomment -%}
+      <div class="gfa-mobilenav__actions">
+        {%- if customer -%}
+          {%- if section.settings.quick_order_url != blank -%}
+            <a class="gfa-btn gfa-btn--outline" href="{{ section.settings.quick_order_url }}">{{ 'general.quick_order' | t }}</a>
+          {%- endif -%}
+          <a class="gfa-btn gfa-btn--dark" href="{{ routes.account_url }}">{{ 'customer.my_account' | t }}</a>
+        {%- else -%}
+          <a class="gfa-btn gfa-btn--dark" href="{{ contact_url }}">{{ section.settings.contact_label }}</a>
+          {%- unless price_access contains 'true' -%}
+            <a class="gfa-btn gfa-btn--outline" href="{{ b2b_url }}">{{ 'customer.apply_b2b' | t }}</a>
+          {%- endunless -%}
+        {%- endif -%}
+      </div>
     </div>
   </div>
 </header>
@@ -180,7 +199,8 @@
     { "type": "text", "id": "tagline", "label": "Tagline under wordmark", "default": "Freshwater livestock wholesale" },
     { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu", "info": "Shown in the bar under the header. Nested items open a mega menu; two levels of nesting are supported." },
     { "type": "checkbox", "id": "show_menu_images", "label": "Show collection image in mega menu", "default": true, "info": "When a top-level menu item links to a collection." },
-    { "type": "text", "id": "login_label", "label": "Trade login label", "default": "Trade login" },
+    { "type": "text", "id": "contact_label", "label": "Contact button label", "default": "Contact us", "info": "Shown to guests in place of a login button." },
+    { "type": "url", "id": "contact_url", "label": "Contact button link", "info": "Defaults to the contact page set in Theme settings → Trade access." },
     { "type": "url", "id": "quick_order_url", "label": "Quick order link", "info": "Shown to signed-in customers only." },
     { "type": "checkbox", "id": "show_search", "label": "Show search", "default": true },
     { "type": "checkbox", "id": "show_account", "label": "Show account", "default": true },

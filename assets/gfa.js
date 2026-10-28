@@ -187,6 +187,37 @@
     });
   }
 
+  /* --- Enquiry → B2B application handoff ---------------------------------- */
+  /* Details typed into an enquiry form are kept for this tab only, so the B2B
+     application can be prefilled when the visitor follows "Register here". */
+  var ENQUIRY_KEY = 'gfa-enquiry';
+  document.addEventListener('submit', function (e) {
+    var fields = $$('[data-enquiry-field]', e.target);
+    if (!fields.length) return;
+    var data = {};
+    fields.forEach(function (f) { if (f.value) data[f.getAttribute('data-enquiry-field')] = f.value; });
+    try { sessionStorage.setItem(ENQUIRY_KEY, JSON.stringify(data)); } catch (err) {}
+  });
+
+  var prefill = $$('[data-prefill]');
+  if (prefill.length) {
+    var saved = null;
+    try { saved = JSON.parse(sessionStorage.getItem(ENQUIRY_KEY) || 'null'); } catch (err) {}
+    if (saved) {
+      prefill.forEach(function (f) {
+        var v = saved[f.getAttribute('data-prefill')];
+        if (v && !f.value) f.value = v;
+      });
+    }
+  }
+
+  /* After a form posts, Shopify reloads the page; bring the thank-you into view. */
+  var done = $('[data-enquiry-done]');
+  if (done) {
+    done.scrollIntoView({ block: 'center' });
+    done.focus({ preventScroll: true });
+  }
+
   /* --- Mobile navigation --------------------------------------------------- */
   var menuBtn = $('[data-menu-toggle]');
   if (menuBtn) {

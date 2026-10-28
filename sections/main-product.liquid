@@ -110,53 +110,60 @@
         {% render 'catalogue-notice', context: 'product' %}
       {%- endif -%}
 
-      <div class="gfa-buybox">
-        {%- form 'product', product, id: 'gfa-product-form' -%}
-          {%- if product.has_only_default_variant -%}
-            <input type="hidden" name="id" value="{{ v.id }}">
-          {%- else -%}
-            <div class="gfa-variants">
-              <label class="gfa-label" for="gfa-variant">
-                {%- if product.options.size == 1 -%}{{ product.options.first }}{%- else -%}{{ 'products.option' | t }}{%- endif -%}
-              </label>
-              <select class="gfa-field" id="gfa-variant" name="id" data-variant-select>
-                {%- for variant in product.variants -%}
-                  <option value="{{ variant.id }}"
-                          {% if variant.id == v.id %}selected{% endif %}
-                          {% unless variant.available %}disabled{% endunless %}>
-                    {{ variant.title }}
-                    {%- if show_price %} — {{ variant.price | money }}{% endif -%}
-                    {%- unless variant.available %} · {{ 'products.stock.unavailable' | t }}{% endunless -%}
-                  </option>
-                {%- endfor -%}
-              </select>
-            </div>
-          {%- endif -%}
-
-          {%- if show_price and v.available -%}
-            <div class="gfa-buybox__row">
-              <div class="gfa-qty" data-qty>
-                <button type="button" data-qty-down aria-label="{{ 'products.decrease' | t }}">&minus;</button>
-                <input type="number" name="quantity" value="{{ min_qty }}" min="{{ min_qty }}" step="{{ step_qty }}"
-                       {% if v.quantity_rule.max %}max="{{ v.quantity_rule.max }}"{% endif %}
-                       aria-label="{{ 'products.quantity' | t }}">
-                <button type="button" data-qty-up aria-label="{{ 'products.increase' | t }}">+</button>
+      {%- if show_price -%}
+        <div class="gfa-buybox">
+          {%- form 'product', product, id: 'gfa-product-form' -%}
+            {%- if product.has_only_default_variant -%}
+              <input type="hidden" name="id" value="{{ v.id }}">
+            {%- else -%}
+              <div class="gfa-variants">
+                <label class="gfa-label" for="gfa-variant">
+                  {%- if product.options.size == 1 -%}{{ product.options.first }}{%- else -%}{{ 'products.option' | t }}{%- endif -%}
+                </label>
+                <select class="gfa-field" id="gfa-variant" name="id" data-variant-select>
+                  {%- for variant in product.variants -%}
+                    <option value="{{ variant.id }}"
+                            {% if variant.id == v.id %}selected{% endif %}
+                            {% unless variant.available %}disabled{% endunless %}>
+                      {{ variant.title }} — {{ variant.price | money }}
+                      {%- unless variant.available %} · {{ 'products.stock.unavailable' | t }}{% endunless -%}
+                    </option>
+                  {%- endfor -%}
+                </select>
               </div>
-              <button type="submit" class="gfa-btn gfa-btn--primary">{{ 'products.add_to_order' | t }}</button>
-            </div>
-            <p class="gfa-buybox__note">
-              {%- if step_qty > 1 -%}{{ 'products.sold_in_bags' | t: qty: step_qty }} · {% endif -%}
-              {{ section.settings.buybox_note }}
-            </p>
-          {%- elsif show_price == false -%}
-            <a class="gfa-btn gfa-btn--primary gfa-btn--block" href="{{ routes.account_login_url }}">{{ 'customer.log_in' | t }}</a>
-            <p class="gfa-buybox__note">{{ 'products.gate_note' | t }}</p>
-          {%- else -%}
-            <a class="gfa-btn gfa-btn--outline gfa-btn--block" href="{{ section.settings.enquiry_url }}">{{ 'products.enquire' | t }}</a>
-            <p class="gfa-buybox__note">{{ 'products.restock_note' | t }}</p>
-          {%- endif -%}
-        {%- endform -%}
-      </div>
+            {%- endif -%}
+
+            {%- if v.available -%}
+              <div class="gfa-buybox__row">
+                <div class="gfa-qty" data-qty>
+                  <button type="button" data-qty-down aria-label="{{ 'products.decrease' | t }}">&minus;</button>
+                  <input type="number" name="quantity" value="{{ min_qty }}" min="{{ min_qty }}" step="{{ step_qty }}"
+                         {% if v.quantity_rule.max %}max="{{ v.quantity_rule.max }}"{% endif %}
+                         aria-label="{{ 'products.quantity' | t }}">
+                  <button type="button" data-qty-up aria-label="{{ 'products.increase' | t }}">+</button>
+                </div>
+                <button type="submit" class="gfa-btn gfa-btn--primary">{{ 'products.add_to_order' | t }}</button>
+              </div>
+              <p class="gfa-buybox__note">
+                {%- if step_qty > 1 -%}{{ 'products.sold_in_bags' | t: qty: step_qty }} · {% endif -%}
+                {{ section.settings.buybox_note }}
+              </p>
+            {%- else -%}
+              <p class="gfa-buybox__note">{{ 'products.restock_note' | t }}</p>
+            {%- endif -%}
+          {%- endform -%}
+        </div>
+      {%- endif -%}
+
+      {%- comment -%}
+        Guests and unapproved accounts get the enquiry form in place of the buy box.
+        Approved customers get it too when the product is out of stock.
+      {%- endcomment -%}
+      {%- if show_price == false or v.available == false -%}
+        <div class="gfa-buybox">
+          {% render 'product-enquiry', product: product, variant: v %}
+        </div>
+      {%- endif -%}
 
       <table class="gfa-specs">
         <tbody>
@@ -180,8 +187,7 @@
 {
   "name": "Product",
   "settings": [
-    { "type": "text", "id": "buybox_note", "label": "Buy box note", "default": "Ships on the next livestock run. Orders close Monday 4pm AEST." },
-    { "type": "url", "id": "enquiry_url", "label": "Out of stock enquiry link" }
+    { "type": "text", "id": "buybox_note", "label": "Buy box note", "default": "Ships on the next livestock run. Orders close Monday 4pm AEST." }
   ]
 }
 {% endschema %}

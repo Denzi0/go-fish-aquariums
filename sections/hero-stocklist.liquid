@@ -55,7 +55,7 @@
           </a>
         {%- endif -%}
         {%- if section.settings.cta2_label != blank -%}
-          <a class="gfa-btn gfa-btn--onDark" href="{{ section.settings.cta2_url | default: routes.account_register_url }}">
+          <a class="gfa-btn gfa-btn--onDark" href="{{ section.settings.cta2_url | default: settings.b2b_page.url | default: '/pages/b2b-application' }}">
             {{ section.settings.cta2_label }}
           </a>
         {%- endif -%}

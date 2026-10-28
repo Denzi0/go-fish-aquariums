@@ -1,0 +1,110 @@
+{%- comment -%}
+  product-enquiry.liquid — "Contact us about this product" form.
+
+  Posts through Shopify's contact form, so every submission is emailed to the
+  store's sender address with the product, variant, SKU and link attached, plus
+  the B2B application link so the reply can point the customer straight to it.
+  The email's reply-to is the customer's address.
+
+  After a successful send the visitor is prompted to register for a B2B account
+  to view prices. Their details are handed to the application form (session
+  storage) so they do not type them twice.
+
+  Usage:
+    {% render 'product-enquiry', product: product, variant: v %}
+{%- endcomment -%}
+{%- liquid
+  assign b2b_url = settings.b2b_page.url | default: '/pages/b2b-application'
+  assign b2b_full = request.origin | append: b2b_url
+  assign product_full = request.origin | append: product.url
+  assign form_id = 'ProductEnquiry-' | append: product.id
+-%}
+
+<div class="gfa-enquiry" id="enquire">
+  {%- comment -%} Quick view loads this markup into a dialog; send people to the product page instead. {%- endcomment -%}
+  <a class="gfa-btn gfa-btn--primary gfa-btn--block gfa-enquiry__dialog-link" href="{{ product.url }}#enquire">
+    {{- 'products.enquiry.open_product' | t -}}
+  </a>
+
+  {%- form 'contact', id: form_id, class: 'gfa-enquiry__form' -%}
+    {%- if form.posted_successfully? -%}
+      <div class="gfa-enquiry__done" role="status" tabindex="-1" data-enquiry-done>
+        {% render 'icon', name: 'check' %}
+        <div>
+          <strong>{{ 'products.enquiry.success_heading' | t }}</strong>
+          <p>{{ 'products.enquiry.success_body' | t }}</p>
+          <a class="gfa-btn gfa-btn--primary gfa-btn--block" href="{{ b2b_url }}">{{ 'products.enquiry.register' | t }}</a>
+        </div>
+      </div>
+    {%- else -%}
+      <h2 class="gfa-enquiry__title">{{ 'products.enquiry.heading' | t }}</h2>
+      <p class="gfa-note">{{ 'products.enquiry.intro' | t }}</p>
+
+      {%- if form.errors -%}
+        <div class="gfa-errors" role="alert">
+          {{ 'customer.check_fields' | t }}
+          <ul>{% for field in form.errors %}<li>{{ form.errors.translated_fields[field] | capitalize }} {{ form.errors.messages[field] }}</li>{% endfor %}</ul>
+        </div>
+      {%- endif -%}
+
+      <input type="hidden" name="contact[Form]" value="Product enquiry">
+      <input type="hidden" name="contact[tags]" value="product-enquiry">
+      <input type="hidden" name="contact[Product]" value="{{ product.title | escape }}">
+      <input type="hidden" name="contact[Product link]" value="{{ product_full }}">
+      {%- if variant.sku != blank -%}
+        <input type="hidden" name="contact[SKU]" value="{{ variant.sku | escape }}">
+      {%- endif -%}
+      <input type="hidden" name="contact[B2B application link]" value="{{ b2b_full }}">
+
+      <div class="gfa-form__grid">
+        <div class="gfa-form__row">
+          <label class="gfa-label" for="{{ form_id }}-name">{{ 'products.enquiry.name' | t }}</label>
+          <input class="gfa-field" id="{{ form_id }}-name" type="text" name="contact[name]" autocomplete="name" required data-enquiry-field="name">
+        </div>
+        <div class="gfa-form__row">
+          <label class="gfa-label" for="{{ form_id }}-business">{{ 'products.enquiry.business' | t }}</label>
+          <input class="gfa-field" id="{{ form_id }}-business" type="text" name="contact[Business name]" autocomplete="organization" data-enquiry-field="business">
+        </div>
+      </div>
+
+      <div class="gfa-form__grid">
+        <div class="gfa-form__row">
+          <label class="gfa-label" for="{{ form_id }}-email">{{ 'customer.email' | t }}</label>
+          <input class="gfa-field" id="{{ form_id }}-email" type="email" name="contact[email]" autocomplete="email" required data-enquiry-field="email">
+        </div>
+        <div class="gfa-form__row">
+          <label class="gfa-label" for="{{ form_id }}-phone">{{ 'customer.phone' | t }}</label>
+          <input class="gfa-field" id="{{ form_id }}-phone" type="tel" name="contact[phone]" autocomplete="tel" data-enquiry-field="phone">
+        </div>
+      </div>
+
+      <div class="gfa-form__grid">
+        {%- unless product.has_only_default_variant -%}
+          <div class="gfa-form__row">
+            <label class="gfa-label" for="{{ form_id }}-variant">
+              {%- if product.options.size == 1 -%}{{ product.options.first }}{%- else -%}{{ 'products.option' | t }}{%- endif -%}
+            </label>
+            <select class="gfa-field" id="{{ form_id }}-variant" name="contact[Option]">
+              {%- for option_variant in product.variants -%}
+                <option value="{{ option_variant.title | escape }}{% if option_variant.sku != blank %} ({{ option_variant.sku | escape }}){% endif %}"
+                        {% if option_variant.id == variant.id %}selected{% endif %}>{{ option_variant.title }}</option>
+              {%- endfor -%}
+            </select>
+          </div>
+        {%- endunless -%}
+        <div class="gfa-form__row">
+          <label class="gfa-label" for="{{ form_id }}-qty">{{ 'products.enquiry.quantity' | t }}</label>
+          <input class="gfa-field" id="{{ form_id }}-qty" type="number" min="1" inputmode="numeric" name="contact[Quantity]">
+        </div>
+      </div>
+
+      <div class="gfa-form__row">
+        <label class="gfa-label" for="{{ form_id }}-body">{{ 'products.enquiry.message' | t }}</label>
+        <textarea class="gfa-field" id="{{ form_id }}-body" name="contact[body]" rows="4"
+                  placeholder="{{ 'products.enquiry.message_placeholder' | t }}"></textarea>
+      </div>
+
+      <button class="gfa-btn gfa-btn--primary gfa-btn--block" type="submit">{{ 'products.enquiry.submit' | t }}</button>
+    {%- endif -%}
+  {%- endform -%}
+</div>

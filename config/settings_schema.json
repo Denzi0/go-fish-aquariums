@@ -43,6 +43,22 @@
         "default": "trade"
       },
       {
+        "type": "paragraph",
+        "content": "Approving a B2B application: Customers → Add customer (or open the existing one) → add the tag above → Send account invite. Pricing appears for them as soon as they sign in."
+      },
+      {
+        "type": "page",
+        "id": "b2b_page",
+        "label": "B2B application page",
+        "info": "A page using the \"page.b2b-application\" template. Falls back to /pages/b2b-application."
+      },
+      {
+        "type": "page",
+        "id": "contact_page",
+        "label": "Contact page",
+        "info": "A page using the \"page.contact\" template. Falls back to /pages/contact."
+      },
+      {
         "type": "text",
         "id": "catalogue_heading",
         "label": "Gate heading",
@@ -52,7 +68,7 @@
         "type": "textarea",
         "id": "catalogue_note",
         "label": "Gate message",
-        "default": "Sign in to see your pricing and place orders. Trade accounts are open to registered businesses that resell aquarium livestock."
+        "default": "Wholesale pricing is shown to approved B2B customers only. Apply with your business details and we will review your account."
       }
     ]
   },
