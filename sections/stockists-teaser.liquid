@@ -4,7 +4,7 @@
   which the stockists section reads to pre-filter its list.
 {%- endcomment -%}
 {%- liquid
-  assign stockists_url = section.settings.stockists_page.url | default: '/pages/our-stockists'
+  assign stockists_url = section.settings.stockists_page.url | default: '/pages/stockists'
   assign states = section.settings.states | split: ','
 -%}
 <section class="gfa-band gfa-band--tight{% if section.settings.background == 'wash' %} gfa-band--wash{% endif %}">
@@ -61,7 +61,7 @@
   "name": "Stockists (short)",
   "tag": "section",
   "settings": [
-    { "type": "page", "id": "stockists_page", "label": "Stockists page", "info": "Falls back to /pages/our-stockists." },
+    { "type": "page", "id": "stockists_page", "label": "Stockists page", "info": "Falls back to /pages/stockists." },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Stockists" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Find Go Fish near you" },
     { "type": "textarea", "id": "copy", "label": "Text", "default": "Go Fish fish are sold through 37 independent aquarium and pet stores across Australia." },
