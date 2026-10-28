@@ -1,0 +1,57 @@
+<section class="gfa-stats{% if section.settings.style == 'dark' %} gfa-stats--dark{% endif %}">
+  <div class="gfa-shell">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="visually-hidden">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    <dl class="gfa-stats__list">
+      {%- for block in section.blocks -%}
+        <div class="gfa-stats__item" {{ block.shopify_attributes }}>
+          <dt>{{ block.settings.label }}</dt>
+          <dd class="gfa-num">{{ block.settings.value }}</dd>
+        </div>
+      {%- endfor -%}
+    </dl>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Stats strip",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading (screen readers only)", "default": "Go Fish at a glance" },
+    {
+      "type": "select",
+      "id": "style",
+      "label": "Style",
+      "options": [
+        { "value": "light", "label": "Light" },
+        { "value": "dark", "label": "Dark" }
+      ],
+      "default": "light"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        { "type": "text", "id": "value", "label": "Number", "default": "20+" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Years in the trade" }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Stats strip",
+      "blocks": [
+        { "type": "stat", "settings": { "value": "20+", "label": "Years in the trade" } },
+        { "type": "stat", "settings": { "value": "3", "label": "Overseas shipments a month" } },
+        { "type": "stat", "settings": { "value": "5", "label": "Source countries" } },
+        { "type": "stat", "settings": { "value": "7 days", "label": "Open 10am to 4pm" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

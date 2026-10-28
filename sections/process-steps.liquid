@@ -1,0 +1,70 @@
+<section class="gfa-band{% if section.settings.background == 'wash' %} gfa-band--wash{% elsif section.settings.background == 'dark' %} gfa-band--dark{% endif %}">
+  <div class="gfa-shell">
+    <div class="gfa-band-head">
+      <div>
+        {%- if section.settings.eyebrow != blank -%}<p class="gfa-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+        <h2>{{ section.settings.heading }}</h2>
+        {%- if section.settings.subheading != blank -%}<p>{{ section.settings.subheading }}</p>{%- endif -%}
+      </div>
+      {%- if section.settings.link_label != blank and section.settings.link_url != blank -%}
+        <a class="gfa-link" href="{{ section.settings.link_url }}">{{ section.settings.link_label }}</a>
+      {%- endif -%}
+    </div>
+
+    <ol class="gfa-steps" role="list">
+      {%- for block in section.blocks -%}
+        <li class="gfa-steps__item" {{ block.shopify_attributes }}>
+          <span class="gfa-steps__num gfa-num" aria-hidden="true">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+          <h3>{{ block.settings.title }}</h3>
+          <p>{{ block.settings.text }}</p>
+        </li>
+      {%- endfor -%}
+    </ol>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Process steps",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "How we work" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "From the farm to your store" },
+    { "type": "text", "id": "subheading", "label": "Subheading" },
+    { "type": "text", "id": "link_label", "label": "Link label" },
+    { "type": "url", "id": "link_url", "label": "Link" },
+    {
+      "type": "select",
+      "id": "background",
+      "label": "Background",
+      "options": [
+        { "value": "paper", "label": "Plain" },
+        { "value": "wash", "label": "Light wash" },
+        { "value": "dark", "label": "Dark" }
+      ],
+      "default": "paper"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Step" },
+        { "type": "textarea", "id": "text", "label": "Text" }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Process steps",
+      "blocks": [
+        { "type": "step", "settings": { "title": "Sourced", "text": "From vetted farms and suppliers in Thailand, Indonesia, Malaysia, Sri Lanka and China." } },
+        { "type": "step", "settings": { "title": "Quarantined", "text": "Every shipment is held and checked before it goes on the list." } },
+        { "type": "step", "settings": { "title": "Delivered", "text": "Supplied to independent stores weekly to monthly, depending on what you need." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

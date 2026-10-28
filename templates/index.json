@@ -160,7 +160,7 @@
           "type": "item",
           "settings": {
             "value": "ABN",
-            "text": "Registered Australian business or NZ equivalent"
+            "text": "Registered Australian business"
           }
         },
         "item_Gawf7M": {
@@ -195,17 +195,258 @@
       "settings": {
         "heading": "Open a trade account",
         "copy": "Pricing and stock counts are visible to approved trade customers only. Send through your ABN and we will usually have you set up within one business day.",
-        "cta_label": "Apply for an account",
+        "cta_label": "Apply for B2B pricing",
         "cta_url": "",
-        "cta2_label": "Talk to a rep",
-        "cta2_url": ""
+        "cta2_label": "Contact us",
+        "cta2_url": "/pages/contact"
+      }
+    },
+    "stats_home": {
+      "type": "stats-strip",
+      "blocks": {
+        "stat_years": {
+          "type": "stat",
+          "settings": {
+            "value": "20+",
+            "label": "Years supplying Australian stores"
+          }
+        },
+        "stat_ship": {
+          "type": "stat",
+          "settings": {
+            "value": "3",
+            "label": "Overseas shipments a month"
+          }
+        },
+        "stat_countries": {
+          "type": "stat",
+          "settings": {
+            "value": "5",
+            "label": "Source countries"
+          }
+        },
+        "stat_stockists": {
+          "type": "stat",
+          "settings": {
+            "value": "37",
+            "label": "Independent stockists"
+          }
+        }
+      },
+      "block_order": [
+        "stat_years",
+        "stat_ship",
+        "stat_countries",
+        "stat_stockists"
+      ],
+      "settings": {
+        "heading": "Go Fish at a glance",
+        "style": "light"
+      }
+    },
+    "about_home": {
+      "type": "image-with-text",
+      "settings": {
+        "image": "shopify://shop_images/unnamed_12.webp",
+        "image_position": "right",
+        "image_ratio": "landscape",
+        "eyebrow": "About Go Fish",
+        "heading": "Healthy freshwater fish for independent stores",
+        "copy": "<p>Go Fish Aquariums is an importer, quarantine and wholesaler of freshwater fish, supplying independent pet and fish retail stores Australia wide. For more than two decades, stockists have relied on us for healthy fish at fair prices.</p><p>Every shipment goes through our centralised systems before it is offered, so the fish that reach your tanks are settled, healthy and ready to sell.</p>",
+        "button_label": "Our story",
+        "button_link": "/pages/about-us",
+        "button_style": "primary",
+        "background": "paper"
+      }
+    },
+    "process_home": {
+      "type": "process-steps",
+      "blocks": {
+        "step_source": {
+          "type": "step",
+          "settings": {
+            "title": "Sourced",
+            "text": "From vetted farms and suppliers in Thailand, Indonesia, Malaysia, Sri Lanka and China. Some partnerships go back decades."
+          }
+        },
+        "step_quarantine": {
+          "type": "step",
+          "settings": {
+            "title": "Quarantined",
+            "text": "Around three shipments land each month. Every one is held and health-checked before it goes on the list."
+          }
+        },
+        "step_list": {
+          "type": "step",
+          "settings": {
+            "title": "Listed",
+            "text": "Settled stock goes on the stock list with sizes and availability, so you can plan your order."
+          }
+        },
+        "step_deliver": {
+          "type": "step",
+          "settings": {
+            "title": "Delivered",
+            "text": "Supplied to your store anywhere from weekly to monthly, more often when you need it."
+          }
+        }
+      },
+      "block_order": [
+        "step_source",
+        "step_quarantine",
+        "step_list",
+        "step_deliver"
+      ],
+      "settings": {
+        "eyebrow": "How we work",
+        "heading": "From the farm to your store",
+        "subheading": "Importing, quarantine and wholesale under one roof.",
+        "link_label": "",
+        "link_url": "",
+        "background": "dark"
+      }
+    },
+    "why_home": {
+      "type": "why-choose",
+      "blocks": {
+        "reason_retail": {
+          "type": "reason",
+          "settings": {
+            "title": "Retail stores only",
+            "text": "We supply independent aquarium and pet stores, never the public, so we never compete with our stockists."
+          }
+        },
+        "reason_health": {
+          "type": "reason",
+          "settings": {
+            "title": "Quarantined before sale",
+            "text": "Stock is held and checked before it is offered, to keep disease and harmful bacteria out of your tanks."
+          }
+        },
+        "reason_suppliers": {
+          "type": "reason",
+          "settings": {
+            "title": "Long-standing suppliers",
+            "text": "Vetted farm partners, some for decades, keep quality consistent from one shipment to the next."
+          }
+        },
+        "reason_source": {
+          "type": "reason",
+          "settings": {
+            "title": "We will find it for you",
+            "text": "Not on the list? Tell us what you are after and we will do our best to source it."
+          }
+        }
+      },
+      "block_order": [
+        "reason_retail",
+        "reason_health",
+        "reason_suppliers",
+        "reason_source"
+      ],
+      "settings": {
+        "heading": "Why stores choose Go Fish",
+        "subheading": ""
+      }
+    },
+    "stockists_banner_home": {
+      "type": "banner",
+      "settings": {
+        "focal_point": "center center",
+        "scrim": 70,
+        "height": "small",
+        "alignment": "left",
+        "eyebrow": "Stockists",
+        "heading": "Find Go Fish at your local store",
+        "copy": "<p>Go Fish fish are sold through independent aquarium and pet stores across Australia. Find your nearest stockist, or ask your local store to get in touch with us.</p>",
+        "button_label": "Find a stockist",
+        "button_link": "/pages/our-stockists",
+        "button2_label": "Become a stockist",
+        "button2_link": "/pages/b2b-application"
+      }
+    },
+    "faq_home": {
+      "type": "faq",
+      "blocks": {
+        "q_where": {
+          "type": "question",
+          "settings": {
+            "question": "Where does Go Fish come from?",
+            "answer": "<p>Go Fish sources fish from reputable farms and suppliers in Thailand, Indonesia, Malaysia, Sri Lanka and China. Every supplier is vetted for quality and fish health, and some partnerships go back decades.</p>"
+          }
+        },
+        "q_direct": {
+          "type": "question",
+          "settings": {
+            "question": "Does Go Fish supply direct to the public?",
+            "answer": "<p>No. We only supply independent aquarium and pet stores. Ask your local store to contact us and we will do our best to source the fish for them.</p>"
+          }
+        },
+        "q_often": {
+          "type": "question",
+          "settings": {
+            "question": "How often does Go Fish supply its stockists?",
+            "answer": "<p>Typically anywhere from once a week to once a month. If more fish are needed, the frequency increases accordingly.</p>"
+          }
+        },
+        "q_shipments": {
+          "type": "question",
+          "settings": {
+            "question": "How often do new shipments arrive?",
+            "answer": "<p>On average we receive three shipments a month from overseas suppliers to keep stock levels up for our retailers.</p>"
+          }
+        },
+        "q_account": {
+          "type": "question",
+          "settings": {
+            "question": "How do I open a trade account?",
+            "answer": "<p>Fill in the B2B application with your business details and ABN. We review every application by hand and email you an invite once it is approved. Your wholesale pricing appears as soon as you sign in.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q_where",
+        "q_direct",
+        "q_often",
+        "q_shipments",
+        "q_account"
+      ],
+      "settings": {
+        "eyebrow": "Questions",
+        "heading": "Good to know",
+        "subheading": "How Go Fish works and how to get our fish into your store.",
+        "button_label": "All FAQs",
+        "button_link": "/pages/faqs",
+        "background": "paper",
+        "open_first": true,
+        "schema_markup": false
+      }
+    },
+    "blog_home": {
+      "type": "featured-articles",
+      "settings": {
+        "blog": "",
+        "eyebrow": "Education Center",
+        "heading": "Care guides and species spotlights",
+        "subheading": "",
+        "count": 3,
+        "show_excerpt": true,
+        "link_label": "All articles",
+        "background": "wash"
       }
     }
   },
   "order": [
     "hero_stocklist_Einh4H",
+    "stats_home",
     "category_grid_pmbQHC",
+    "about_home",
     "featured_fish_TxRyYf",
+    "process_home",
+    "why_home",
+    "stockists_banner_home",
+    "faq_home",
+    "blog_home",
     "wholesale_cta_6wCgxH"
   ]
 }

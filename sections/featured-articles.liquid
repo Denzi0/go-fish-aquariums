@@ -1,0 +1,55 @@
+{%- liquid
+  assign source = section.settings.blog
+  if source == blank
+    assign source = blogs.news
+  endif
+-%}
+{%- if source.articles_count > 0 -%}
+  <section class="gfa-band{% if section.settings.background == 'wash' %} gfa-band--wash{% endif %}">
+    <div class="gfa-shell">
+      <div class="gfa-band-head">
+        <div>
+          {%- if section.settings.eyebrow != blank -%}<p class="gfa-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+          <h2>{{ section.settings.heading }}</h2>
+          {%- if section.settings.subheading != blank -%}<p>{{ section.settings.subheading }}</p>{%- endif -%}
+        </div>
+        {%- if section.settings.link_label != blank -%}
+          <a class="gfa-link" href="{{ source.url }}">{{ section.settings.link_label }}</a>
+        {%- endif -%}
+      </div>
+
+      <div class="gfa-posts">
+        {%- for article in source.articles limit: section.settings.count -%}
+          {% render 'article-card', article: article, show_excerpt: section.settings.show_excerpt, show_author: false, ratio: '3/2' %}
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Blog posts",
+  "tag": "section",
+  "settings": [
+    { "type": "blog", "id": "blog", "label": "Blog", "info": "Defaults to the News blog. The section hides itself when the blog has no posts." },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Education Center" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Care guides and species spotlights" },
+    { "type": "text", "id": "subheading", "label": "Subheading" },
+    { "type": "range", "id": "count", "label": "Posts", "min": 3, "max": 6, "step": 3, "default": 3 },
+    { "type": "checkbox", "id": "show_excerpt", "label": "Show excerpt", "default": true },
+    { "type": "text", "id": "link_label", "label": "Link label", "default": "All articles" },
+    {
+      "type": "select",
+      "id": "background",
+      "label": "Background",
+      "options": [
+        { "value": "paper", "label": "Plain" },
+        { "value": "wash", "label": "Light wash" }
+      ],
+      "default": "paper"
+    }
+  ],
+  "presets": [ { "name": "Blog posts" } ]
+}
+{% endschema %}
