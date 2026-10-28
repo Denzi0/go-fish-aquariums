@@ -2267,8 +2267,9 @@ h3 { font-weight: 700; letter-spacing: -0.02em; }
 .gfa-card__options select { border-radius: var(--r-field); }
 .gfa-card__foot { padding: 14px 0 0; }
 .gfa-card__foot .gfa-btn { min-height: 44px; border-radius: 12px; }
-.gfa-card__foot .gfa-btn--outline { border: 1.5px solid var(--current); color: var(--current-dk); }
-.gfa-card__foot .gfa-btn--outline:hover { background: var(--current); border-color: var(--current); color: #fff; }
+/* Card actions are always filled teal, never a white outline. */
+.gfa-card__foot .gfa-btn--outline { background: var(--current); border: 0; color: #fff; }
+.gfa-card__foot .gfa-btn--outline:hover { background: var(--current-dk); color: #fff; }
 .gfa-qty { border-radius: 12px; }
 .gfa-card--out:hover { transform: none; }
 /* Dense list view keeps its flat rows. */
