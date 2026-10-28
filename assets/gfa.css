@@ -2173,7 +2173,11 @@ h3 { font-weight: 700; letter-spacing: -0.02em; }
 .gfa-btn::before { border-radius: 38%; opacity: 0.45; }
 .gfa-btn::after { border-radius: 42%; transition-delay: 0.06s; }
 .gfa-btn:hover,
-.gfa-btn:focus-visible { color: var(--fill-text); transform: translateY(-1px); }
+.gfa-btn:focus-visible { transform: translateY(-1px); }
+/* The submerged label must always contrast with the water, whatever link
+   colours the surrounding area sets (the footer turns links white on hover,
+   which made white-filled buttons lose their text). */
+.gfa-btn:is(:hover, :focus-visible) { color: var(--fill-text) !important; text-decoration: none !important; }
 .gfa-btn:hover::before,
 .gfa-btn:focus-visible::before { top: -275%; animation: gfa-ripple 3.2s linear infinite reverse; }
 .gfa-btn:hover::after,
