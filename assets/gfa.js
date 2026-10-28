@@ -353,6 +353,14 @@
     pageDone.focus({ preventScroll: true });
   }
 
+  /* --- Sticky header: soft shadow once the page has scrolled ---------------- */
+  var header = $('[data-header]');
+  if (header) {
+    var onScroll = function () { header.classList.toggle('is-stuck', window.scrollY > 4); };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
   /* --- Mobile navigation --------------------------------------------------- */
   var menuBtn = $('[data-menu-toggle]');
   if (menuBtn) {

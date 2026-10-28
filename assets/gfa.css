@@ -248,13 +248,25 @@ p:last-child { margin-bottom: 0; }
 .gfa-notice a { border-bottom: 1px solid rgba(255, 255, 255, 0.4); }
 
 /* --- Header --------------------------------------------------------------- */
-.gfa-header {
+/* Shopify wraps each section in its own div that is exactly as tall as the
+   header, so sticky has to live on that wrapper to have room to stick. */
+.shopify-section:has(> .gfa-header) {
   position: sticky;
   top: 0;
   z-index: 40;
+}
+.gfa-header {
+  --header-h: 126px;
+  position: relative;
   background: var(--paper);
   border-bottom: 1px solid var(--line);
+  transition: box-shadow 0.2s var(--ease);
 }
+.gfa-header.is-stuck { box-shadow: 0 10px 24px -18px rgba(6, 43, 54, 0.5); }
+/* Anchor jumps land below the sticky header. */
+html { scroll-padding-top: 140px; }
+/* The phone menu scrolls inside the sticky header instead of running off-screen. */
+.gfa-mobilenav { max-height: calc(100vh - 64px); max-height: calc(100dvh - 64px); overflow-y: auto; overscroll-behavior: contain; }
 .gfa-header__in {
   display: flex;
   align-items: center;
@@ -1001,7 +1013,7 @@ p:last-child { margin-bottom: 0; }
 .gfa-stockist__show { display: none; }
 .gfa-stockists__layout.has-map .gfa-stockist__show { display: inline-flex; }
 
-.gfa-stockists__map { position: sticky; top: 96px; }
+.gfa-stockists__map { position: sticky; top: 144px; }
 .gfa-stockists__mapframe { aspect-ratio: 4 / 5; max-height: calc(100vh - 160px); min-height: 360px; border: 1px solid var(--line); border-radius: var(--r-card); overflow: hidden; background: var(--wash-2); }
 .gfa-stockists__mapframe iframe { display: block; width: 100%; height: 100%; border: 0; }
 .gfa-stockists__mapname { display: flex; align-items: center; gap: 6px; margin: var(--sp-3) 0 0; font-size: 0.875rem; font-weight: 600; color: var(--ink-soft); }
@@ -1393,10 +1405,10 @@ a.gfa-pager__step:hover { border-color: var(--ink); background: var(--wash); }
 }
 
 .gfa-collection { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: var(--sp-7); align-items: start; padding-block: var(--sp-6) var(--sp-9); }
-.gfa-collection__main { min-width: 0; scroll-margin-top: 96px; }
+.gfa-collection__main { min-width: 0; scroll-margin-top: 144px; }
 .gfa-collection__empty { grid-column: 1 / -1; display: grid; justify-items: start; gap: var(--sp-4); padding: var(--sp-7) 0; }
 
-.gfa-filters { position: sticky; top: 96px; max-height: calc(100vh - 112px); overflow-y: auto; padding-right: 4px; scrollbar-width: thin; }
+.gfa-filters { position: sticky; top: 144px; max-height: calc(100vh - 160px); overflow-y: auto; padding-right: 4px; scrollbar-width: thin; }
 .gfa-filters__head { display: flex; align-items: center; gap: var(--sp-3); padding-bottom: var(--sp-3); border-bottom: 1px solid var(--line); }
 .gfa-filters__head h2 { font-size: 1rem; margin: 0; }
 .gfa-filters__clear { margin-left: auto; font-size: 0.8125rem; font-weight: 600; color: var(--current-dk); text-decoration: underline; text-underline-offset: 3px; }
@@ -1798,7 +1810,7 @@ a.gfa-pager__step:hover { border-color: var(--ink); background: var(--wash); }
 .gfa-enquiry__done > div { flex: 1; min-width: 0; }
 
 .gfa-apply { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: var(--sp-8); align-items: start; }
-.gfa-apply__head { position: sticky; top: 120px; }
+.gfa-apply__head { position: sticky; top: 150px; }
 .gfa-apply__head h1 { font-size: clamp(1.9rem, 1.4rem + 1.6vw, 2.6rem); margin-bottom: var(--sp-4); }
 .gfa-apply__steps { list-style: none; counter-reset: step; margin: var(--sp-6) 0 0; padding: 0; display: grid; gap: var(--sp-4); }
 .gfa-apply__steps li { counter-increment: step; display: grid; grid-template-columns: 32px 1fr; column-gap: var(--sp-3); }
@@ -1888,6 +1900,7 @@ a.gfa-pager__step:hover { border-color: var(--ink); background: var(--wash); }
   .gfa-header__navbar, .gfa-header__search { display: none; }
   .gfa-header__search-icon, .gfa-burger { display: inline-flex; }
   .gfa-header__in { justify-content: space-between; min-height: 64px; }
+  html { scroll-padding-top: 80px; }
   .gfa-search { margin-top: 12px; }
   .gfa-hero--split .gfa-hero__in { grid-template-columns: 1fr; gap: var(--sp-6); padding-block: var(--sp-7); }
   .gfa-hero--split .gfa-hero__col { max-width: none; }
