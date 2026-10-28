@@ -2080,8 +2080,9 @@ a.gfa-pager__step:hover { border-color: var(--ink); background: var(--wash); }
   --glow: #5ee6d8;
   --glow-soft: rgba(94, 230, 216, 0.16);
   --r-chip: 0px;
-  --r-field: 2px;
-  --r-card: 2px;
+  --r-field: 10px;   /* buttons, fields, small panels: softly rounded */
+  --r-card: 2px;     /* big blocks (tiles, hero, frames) stay square */
+  --r-friendly: 18px;
   --sp-9: 112px;
   --f-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
 }
@@ -2125,7 +2126,7 @@ h3 { font-weight: 700; letter-spacing: -0.02em; }
   transition: background-color 0.16s var(--ease), border-color 0.16s var(--ease), color 0.16s var(--ease), transform 0.16s var(--ease);
 }
 .gfa-btn:hover { transform: translateY(-1px); }
-.gfa-btn--sm { min-height: 40px; padding: 0 16px; }
+.gfa-btn--sm { min-height: 40px; padding: 0 16px; border-radius: 8px; }
 .gfa-btn--outline { border-width: 2px; border-color: var(--ink); }
 .gfa-btn--outline:hover { background: var(--ink); color: #fff; }
 .gfa-btn--onDark { border-width: 2px; border-color: rgba(255, 255, 255, 0.6); }
@@ -2214,16 +2215,69 @@ h3 { font-weight: 700; letter-spacing: -0.02em; }
 .gfa-cat:nth-child(1) { grid-column: span 2; aspect-ratio: auto; }
 .gfa-cat__body { padding: var(--sp-5) 64px var(--sp-5) var(--sp-5); }
 .gfa-cat__body strong { font-family: var(--f-display); font-size: clamp(1.125rem, 0.95rem + 0.5vw, 1.5rem); overflow-wrap: anywhere; font-weight: 800; font-stretch: 112%; letter-spacing: -0.03em; line-height: 1; }
-.gfa-cat__arrow { width: 40px; height: 40px; border-radius: 0; right: var(--sp-5); bottom: var(--sp-5); }
+.gfa-cat__arrow { width: 40px; height: 40px; border-radius: var(--r-field); right: var(--sp-5); bottom: var(--sp-5); }
 .gfa-cat:hover .gfa-cat__arrow { background: var(--glow); color: var(--abyss); }
 
-/* --- Product cards --------------------------------------------------------- */
-.gfa-grid { gap: var(--sp-4); }
-.gfa-card { border-radius: var(--r-card); border-color: var(--line); transition: border-color 0.16s var(--ease), transform 0.16s var(--ease); }
-.gfa-card:hover { border-color: var(--ink); transform: translateY(-3px); }
-.gfa-card__media { border-radius: 0; }
-.gfa-card__title { font-size: 1.0625rem; font-weight: 700; letter-spacing: -0.02em; }
-.gfa-card__price b { font-weight: 600; }
+/* --- Product cards: the friendly part of the system ------------------------
+   Rounded, photo inset on its own rounded corners, pill badges, specs in a
+   soft panel. The one place a (very light) shadow is allowed: on hover. */
+.gfa-grid { gap: var(--sp-5) var(--sp-4); }
+.gfa-card {
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-friendly);
+  background: var(--paper);
+  transition: border-color 0.2s var(--ease), transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+.gfa-card:hover {
+  border-color: var(--current);
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px -18px rgba(6, 43, 54, 0.45);
+}
+.gfa-card:focus-within { border-color: var(--current); }
+.gfa-card__media { aspect-ratio: 5 / 4; border-radius: 12px; }
+.gfa-card__media img, .gfa-card__media svg { transition: transform 0.5s var(--ease); }
+.gfa-card:hover .gfa-card__media img, .gfa-card:hover .gfa-card__media svg { transform: scale(1.05); }
+.gfa-card__badge { top: 10px; left: 10px; padding: 5px 10px; border-radius: 999px; box-shadow: none; background: rgba(255, 255, 255, 0.95); }
+.gfa-card__quick { right: 10px; bottom: 10px; padding: 8px 14px; border-radius: 999px; background: rgba(255, 255, 255, 0.95); color: var(--abyss); font-weight: 700; }
+.gfa-card__quick:hover { background: var(--abyss); color: #fff; }
+.gfa-card__body { padding: 14px 8px 0; }
+.gfa-card__title { font-size: 1.0938rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.25; }
+.gfa-card__sci { margin-top: 3px; }
+.gfa-spec { margin-top: 12px; padding: 4px 12px; border: 0; border-radius: 12px; background: var(--wash); }
+.gfa-spec__row { padding: 7px 0; border-bottom: 1px dashed var(--line); }
+.gfa-spec__row:last-child { border-bottom: 0; }
+.gfa-spec__row dd { font-weight: 500; color: var(--ink); }
+.gfa-card__price { padding: 14px 8px 0; }
+.gfa-card__price b { font-weight: 600; color: var(--abyss); }
+.gfa-card__breaks { padding: 6px 8px 0; }
+.gfa-card__breaks span { padding: 2px 8px; border-radius: 999px; background: var(--current-pale); color: var(--current-dk); }
+.gfa-card__gate {
+  margin: 12px 8px 0;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--current-pale);
+  color: var(--current-dk);
+  font-weight: 500;
+}
+.gfa-card__gate a { color: var(--current-dk); font-weight: 700; text-decoration: none; border-bottom: 2px solid currentColor; }
+.gfa-card__moq { padding: 0 8px; }
+.gfa-card__options { padding: 12px 8px 0; }
+.gfa-card__options select { border-radius: var(--r-field); }
+.gfa-card__foot { padding: 14px 0 0; }
+.gfa-card__foot .gfa-btn { min-height: 44px; border-radius: 12px; }
+.gfa-card__foot .gfa-btn--outline { border: 1.5px solid var(--current); color: var(--current-dk); }
+.gfa-card__foot .gfa-btn--outline:hover { background: var(--current); border-color: var(--current); color: #fff; }
+.gfa-qty { border-radius: 12px; }
+.gfa-card--out:hover { transform: none; }
+/* Dense list view keeps its flat rows. */
+.gfa-grid[data-view="list"] .gfa-card:hover { transform: none; box-shadow: none; }
+.gfa-grid[data-view="list"] .gfa-spec { padding: 0; background: none; border-radius: 0; }
+.gfa-grid[data-view="list"] .gfa-card__price,
+.gfa-grid[data-view="list"] .gfa-card__options,
+.gfa-grid[data-view="list"] .gfa-card__foot { padding: 0; }
+.gfa-grid[data-view="list"] .gfa-card__gate { margin: 0; }
 
 /* --- Image with text: framed, offset, asymmetric ---------------------------- */
 .gfa-imgtext { grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: var(--sp-9); }
@@ -2327,7 +2381,7 @@ h3 { font-weight: 700; letter-spacing: -0.02em; }
   text-wrap: balance;
 }
 .gfa-footer h3 { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--glow); }
-.gfa-footer__social a { border-radius: 0; }
+.gfa-footer__social a { border-radius: 8px; }
 
 /* --- Breakpoints for this layer ------------------------------------------- */
 @media (max-width: 1080px) {
@@ -2371,6 +2425,20 @@ h3 { font-weight: 700; letter-spacing: -0.02em; }
   .gfa-footer__statement { padding-block: var(--sp-8) var(--sp-6); }
   .gfa-footer__statement .gfa-btn { width: 100%; }
   .gfa-cat__body { padding: var(--sp-4) 56px var(--sp-4) var(--sp-4); }
+  .gfa-card { padding: 6px; border-radius: 16px; }
+  .gfa-card__media { border-radius: 11px; }
+  .gfa-card__body { padding: 12px 6px 0; }
+  .gfa-card__price, .gfa-card__breaks, .gfa-card__moq, .gfa-card__options { padding-inline: 6px; }
+  .gfa-card__gate { margin-inline: 6px; }
+  .gfa-card__foot { padding: 12px 0 0; }
+  .gfa-spec { padding: 2px 10px; }
+  .gfa-spec__row { flex-wrap: wrap; gap: 0 8px; }
+  .gfa-spec__row dd { text-align: left; }
+  /* Quantity and Add to order stack so neither is pushed out of the card. */
+  .gfa-card__foot form { flex-direction: column; }
+  .gfa-card__foot .gfa-qty { width: 100%; min-height: 44px; }
+  .gfa-card__foot .gfa-qty input { flex: 1; width: auto; min-width: 0; }
+  .gfa-card__foot .gfa-qty button { flex: none; width: 40px; }
   .gfa-cat__arrow { right: var(--sp-4); bottom: var(--sp-4); width: 34px; height: 34px; }
 }
 
