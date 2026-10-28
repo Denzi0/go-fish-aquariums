@@ -773,6 +773,35 @@ p:last-child { margin-bottom: 0; }
 .gfa-band--dark .gfa-steps__item p { color: rgba(255, 255, 255, 0.72); }
 .gfa-band--dark .gfa-steps__num { background: rgba(143, 216, 221, 0.16); color: #8fd8dd; }
 
+/* --- Stockists (short) ---------------------------------------------------- */
+.gfa-findstore { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--sp-7); align-items: center; }
+.gfa-findstore h2 { margin-bottom: var(--sp-3); }
+.gfa-findstore__text { color: var(--ink-soft); max-width: 48ch; margin-bottom: var(--sp-5); }
+.gfa-findstore__search { position: relative; display: flex; gap: var(--sp-2); max-width: 520px; }
+.gfa-findstore__search > svg { position: absolute; left: 14px; top: 50%; width: 18px; height: 18px; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
+.gfa-findstore__search .gfa-field { flex: 1; min-width: 0; padding-left: 42px; }
+.gfa-findstore__search .gfa-btn { flex: none; }
+.gfa-findstore__states { list-style: none; margin: var(--sp-4) 0 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
+.gfa-findstore__states .gfa-link { margin-left: var(--sp-2); font-size: 0.875rem; }
+.gfa-findstore__logos { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sp-3); }
+.gfa-findstore__logos a { display: block; border-radius: var(--r-field); }
+.gfa-findstore__logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 3 / 2;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-field);
+  background: var(--paper);
+  transition: border-color 0.16s var(--ease), transform 0.16s var(--ease);
+}
+.gfa-findstore__logos a:hover .gfa-findstore__logo { border-color: var(--line-strong); transform: translateY(-2px); }
+.gfa-findstore__logo--dark { background: var(--abyss); border-color: var(--abyss); }
+.gfa-findstore__logo img { width: 100%; height: 100%; object-fit: contain; }
+.gfa-findstore__name { font-size: 0.8125rem; font-weight: 600; text-align: center; color: var(--ink-soft); }
+.gfa-findstore__logo--dark .gfa-findstore__name { color: #fff; }
+
 /* --- FAQ ----------------------------------------------------------------- */
 .gfa-faq { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr); gap: var(--sp-8); align-items: start; }
 .gfa-faq__intro { position: sticky; top: var(--sp-6); }
@@ -1856,6 +1885,7 @@ a.gfa-pager__step:hover { border-color: var(--ink); background: var(--wash); }
   .gfa-faq { grid-template-columns: 1fr; gap: var(--sp-6); }
   .gfa-faq__intro { position: static; }
   .gfa-imgtext { grid-template-columns: 1fr; gap: var(--sp-6); }
+  .gfa-findstore { grid-template-columns: minmax(0, 1fr); gap: var(--sp-6); }
   .gfa-stockists__layout.has-map { grid-template-columns: minmax(0, 1fr); }
   .gfa-stockists__layout.has-map .gfa-stockists__list { grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr)); }
   .gfa-stockists__map { display: none; }
@@ -1916,6 +1946,10 @@ a.gfa-pager__step:hover { border-color: var(--ink); background: var(--wash); }
   .gfa-qty input { flex: 1; width: auto; }
   .gfa-hero__proof { gap: var(--sp-5); }
   .gfa-reasons { grid-template-columns: 1fr; gap: var(--sp-5); }
+  .gfa-findstore__search { flex-direction: column; }
+  .gfa-findstore__search > svg { top: 23px; }
+  .gfa-findstore__logos { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-2); }
+  .gfa-findstore__logo { padding: 8px; }
   .gfa-stats__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .gfa-stats__item { padding: var(--sp-4) var(--sp-4) var(--sp-4) 0; border-left: 0; border-top: 1px solid var(--line); }
   .gfa-stats__item:nth-child(-n+2) { border-top: 0; }

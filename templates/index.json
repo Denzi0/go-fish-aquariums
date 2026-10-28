@@ -349,22 +349,6 @@
         "subheading": ""
       }
     },
-    "stockists_banner_home": {
-      "type": "banner",
-      "settings": {
-        "focal_point": "center center",
-        "scrim": 70,
-        "height": "small",
-        "alignment": "left",
-        "eyebrow": "Stockists",
-        "heading": "Find Go Fish at your local store",
-        "copy": "<p>Go Fish fish are sold through independent aquarium and pet stores across Australia. Find your nearest stockist, or ask your local store to get in touch with us.</p>",
-        "button_label": "Find a stockist",
-        "button_link": "/pages/our-stockists",
-        "button2_label": "Become a stockist",
-        "button2_link": "/pages/b2b-application"
-      }
-    },
     "faq_home": {
       "type": "faq",
       "blocks": {
@@ -434,6 +418,103 @@
         "link_label": "All articles",
         "background": "wash"
       }
+    },
+    "stockists_home": {
+      "type": "stockists-teaser",
+      "blocks": {
+        "store_1": {
+          "type": "store",
+          "settings": {
+            "name": "Concord Pets",
+            "logo": "shopify://shop_images/concord-pets-logo.png",
+            "logo_background": "light",
+            "link": "https://www.concordpets.com.au/"
+          }
+        },
+        "store_2": {
+          "type": "store",
+          "settings": {
+            "name": "Aqua Zoo",
+            "logo": "shopify://shop_images/AZ-Logo-White.png",
+            "logo_background": "dark",
+            "link": "https://www.aquazoo.net.au/"
+          }
+        },
+        "store_3": {
+          "type": "store",
+          "settings": {
+            "name": "Hurstville Aquarium",
+            "logo": "shopify://shop_images/logo_hurstville_aquarium_500x-removebg-preview.png",
+            "logo_background": "light",
+            "link": "https://hurstvilleaquarium.com.au/"
+          }
+        },
+        "store_4": {
+          "type": "store",
+          "settings": {
+            "name": "Signature Aquariums",
+            "logo": "shopify://shop_images/SA-white-logotype.png",
+            "logo_background": "dark",
+            "link": "https://signatureaquariums.com.au/"
+          }
+        },
+        "store_5": {
+          "type": "store",
+          "settings": {
+            "name": "Kings Of The Aquarium",
+            "logo": "shopify://shop_images/kings-aqurium-logo.jpg",
+            "logo_background": "light",
+            "link": "https://www.kingsoftheaquarium.com.au/"
+          }
+        },
+        "store_6": {
+          "type": "store",
+          "settings": {
+            "name": "The Tech Den",
+            "logo": "shopify://shop_images/The_Tech_Den_logo_final_800px_800x_1600x_5bfc0b08-774e-4bfd-b8c3-0fa351773c08.png",
+            "logo_background": "dark",
+            "link": "https://www.thetechden.com.au/"
+          }
+        },
+        "store_7": {
+          "type": "store",
+          "settings": {
+            "name": "Aqua Pet",
+            "logo": "shopify://shop_images/aqua-pet.png",
+            "logo_background": "light",
+            "link": "https://aquapet.com.au/"
+          }
+        },
+        "store_8": {
+          "type": "store",
+          "settings": {
+            "name": "Kellyville Pets",
+            "logo": "shopify://shop_images/Kellyville-Pets_200x80_123x49_0bc09368-a853-4611-b9be-0fd6d994f7f1.png",
+            "logo_background": "light",
+            "link": "https://www.kellyvillepets.com.au"
+          }
+        }
+      },
+      "block_order": [
+        "store_1",
+        "store_2",
+        "store_3",
+        "store_4",
+        "store_5",
+        "store_6",
+        "store_7",
+        "store_8"
+      ],
+      "settings": {
+        "eyebrow": "Stockists",
+        "heading": "Find Go Fish near you",
+        "copy": "Go Fish fish are sold through 37 independent aquarium and pet stores across NSW, VIC, QLD, SA and TAS. Search for your nearest store.",
+        "placeholder": "Suburb, postcode or store name",
+        "button_label": "Find a store",
+        "states": "NSW, VIC, QLD, SA, TAS",
+        "all_label": "View all stockists",
+        "background": "paper"
+      }
     }
   },
   "order": [
@@ -444,7 +525,7 @@
     "featured_fish_TxRyYf",
     "process_home",
     "why_home",
-    "stockists_banner_home",
+    "stockists_home",
     "faq_home",
     "blog_home",
     "wholesale_cta_6wCgxH"
