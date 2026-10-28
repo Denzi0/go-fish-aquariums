@@ -73,6 +73,26 @@
     ]
   },
   {
+    "name": "Business details",
+    "settings": [
+      { "type": "paragraph", "content": "Used in the footer, the Contact page, the top bar phone link and the business details Google reads." },
+      { "type": "text", "id": "business_phone", "label": "Phone", "default": "+61 420 998 413" },
+      { "type": "text", "id": "business_email", "label": "Email", "default": "info@gofishaquariums.com.au" },
+      { "type": "text", "id": "business_street", "label": "Street address", "default": "Unit 18, 105A Vanessa Street" },
+      { "type": "text", "id": "business_suburb", "label": "Suburb", "default": "Kingsgrove" },
+      { "type": "text", "id": "business_state", "label": "State", "default": "NSW" },
+      { "type": "text", "id": "business_postcode", "label": "Postcode", "default": "2208" },
+      { "type": "text", "id": "business_hours", "label": "Hours", "default": "7 days a week, 10am to 4pm" },
+      { "type": "text", "id": "business_hours_note", "label": "Hours note", "default": "Only servicing retail stores, by appointment only" },
+      { "type": "header", "content": "Social links" },
+      { "type": "url", "id": "social_facebook", "label": "Facebook" },
+      { "type": "url", "id": "social_instagram", "label": "Instagram" },
+      { "type": "url", "id": "social_x", "label": "X (Twitter)" },
+      { "type": "url", "id": "social_pinterest", "label": "Pinterest" },
+      { "type": "url", "id": "social_youtube", "label": "YouTube" }
+    ]
+  },
+  {
     "name": "Stock",
     "settings": [
       {

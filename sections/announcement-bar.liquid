@@ -10,7 +10,13 @@
       {%- endif -%}
       {%- if section.settings.link_label != blank -%}
         <span class="gfa-notice__spacer">
-          <a href="{{ section.settings.link_url }}">{{ section.settings.link_label }}</a>
+          {%- liquid
+            assign notice_href = section.settings.link_url
+            if notice_href == blank and settings.business_phone != blank
+              assign notice_href = 'tel:' | append: settings.business_phone | remove: ' '
+            endif
+          -%}
+          <a href="{{ notice_href }}">{{ section.settings.link_label }}</a>
         </span>
       {%- endif -%}
     </div>
@@ -27,11 +33,11 @@
       "id": "status_text",
       "label": "Status message",
       "info": "Update weekly. Buyers use this to time their order.",
-      "default": "Next livestock dispatch Tuesday 22 Sept — orders close Monday 4pm AEST"
+      "default": "Open 7 days, 10am to 4pm — retail stores by appointment only"
     },
-    { "type": "text", "id": "secondary_text", "label": "Secondary message", "default": "Live arrival guarantee on all capital-city deliveries" },
-    { "type": "text", "id": "link_label", "label": "Link label", "default": "Trade enquiries 1300 000 000" },
-    { "type": "url", "id": "link_url", "label": "Link" }
+    { "type": "text", "id": "secondary_text", "label": "Secondary message", "default": "Wholesale to independent fish and pet stores Australia wide" },
+    { "type": "text", "id": "link_label", "label": "Link label", "default": "Trade enquiries +61 420 998 413" },
+    { "type": "url", "id": "link_url", "label": "Link", "info": "Leave empty to call the phone number in Theme settings → Business details." }
   ],
   "enabled_on": { "groups": ["header"] }
 }

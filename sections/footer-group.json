@@ -7,10 +7,13 @@
       "blocks": {
         "shop": { "type": "menu", "settings": { "title": "Shop" } },
         "trade": { "type": "menu", "settings": { "title": "Wholesale" } },
-        "contact": { "type": "contact", "settings": { "title": "Contact" } }
+        "contact": { "type": "contact", "settings": { "title": "Contact details" } }
       },
       "block_order": ["shop", "trade", "contact"],
-      "settings": {}
+      "settings": {
+        "about": "Importer, quarantine and wholesaler of freshwater fish to independent pet and fish retail stores Australia wide. Trade only — we do not sell to the public.",
+        "abn": ""
+      }
     }
   },
   "order": ["footer"]

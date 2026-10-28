@@ -24,7 +24,27 @@
       "@type": "Organization",
       "name": {{ shop.name | json }},
       "url": {{ shop.url | json }},
-      "description": {{ shop.description | default: 'Freshwater fish and aquarium wholesale supplier to Australian and New Zealand retailers.' | json }}
+      "description": {{ shop.description | default: 'Importer, quarantine and wholesaler of freshwater fish to independent pet and fish retail stores Australia wide.' | json }},
+      {%- if settings.business_phone != blank %}"telephone": {{ settings.business_phone | json }},{% endif %}
+      {%- if settings.business_email != blank %}"email": {{ settings.business_email | json }},{% endif %}
+      {%- if settings.business_street != blank %}
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": {{ settings.business_street | json }},
+        "addressLocality": {{ settings.business_suburb | json }},
+        "addressRegion": {{ settings.business_state | json }},
+        "postalCode": {{ settings.business_postcode | json }},
+        "addressCountry": "AU"
+      },
+      {%- endif %}
+      {%- capture same_as -%}
+          {%- if settings.social_facebook != blank -%}{{ settings.social_facebook | json }},{%- endif -%}
+          {%- if settings.social_instagram != blank -%}{{ settings.social_instagram | json }},{%- endif -%}
+          {%- if settings.social_x != blank -%}{{ settings.social_x | json }},{%- endif -%}
+          {%- if settings.social_pinterest != blank -%}{{ settings.social_pinterest | json }},{%- endif -%}
+          {%- if settings.social_youtube != blank -%}{{ settings.social_youtube | json }},{%- endif -%}
+      {%- endcapture %}
+      "sameAs": [{{ same_as | strip | remove_last: ',' }}]
     }
   </script>
 {%- endif -%}

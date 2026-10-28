@@ -4,6 +4,18 @@
     "trade_tag": "trade",
     "catalogue_heading": "Trade pricing is hidden",
     "catalogue_note": "Wholesale pricing is shown to approved B2B customers only. Apply with your business details and we will review your account.",
-    "low_stock_threshold": 50
+    "low_stock_threshold": 50,
+    "business_phone": "+61 420 998 413",
+    "business_email": "info@gofishaquariums.com.au",
+    "business_street": "Unit 18, 105A Vanessa Street",
+    "business_suburb": "Kingsgrove",
+    "business_state": "NSW",
+    "business_postcode": "2208",
+    "business_hours": "7 days a week, 10am to 4pm",
+    "business_hours_note": "Only servicing retail stores, by appointment only",
+    "social_facebook": "https://www.facebook.com/people/Go-Fish-Aquariums/100064308211184/",
+    "social_instagram": "https://www.instagram.com/gofishaquariums",
+    "social_x": "https://x.com/GoFishAquariumX",
+    "social_pinterest": "https://au.pinterest.com/gofishaquariums/"
   }
 }

@@ -15,9 +15,9 @@
       "type": "announcement-bar",
       "settings": {
         "enabled": true,
-        "status_text": "Next livestock dispatch Tuesday 22 Sept — orders close Monday 4pm AEST",
-        "secondary_text": "Live arrival guarantee on all capital-city deliveries",
-        "link_label": "Trade enquiries 1300 000 000",
+        "status_text": "Open 7 days, 10am to 4pm — retail stores by appointment only",
+        "secondary_text": "Wholesale to independent fish and pet stores Australia wide",
+        "link_label": "Trade enquiries +61 420 998 413",
         "link_url": ""
       }
     },

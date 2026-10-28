@@ -23,20 +23,28 @@
             </ul>
           </div>
         {%- when 'contact' -%}
+          {%- comment -%} Details come from Theme settings → Business details. {%- endcomment -%}
           <div {{ block.shopify_attributes }}>
             <h3>{{ block.settings.title }}</h3>
-            <ul>
-              {%- if block.settings.phone != blank -%}
-                <li><a href="tel:{{ block.settings.phone | remove: ' ' }}">{{ block.settings.phone }}</a></li>
+            <ul class="gfa-footer__contact">
+              {%- if settings.business_hours != blank -%}
+                <li>
+                  {{ settings.business_hours }}
+                  {%- if settings.business_hours_note != blank -%}<small>{{ settings.business_hours_note }}</small>{%- endif -%}
+                </li>
               {%- endif -%}
-              {%- if block.settings.email != blank -%}
-                <li><a href="mailto:{{ block.settings.email }}">{{ block.settings.email }}</a></li>
+              {%- if settings.business_street != blank -%}
+                <li>
+                  <a href="https://www.google.com/maps/search/?api=1&query={{ settings.business_street | append: ' ' | append: settings.business_suburb | append: ' ' | append: settings.business_state | append: ' ' | append: settings.business_postcode | url_encode }}" target="_blank" rel="noopener">
+                    {{ settings.business_street }}<br>{{ settings.business_suburb }} {{ settings.business_state }} {{ settings.business_postcode }}
+                  </a>
+                </li>
               {%- endif -%}
-              {%- if block.settings.address != blank -%}
-                <li>{{ block.settings.address }}</li>
+              {%- if settings.business_email != blank -%}
+                <li><a href="mailto:{{ settings.business_email }}">{{ settings.business_email }}</a></li>
               {%- endif -%}
-              {%- if block.settings.hours != blank -%}
-                <li>{{ block.settings.hours }}</li>
+              {%- if settings.business_phone != blank -%}
+                <li><a href="tel:{{ settings.business_phone | remove: ' ' }}">{{ settings.business_phone }}</a></li>
               {%- endif -%}
             </ul>
           </div>
@@ -51,14 +59,20 @@
     {%- endfor -%}
 
     <div class="gfa-footer__social">
-      {%- if section.settings.facebook != blank -%}
-        <a href="{{ section.settings.facebook }}" aria-label="Facebook">{% render 'icon', name: 'facebook' %}</a>
+      {%- if settings.social_facebook != blank -%}
+        <a href="{{ settings.social_facebook }}" target="_blank" rel="noopener" aria-label="Facebook">{% render 'icon', name: 'facebook' %}</a>
       {%- endif -%}
-      {%- if section.settings.instagram != blank -%}
-        <a href="{{ section.settings.instagram }}" aria-label="Instagram">{% render 'icon', name: 'instagram' %}</a>
+      {%- if settings.social_instagram != blank -%}
+        <a href="{{ settings.social_instagram }}" target="_blank" rel="noopener" aria-label="Instagram">{% render 'icon', name: 'instagram' %}</a>
       {%- endif -%}
-      {%- if section.settings.youtube != blank -%}
-        <a href="{{ section.settings.youtube }}" aria-label="YouTube">{% render 'icon', name: 'youtube' %}</a>
+      {%- if settings.social_x != blank -%}
+        <a href="{{ settings.social_x }}" target="_blank" rel="noopener" aria-label="X">{% render 'icon', name: 'x-social' %}</a>
+      {%- endif -%}
+      {%- if settings.social_pinterest != blank -%}
+        <a href="{{ settings.social_pinterest }}" target="_blank" rel="noopener" aria-label="Pinterest">{% render 'icon', name: 'pinterest' %}</a>
+      {%- endif -%}
+      {%- if settings.social_youtube != blank -%}
+        <a href="{{ settings.social_youtube }}" target="_blank" rel="noopener" aria-label="YouTube">{% render 'icon', name: 'youtube' %}</a>
       {%- endif -%}
     </div>
   </div>
@@ -68,12 +82,10 @@
 {
   "name": "Footer",
   "settings": [
-    { "type": "textarea", "id": "about", "label": "About text", "default": "GoFishAquariums supplies freshwater livestock and aquarium hard goods to licensed retailers across Australia and New Zealand. Trade only — we do not sell to the public." },
-    { "type": "text", "id": "abn", "label": "ABN / licence line", "default": "ABN 00 000 000 000 · Aquaculture licence QLD-00000" },
-    { "type": "text", "id": "legal", "label": "Legal line", "default": "Prices exclude GST." },
-    { "type": "url", "id": "facebook", "label": "Facebook" },
-    { "type": "url", "id": "instagram", "label": "Instagram" },
-    { "type": "url", "id": "youtube", "label": "YouTube" }
+    { "type": "paragraph", "content": "Contact details and social links are set in Theme settings → Business details." },
+    { "type": "textarea", "id": "about", "label": "About text", "default": "Importer, quarantine and wholesaler of freshwater fish to independent pet and fish retail stores Australia wide. Trade only — we do not sell to the public." },
+    { "type": "text", "id": "abn", "label": "ABN / licence line" },
+    { "type": "text", "id": "legal", "label": "Legal line", "default": "Prices exclude GST." }
   ],
   "blocks": [
     {
@@ -88,11 +100,8 @@
       "type": "contact",
       "name": "Contact",
       "settings": [
-        { "type": "text", "id": "title", "label": "Title", "default": "Contact" },
-        { "type": "text", "id": "phone", "label": "Phone", "default": "1300 000 000" },
-        { "type": "text", "id": "email", "label": "Email", "default": "orders@gofishaquariums.com.au" },
-        { "type": "text", "id": "address", "label": "Address", "default": "12 Hatchery Road, Rocklea QLD 4106" },
-        { "type": "text", "id": "hours", "label": "Hours", "default": "Mon–Fri, 7am–4pm AEST" }
+        { "type": "text", "id": "title", "label": "Title", "default": "Contact details" },
+        { "type": "paragraph", "content": "Edit the details in Theme settings → Business details." }
       ]
     }
   ],
