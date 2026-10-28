@@ -1,0 +1,22 @@
+{%- comment -%}
+  category-tile.liquid — one photo tile in "Shop by category".
+  {% render 'category-tile', url: url, title: title, meta: '12 products', image: img, shape: 'fusiform', tint: '#12808f' %}
+  Without an image it shows the drawn fish silhouette on a light tile.
+{%- endcomment -%}
+<a class="gfa-cat{% if image %} gfa-cat--photo{% endif %}" href="{{ url }}" {{ attrs }}>
+  <span class="gfa-cat__media">
+    {%- if image -%}
+      {{ image | image_url: width: 700 | image_tag:
+         loading: 'lazy', widths: '300,450,600,700',
+         sizes: '(max-width: 640px) 60vw, (max-width: 1080px) 33vw, 240px',
+         alt: '' }}
+    {%- else -%}
+      {% render 'fish-placeholder', shape: shape, tint: tint, tint_opacity: '0.85' %}
+    {%- endif -%}
+  </span>
+  <span class="gfa-cat__body">
+    <strong>{{ title }}</strong>
+    {%- if meta != blank -%}<span class="gfa-cat__meta">{{ meta }}</span>{%- endif -%}
+  </span>
+  <span class="gfa-cat__arrow" aria-hidden="true">{% render 'icon', name: 'arrow-right' %}</span>
+</a>

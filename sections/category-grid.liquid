@@ -20,52 +20,35 @@
     <div class="gfa-cats">
       {%- if section.settings.source == 'menu' and section.settings.menu.links.size > 0 -%}
         {%- for link in section.settings.menu.links limit: section.settings.max_tiles -%}
-          {%- assign col = link.object -%}
-          <a class="gfa-cat" href="{{ link.url }}">
-            <span class="gfa-cat__avatar">
-              {%- if col.image -%}
-                {{ col.image | image_url: width: 220 | image_tag: loading: 'lazy', widths: '110,160,220', sizes: '110px', class: 'gfa-cat__thumb', alt: col.title | escape }}
-              {%- elsif col.products.first.featured_image -%}
-                {{ col.products.first.featured_image | image_url: width: 220 | image_tag: loading: 'lazy', widths: '110,160,220', sizes: '110px', class: 'gfa-cat__thumb', alt: col.title | escape }}
-              {%- else -%}
-                {% render 'fish-placeholder', shape: col.metafields.gofish.body_shape.value, tint: section.settings.silhouette_color, tint_opacity: '0.85' %}
-              {%- endif -%}
-            </span>
-            <strong>{{ link.title }}</strong>
-            <span>
-              {%- if link.type == 'collection_link' -%}
-                {{ 'collections.count_species' | t: count: col.all_products_count }}
-              {%- else -%}
-                {{ 'collections.view_range' | t }}
-              {%- endif -%}
-            </span>
-          </a>
+          {%- liquid
+            assign col = link.object
+            assign img = col.image | default: col.products.first.featured_image
+            if link.type == 'collection_link'
+              assign meta = 'collections.count_species' | t: count: col.all_products_count
+            else
+              assign meta = 'collections.view_range' | t
+            endif
+          -%}
+          {% render 'category-tile', url: link.url, title: link.title, meta: meta, image: img,
+             shape: col.metafields.gofish.body_shape.value, tint: section.settings.silhouette_color, eager: false %}
         {%- endfor -%}
 
       {%- else -%}
         {%- for block in section.blocks -%}
-          {%- assign col = collections[block.settings.collection] -%}
-          <a class="gfa-cat" href="{% if col != blank %}{{ col.url }}{% else %}{{ block.settings.fallback_url }}{% endif %}" {{ block.shopify_attributes }}>
-            <span class="gfa-cat__avatar">
-              {%- if block.settings.image -%}
-                {{ block.settings.image | image_url: width: 220 | image_tag: loading: 'lazy', widths: '110,160,220', sizes: '110px', class: 'gfa-cat__thumb', alt: '' }}
-              {%- elsif col.image -%}
-                {{ col.image | image_url: width: 220 | image_tag: loading: 'lazy', widths: '110,160,220', sizes: '110px', class: 'gfa-cat__thumb', alt: col.title | escape }}
-              {%- elsif col.products.first.featured_image -%}
-                {{ col.products.first.featured_image | image_url: width: 220 | image_tag: loading: 'lazy', widths: '110,160,220', sizes: '110px', class: 'gfa-cat__thumb', alt: col.title | escape }}
-              {%- else -%}
-                {% render 'fish-placeholder', shape: block.settings.shape, tint: block.settings.color, tint_opacity: '0.85' %}
-              {%- endif -%}
-            </span>
-            <strong>{{ block.settings.label | default: col.title }}</strong>
-            <span>
-              {%- if col != blank -%}
-                {{ 'collections.count_species' | t: count: col.all_products_count }}
-              {%- else -%}
-                {{ block.settings.note }}
-              {%- endif -%}
-            </span>
-          </a>
+          {%- liquid
+            assign col = collections[block.settings.collection]
+            assign img = block.settings.image | default: col.image | default: col.products.first.featured_image
+            if col != blank
+              assign url = col.url
+              assign meta = 'collections.count_species' | t: count: col.all_products_count
+            else
+              assign url = block.settings.fallback_url
+              assign meta = block.settings.note
+            endif
+            assign title = block.settings.label | default: col.title
+          -%}
+          {% render 'category-tile', url: url, title: title, meta: meta, image: img,
+             shape: block.settings.shape, tint: block.settings.color, attrs: block.shopify_attributes %}
         {%- endfor -%}
       {%- endif -%}
     </div>

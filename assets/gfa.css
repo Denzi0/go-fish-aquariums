@@ -536,43 +536,65 @@ p:last-child { margin-bottom: 0; }
 .gfa-status--soon { color: var(--inbound); }
 .gfa-status--out { color: var(--gone); }
 
-/* --- Category strip ------------------------------------------------------- */
+/* --- Category tiles ------------------------------------------------------- */
 .gfa-cats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 1px;
-  background: var(--line);
-  border: 1px solid var(--line);
-  border-radius: var(--r-card);
-  overflow: hidden;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--sp-4);
 }
 .gfa-cat {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: center;
-  column-gap: 14px;
-  row-gap: 2px;
-  padding: 16px 18px;
-  background: var(--paper);
-  transition: background-color 0.16s var(--ease);
-}
-.gfa-cat:hover { background: var(--wash); }
-.gfa-cat__avatar {
-  grid-row: span 2;
-  width: 56px;
-  height: 56px;
-  flex: none;
-  border-radius: 50%;
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 5;
   overflow: hidden;
+  border-radius: var(--r-card);
   border: 1px solid var(--line);
   background: linear-gradient(170deg, #eef4f5 0%, #dfeaec 100%);
-  transition: border-color 0.16s var(--ease);
+  isolation: isolate;
 }
-.gfa-cat:hover .gfa-cat__avatar { border-color: var(--current); }
-.gfa-cat__avatar img,
-.gfa-cat__avatar svg { width: 100%; height: 100%; object-fit: cover; display: block; }
-.gfa-cat strong { font-size: 0.9375rem; font-weight: 600; align-self: end; }
-.gfa-cat span { font-family: var(--f-num); font-size: 0.75rem; color: var(--muted); align-self: start; }
+.gfa-cat__media { position: absolute; inset: 0; z-index: -1; }
+.gfa-cat__media img,
+.gfa-cat__media svg { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s var(--ease); }
+.gfa-cat:hover .gfa-cat__media img,
+.gfa-cat:hover .gfa-cat__media svg { transform: scale(1.06); }
+.gfa-cat--photo { border-color: transparent; background: var(--abyss); }
+.gfa-cat--photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg, rgba(4, 25, 31, 0) 40%, rgba(4, 25, 31, 0.55) 70%, rgba(4, 25, 31, 0.92) 100%);
+}
+.gfa-cat__body {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  gap: 2px;
+  padding: var(--sp-4) 56px var(--sp-4) var(--sp-4);
+}
+.gfa-cat__body strong { font-size: 1.0625rem; font-weight: 600; line-height: 1.2; letter-spacing: -0.012em; color: var(--abyss); }
+.gfa-cat__meta { font-family: var(--f-num); font-size: 0.75rem; color: var(--muted); }
+.gfa-cat--photo .gfa-cat__body strong { color: #fff; }
+.gfa-cat--photo .gfa-cat__meta { color: rgba(255, 255, 255, 0.75); }
+.gfa-cat__arrow {
+  position: absolute;
+  right: var(--sp-4);
+  bottom: var(--sp-4);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--paper);
+  color: var(--abyss);
+  transition: background-color 0.16s var(--ease), color 0.16s var(--ease), transform 0.16s var(--ease);
+}
+.gfa-cat__arrow svg { width: 16px; height: 16px; }
+.gfa-cat:hover .gfa-cat__arrow { background: var(--current); color: #fff; transform: translateX(2px); }
+.gfa-cat:focus-visible { outline-offset: 3px; }
 
 /* --- Fish card ------------------------------------------------------------ */
 .gfa-grid {
@@ -1950,6 +1972,20 @@ a.gfa-pager__step:hover { border-color: var(--ink); background: var(--wash); }
   .gfa-findstore__search > svg { top: 23px; }
   .gfa-findstore__logos { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-2); }
   .gfa-findstore__logo { padding: 8px; }
+  /* Category tiles become a swipeable row. */
+  .gfa-cats {
+    display: flex;
+    gap: var(--sp-3);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    margin-inline: calc(var(--gutter) * -1);
+    padding: 0 var(--gutter) 4px;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+  }
+  .gfa-cats::-webkit-scrollbar { display: none; }
+  .gfa-cat { flex: 0 0 58%; scroll-snap-align: start; }
+  .gfa-cat__body strong { font-size: 1rem; }
   .gfa-stats__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .gfa-stats__item { padding: var(--sp-4) var(--sp-4) var(--sp-4) 0; border-left: 0; border-top: 1px solid var(--line); }
   .gfa-stats__item:nth-child(-n+2) { border-top: 0; }
