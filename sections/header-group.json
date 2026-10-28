@@ -29,7 +29,6 @@
         "contact_label": "Contact us",
         "quick_order_url": "",
         "show_search": true,
-        "show_account": true,
         "show_cart": true
       }
     }

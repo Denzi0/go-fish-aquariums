@@ -6,7 +6,7 @@
 -%}
 
 <header class="gfa-header" data-header>
-  {%- comment -%} Row 1 (the announcement bar) is its own section. Row 2: brand, search, account. {%- endcomment -%}
+  {%- comment -%} Row 1 (the announcement bar) is its own section. Row 2: brand, search, contact. {%- endcomment -%}
   <div class="gfa-header__main">
     <div class="gfa-shell gfa-header__in">
       <a class="gfa-logo" href="{{ routes.root_url }}">
@@ -36,12 +36,6 @@
                   aria-haspopup="dialog" aria-controls="gfa-search" aria-label="{{ 'general.search' | t }}">
             {% render 'icon', name: 'search' %}
           </button>
-        {%- endif -%}
-
-        {%- if section.settings.show_account -%}
-          <a class="gfa-iconbtn" href="{{ routes.account_url }}" aria-label="{{ 'customer.account' | t }}">
-            {% render 'icon', name: 'account' %}
-          </a>
         {%- endif -%}
 
         {%- if section.settings.show_cart and price_access contains 'true' -%}
@@ -203,7 +197,6 @@
     { "type": "url", "id": "contact_url", "label": "Contact button link", "info": "Defaults to the contact page set in Theme settings → Trade access." },
     { "type": "url", "id": "quick_order_url", "label": "Quick order link", "info": "Shown to signed-in customers only." },
     { "type": "checkbox", "id": "show_search", "label": "Show search", "default": true },
-    { "type": "checkbox", "id": "show_account", "label": "Show account", "default": true },
     { "type": "checkbox", "id": "show_cart", "label": "Show cart", "default": true }
   ],
   "enabled_on": { "groups": ["header"] }
