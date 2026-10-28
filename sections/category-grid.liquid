@@ -9,6 +9,7 @@
   <div class="gfa-shell">
     <div class="gfa-band-head">
       <div>
+        {%- if section.settings.eyebrow != blank -%}<p class="gfa-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
         <h2>{{ section.settings.heading }}</h2>
         {%- if section.settings.subheading != blank -%}<p>{{ section.settings.subheading }}</p>{%- endif -%}
       </div>
@@ -60,6 +61,7 @@
   "name": "Shop by category",
   "tag": "section",
   "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Shop by category" },
     { "type": "text", "id": "subheading", "label": "Subheading", "default": "Livestock is grouped the way you order it — by type, then by size grade." },
     { "type": "select", "id": "source", "label": "Tiles come from", "default": "menu",

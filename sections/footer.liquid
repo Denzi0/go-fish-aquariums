@@ -1,4 +1,12 @@
 <footer class="gfa-footer">
+  {%- if section.settings.statement != blank -%}
+    <div class="gfa-shell gfa-footer__statement">
+      <p class="gfa-footer__big">{{ section.settings.statement }}</p>
+      {%- if section.settings.statement_label != blank -%}
+        <a class="gfa-btn gfa-btn--primary" href="{{ section.settings.statement_link | default: settings.contact_page.url | default: '/pages/contact' }}">{{ section.settings.statement_label }}</a>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
   <div class="gfa-shell gfa-footer__top">
     <div>
       <a class="gfa-logo" href="{{ routes.root_url }}" style="color:#fff">
@@ -83,6 +91,9 @@
   "name": "Footer",
   "settings": [
     { "type": "paragraph", "content": "Contact details and social links are set in Theme settings → Business details." },
+    { "type": "text", "id": "statement", "label": "Statement", "default": "Healthy fish for independent stores." },
+    { "type": "text", "id": "statement_label", "label": "Statement button", "default": "Get in touch" },
+    { "type": "url", "id": "statement_link", "label": "Statement button link", "info": "Defaults to the contact page." },
     { "type": "textarea", "id": "about", "label": "About text", "default": "Importer, quarantine and wholesaler of freshwater fish to independent pet and fish retail stores Australia wide. Trade only — we do not sell to the public." },
     { "type": "text", "id": "abn", "label": "ABN / licence line" },
     { "type": "text", "id": "legal", "label": "Legal line", "default": "Prices exclude GST." }

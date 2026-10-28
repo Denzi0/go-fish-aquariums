@@ -2,6 +2,7 @@
   <div class="gfa-shell">
     <div class="gfa-band-head">
       <div>
+        {%- if section.settings.eyebrow != blank -%}<p class="gfa-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
         <h2>{{ section.settings.heading }}</h2>
         {%- if section.settings.subheading != blank -%}<p>{{ section.settings.subheading }}</p>{%- endif -%}
       </div>
@@ -10,6 +11,7 @@
     <div class="gfa-reasons">
       {%- for block in section.blocks -%}
         <div class="gfa-reason" {{ block.shopify_attributes }}>
+          <span class="gfa-reason__num gfa-num" aria-hidden="true">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
           <h3>{{ block.settings.title }}</h3>
           <p>{{ block.settings.text }}</p>
         </div>
@@ -23,6 +25,7 @@
   "name": "Why choose us",
   "tag": "section",
   "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Why shops buy from us" },
     { "type": "text", "id": "subheading", "label": "Subheading", "default": "" }
   ],

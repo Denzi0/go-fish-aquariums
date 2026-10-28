@@ -136,7 +136,8 @@
         "max_tiles": 8,
         "silhouette_color": "#12808f",
         "link_label": "All categories",
-        "link_url": ""
+        "link_url": "",
+        "eyebrow": "The range"
       }
     },
     "featured_fish_TxRyYf": {
@@ -150,7 +151,8 @@
         "columns": 4,
         "link_label": "See the full stock list",
         "link_url": "",
-        "background": "paper"
+        "background": "paper",
+        "eyebrow": "In the fish room"
       }
     },
     "process_steps_RbLrzR": {
@@ -297,7 +299,7 @@
       "name": "Stats strip",
       "settings": {
         "heading": "Go Fish at a glance",
-        "style": "light"
+        "style": "dark"
       }
     }
   },
