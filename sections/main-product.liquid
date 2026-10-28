@@ -160,8 +160,10 @@
         Approved customers get it too when the product is out of stock.
       {%- endcomment -%}
       {%- if show_price == false or v.available == false -%}
-        <div class="gfa-buybox">
-          {% render 'product-enquiry', product: product, variant: v %}
+        <div class="gfa-buybox gfa-buybox--enquire">
+          <p class="gfa-buybox__lead">{{ 'products.enquiry.intro' | t }}</p>
+          {%- capture enquiry_label %}{{ 'products.enquiry.open_product' | t }}{% endcapture -%}
+          {% render 'enquiry-trigger', product: product, variant: v, primary: true, class: 'gfa-btn gfa-btn--primary gfa-btn--block', label: enquiry_label %}
         </div>
       {%- endif -%}
 

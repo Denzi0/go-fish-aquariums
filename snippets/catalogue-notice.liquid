@@ -14,10 +14,9 @@
   </div>
   <div class="gfa-gate__actions">
     <a class="gfa-btn gfa-btn--primary gfa-btn--sm" href="{{ b2b_url }}">{{ 'customer.apply_b2b' | t }}</a>
-    {%- if context == 'product' -%}
-      <a class="gfa-btn gfa-btn--outline gfa-btn--sm" href="#enquire">{{ 'customer.contact_us' | t }}</a>
-    {%- else -%}
+    {%- comment -%} On the product page the buy box carries the product "Contact us" button. {%- endcomment -%}
+    {%- unless context == 'product' -%}
       <a class="gfa-btn gfa-btn--outline gfa-btn--sm" href="{{ contact_url }}">{{ 'customer.contact_us' | t }}</a>
-    {%- endif -%}
+    {%- endunless -%}
   </div>
 </div>

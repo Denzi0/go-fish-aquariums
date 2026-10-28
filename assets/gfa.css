@@ -1596,16 +1596,26 @@ a.gfa-pager__step:hover { border-color: var(--ink); background: var(--wash); }
 .gfa-gate--inline .gfa-gate__actions .gfa-btn { flex: 1; }
 
 /* --- Product enquiry + B2B application ------------------------------------ */
-#enquire { scroll-margin-top: 96px; }
-.gfa-enquiry__title { font-size: 1.125rem; margin-bottom: 4px; }
+.gfa-enquiry { max-width: 560px; }
+.gfa-enquiry__in { padding: var(--sp-6); }
+.gfa-enquiry__title { font-size: 1.25rem; margin-bottom: var(--sp-3); padding-right: 40px; }
+.gfa-enquiry__product, .gfa-enquiry__about {
+  margin: 0 0 var(--sp-3);
+  padding: 10px 14px;
+  background: var(--wash);
+  border-left: 3px solid var(--current);
+  border-radius: var(--r-field);
+  font-weight: 600;
+  color: var(--abyss);
+  overflow-wrap: anywhere;
+}
+.gfa-enquiry__product:empty { display: none; }
 .gfa-enquiry .gfa-note { margin-bottom: var(--sp-4); }
 .gfa-enquiry textarea.gfa-field, .gfa-apply textarea.gfa-field { min-height: 0; resize: vertical; }
-.gfa-enquiry__dialog-link { display: none; }
-.gfa-dialog .gfa-enquiry__dialog-link { display: flex; }
-.gfa-dialog .gfa-enquiry__form { display: none; }
+.gfa-buybox__lead { font-size: 0.9375rem; color: var(--ink-soft); margin-bottom: var(--sp-4); }
 .gfa-enquiry__done { display: flex; gap: var(--sp-3); align-items: flex-start; outline: none; }
 .gfa-enquiry__done > svg { width: 28px; height: 28px; flex: none; color: var(--current); }
-.gfa-enquiry__done strong { display: block; font-size: 1.0625rem; margin-bottom: 4px; }
+.gfa-enquiry__done strong { padding-right: 40px; display: block; font-size: 1.0625rem; margin-bottom: 4px; }
 .gfa-enquiry__done p { color: var(--ink-soft); font-size: 0.9375rem; margin-bottom: var(--sp-4); }
 .gfa-enquiry__done > div { flex: 1; min-width: 0; }
 
@@ -1770,6 +1780,7 @@ a.gfa-pager__step:hover { border-color: var(--ink); background: var(--wash); }
   .gfa-mobilenav__actions { display: grid; gap: var(--sp-2); padding-top: var(--sp-4); }
   .gfa-mobilenav__actions a { display: flex; border-bottom: 0; padding: 0 22px; font-size: 0.9375rem; font-weight: 600; }
   .gfa-dialog { width: calc(100% - 16px); max-height: calc(100dvh - 16px); }
+  .gfa-enquiry__in { padding: var(--sp-5) var(--sp-4); }
   .gfa-faq__q { grid-template-columns: 1.75rem 1fr 26px; font-size: 1rem; padding: 16px 0; }
   .gfa-faq__a { padding: 0 0 18px calc(1.75rem + var(--sp-3)); }
   .gfa-banner h2 { font-size: clamp(2rem, 1.2rem + 4.4vw, 2.5rem); margin-bottom: var(--sp-4); }

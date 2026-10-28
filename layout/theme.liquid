@@ -35,6 +35,14 @@
 
     {% sections 'footer-group' %}
 
+    {%- comment -%}
+      Product enquiry popup. Left off the contact and B2B pages: they carry their
+      own contact form, and Shopify would show both forms as "sent" after a post.
+    {%- endcomment -%}
+    {%- unless template.suffix == 'contact' or template.suffix == 'b2b-application' -%}
+      {% render 'product-enquiry' %}
+    {%- endunless -%}
+
     <dialog class="gfa-dialog" data-quick-view-dialog aria-label="{{ 'products.quick_view' | t }}">
       <button class="gfa-iconbtn gfa-dialog__close" type="button" data-quick-view-close aria-label="{{ 'general.close' | t }}">
         {% render 'icon', name: 'close' %}

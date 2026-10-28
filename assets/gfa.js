@@ -211,11 +211,105 @@
     }
   }
 
-  /* After a form posts, Shopify reloads the page; bring the thank-you into view. */
-  var done = $('[data-enquiry-done]');
-  if (done) {
-    done.scrollIntoView({ block: 'center' });
-    done.focus({ preventScroll: true });
+  /* --- Product enquiry popup --------------------------------------------- */
+  /* One dialog for the whole site. Each [data-enquiry-open] button carries its
+     product's title, link, SKU and options; they are copied into the form. The
+     product is also kept for this tab so the popup can reopen with the right
+     product after Shopify reloads the page with errors or the thank-you. */
+  var PRODUCT_KEY = 'gfa-enquiry-product';
+  var enquiry = $('[data-enquiry-dialog]');
+
+  function fillEnquiry(p) {
+    if (!enquiry || !p) return;
+    var title = $('[data-enquiry-title]', enquiry);
+    if (title) title.textContent = p.product || '';
+    var about = $('[data-enquiry-done-product]', enquiry);
+    if (about && p.product) { about.textContent = p.product; about.hidden = false; }
+    ['product', 'url', 'sku'].forEach(function (k) {
+      var input = $('[data-enquiry-input="' + k + '"]', enquiry);
+      if (input) input.value = p[k] || '';
+    });
+
+    var row = $('[data-enquiry-option-row]', enquiry);
+    var select = $('[data-enquiry-options]', enquiry);
+    if (!row || !select) return;
+    var options = p.options ? p.options.split('||') : [];
+    select.innerHTML = '';
+    options.forEach(function (text) {
+      var opt = document.createElement('option');
+      opt.textContent = text;
+      if (text === p.selected) opt.selected = true;
+      select.appendChild(opt);
+    });
+    var label = $('[data-enquiry-option-label]', enquiry);
+    if (label && p.optionLabel) label.textContent = p.optionLabel;
+    row.hidden = options.length === 0;
+    select.disabled = options.length === 0;
+  }
+
+  function openEnquiry(p) {
+    if (!enquiry || typeof enquiry.showModal !== 'function') return false;
+    if (p) fillEnquiry(p);
+    var quick = $('[data-quick-view-dialog]');
+    if (quick && quick.open) quick.close();
+    if (!enquiry.open) enquiry.showModal();
+    var first = $('[data-enquiry-done]', enquiry) || $('[data-enquiry-field="name"]', enquiry);
+    if (first) first.focus();
+    return true;
+  }
+
+  function productFrom(btn) {
+    return {
+      product: btn.getAttribute('data-product'),
+      url: btn.getAttribute('data-url'),
+      sku: btn.getAttribute('data-sku'),
+      options: btn.getAttribute('data-options'),
+      selected: btn.getAttribute('data-selected'),
+      optionLabel: btn.getAttribute('data-option-label')
+    };
+  }
+
+  if (enquiry) {
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-enquiry-open]');
+      if (!btn) return;
+      if (openEnquiry(productFrom(btn))) e.preventDefault();
+    });
+    $('[data-enquiry-close]', enquiry).addEventListener('click', function () { enquiry.close(); });
+    enquiry.addEventListener('click', function (e) { if (e.target === enquiry) enquiry.close(); });
+
+    var enquiryForm = $('form', enquiry);
+    if (enquiryForm) {
+      enquiryForm.addEventListener('submit', function () {
+        var p = {
+          product: ($('[data-enquiry-input="product"]', enquiry) || {}).value,
+          url: ($('[data-enquiry-input="url"]', enquiry) || {}).value,
+          sku: ($('[data-enquiry-input="sku"]', enquiry) || {}).value
+        };
+        var trigger = $$('[data-enquiry-open]').filter(function (b) { return b.getAttribute('data-url') === p.url; })[0];
+        if (trigger) p = productFrom(trigger);
+        try { sessionStorage.setItem(PRODUCT_KEY, JSON.stringify(p)); } catch (err) {}
+      });
+    }
+
+    var saved = null;
+    try { saved = JSON.parse(sessionStorage.getItem(PRODUCT_KEY) || 'null'); } catch (err) {}
+    var hash = window.location.hash;
+    if ($('[data-enquiry-done]', enquiry) || $('[data-enquiry-errors]', enquiry) || hash === '#ProductEnquiry') {
+      /* Back from a post: reopen with the product that was asked about. */
+      openEnquiry(saved);
+    } else if (hash === '#enquire') {
+      /* Arrived from a card link without JS having run (or a shared link). */
+      var primary = $('[data-enquiry-primary]');
+      if (primary) openEnquiry(productFrom(primary));
+    }
+  }
+
+  /* Contact and B2B pages: after Shopify reloads, bring the thank-you into view. */
+  var pageDone = $$('[data-enquiry-done]').filter(function (d) { return !d.closest('dialog'); })[0];
+  if (pageDone) {
+    pageDone.scrollIntoView({ block: 'center' });
+    pageDone.focus({ preventScroll: true });
   }
 
   /* --- Mobile navigation --------------------------------------------------- */

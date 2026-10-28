@@ -213,9 +213,8 @@
         </button>
       </form>
     {%- elsif show_price == false -%}
-      <a class="gfa-btn gfa-btn--outline gfa-btn--sm gfa-btn--block" href="{{ product.url }}#enquire">
-        {{ 'products.contact_us' | t }}
-      </a>
+      {%- capture contact_label %}{{ 'products.contact_us' | t }}{% endcapture -%}
+      {% render 'enquiry-trigger', product: product, variant: v, class: 'gfa-btn gfa-btn--outline gfa-btn--sm gfa-btn--block', label: contact_label %}
     {%- else -%}
       <a class="gfa-btn gfa-btn--outline gfa-btn--sm gfa-btn--block" href="{{ product.url }}">
         {{ 'products.notify_me' | t }}

@@ -1,0 +1,43 @@
+{%- comment -%}
+  enquiry-trigger.liquid — a "Contact us" button that opens the product enquiry
+  popup (snippets/product-enquiry.liquid) filled in for this product.
+  Without JS it falls back to the product page.
+
+  Usage:
+    {% render 'enquiry-trigger', product: product, variant: v, class: 'gfa-btn gfa-btn--primary', label: 'Contact us' %}
+{%- endcomment -%}
+{%- liquid
+  assign variant = variant | default: product.selected_or_first_available_variant
+  assign label = label | default: 'Contact us'
+  assign options = ''
+  unless product.has_only_default_variant
+    for option_variant in product.variants
+      assign option_text = option_variant.title
+      if option_variant.sku != blank
+        assign option_text = option_text | append: ' (' | append: option_variant.sku | append: ')'
+      endif
+      if forloop.first
+        assign options = option_text
+      else
+        assign options = options | append: '||' | append: option_text
+      endif
+    endfor
+  endunless
+  assign selected = variant.title
+  if variant.sku != blank
+    assign selected = selected | append: ' (' | append: variant.sku | append: ')'
+  endif
+  assign option_label = product.options.first
+  if product.options.size > 1
+    assign option_label = 'products.option' | t
+  endif
+-%}
+<a class="{{ class }}" href="{{ product.url }}#enquire" role="button" aria-haspopup="dialog"
+   data-enquiry-open
+   data-product="{{ product.title | escape }}"
+   data-url="{{ request.origin }}{{ product.url }}"
+   data-sku="{{ variant.sku | escape }}"
+   {% if options != blank %}data-options="{{ options | escape }}" data-selected="{{ selected | escape }}" data-option-label="{{ option_label | escape }}"{% endif %}
+   {% if primary %}data-enquiry-primary{% endif %}>
+  {{- label -}}
+</a>
