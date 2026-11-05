@@ -1830,9 +1830,9 @@ a.gfa-pager__step:hover { border-color: var(--ink); background: var(--wash); }
 .gfa-apply__steps span { font-size: 0.875rem; color: var(--muted); }
 .gfa-apply__contact { list-style: none; margin: var(--sp-6) 0 0; padding: 0; border-top: 1px solid var(--line); }
 .gfa-apply__contact li { display: flex; gap: var(--sp-4); padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 0.9375rem; overflow-wrap: anywhere; }
-.gfa-apply__contact span { width: 64px; flex: none; color: var(--muted); }
+.gfa-apply__contact li > span:first-child { width: 64px; flex: none; color: var(--muted); }
 .gfa-apply__contact a { color: var(--current-dk); font-weight: 600; }
-.gfa-apply__val { min-width: 0; }
+.gfa-apply__val { flex: 1; min-width: 0; }
 .gfa-apply__val small { display: block; margin-top: 2px; font-size: 0.8125rem; color: var(--muted); }
 .gfa-apply__panel { max-width: none; margin: 0; background: var(--paper); }
 .gfa-apply__group { border: 0; margin: 0 0 var(--sp-5); padding: 0 0 var(--sp-2); border-bottom: 1px solid var(--wash-2); min-width: 0; }
