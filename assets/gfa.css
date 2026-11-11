@@ -1589,15 +1589,28 @@ a.gfa-pager__step:hover { border-color: var(--ink); background: var(--wash); }
   font-size: 0.8125rem;
   color: rgba(255, 255, 255, 0.55);
 }
-.gfa-footer__social { display: flex; gap: var(--sp-2); margin-left: auto; }
+.gfa-footer__follow { margin-top: var(--sp-5); }
+.gfa-footer__follow h3 { margin-bottom: var(--sp-3); }
+.gfa-footer ul.gfa-footer__social { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
 .gfa-footer__social a {
-  width: 34px; height: 34px;
-  display: inline-flex; align-items: center; justify-content: center;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 14px 7px 8px;
   border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: var(--r-field);
+  border-radius: 999px;
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: background 0.2s, border-color 0.2s;
 }
-.gfa-footer__social svg { width: 16px; height: 16px; }
-.gfa-footer__social a:hover { background: rgba(255, 255, 255, 0.1); }
+.gfa-footer__social svg {
+  width: 28px; height: 28px; padding: 6px; flex: none;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--abyss);
+}
+.gfa-footer__social a:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.5); text-decoration: none; }
+.gfa-footer__contact li { display: grid; grid-template-columns: 18px 1fr; gap: 10px; align-items: start; }
+.gfa-footer__contact li > svg { width: 18px; height: 18px; margin-top: 2px; color: var(--glow, #9adfe0); }
 
 /* --- Quick view dialog ---------------------------------------------------- */
 .gfa-dialog { border: 0; padding: 0; border-radius: var(--r-card); max-width: 720px; width: calc(100% - 32px); max-height: calc(100dvh - 32px); overflow-y: auto; overscroll-behavior: contain; }
@@ -2451,7 +2464,6 @@ h3 { font-weight: 700; letter-spacing: -0.02em; }
   text-wrap: balance;
 }
 .gfa-footer h3 { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--glow); }
-.gfa-footer__social a { border-radius: 8px; }
 
 /* --- Breakpoints for this layer ------------------------------------------- */
 @media (max-width: 1080px) {

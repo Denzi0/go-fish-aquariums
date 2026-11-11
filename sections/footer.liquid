@@ -16,6 +16,31 @@
       {%- if section.settings.abn != blank -%}
         <p class="gfa-footer__abn">{{ section.settings.abn }}</p>
       {%- endif -%}
+      {%- liquid
+        assign social_facebook = settings.social_facebook | default: 'https://www.facebook.com/people/Go-Fish-Aquariums/100064308211184/'
+        assign social_instagram = settings.social_instagram | default: 'https://www.instagram.com/gofishaquariums'
+        assign social_x = settings.social_x | default: 'https://x.com/GoFishAquariumX'
+      -%}
+      <div class="gfa-footer__follow">
+        <h3>{{ section.settings.social_heading }}</h3>
+        <ul class="gfa-footer__social">
+          {%- if social_facebook != blank -%}
+            <li><a href="{{ social_facebook }}" target="_blank" rel="noopener">{% render 'icon', name: 'facebook' %}<span>Facebook</span></a></li>
+          {%- endif -%}
+          {%- if social_instagram != blank -%}
+            <li><a href="{{ social_instagram }}" target="_blank" rel="noopener">{% render 'icon', name: 'instagram' %}<span>Instagram</span></a></li>
+          {%- endif -%}
+          {%- if social_x != blank -%}
+            <li><a href="{{ social_x }}" target="_blank" rel="noopener">{% render 'icon', name: 'x-social' %}<span>X</span></a></li>
+          {%- endif -%}
+          {%- if settings.social_pinterest != blank -%}
+            <li><a href="{{ settings.social_pinterest }}" target="_blank" rel="noopener">{% render 'icon', name: 'pinterest' %}<span>Pinterest</span></a></li>
+          {%- endif -%}
+          {%- if settings.social_youtube != blank -%}
+            <li><a href="{{ settings.social_youtube }}" target="_blank" rel="noopener">{% render 'icon', name: 'youtube' %}<span>YouTube</span></a></li>
+          {%- endif -%}
+        </ul>
+      </div>
     </div>
 
     {%- for block in section.blocks -%}
@@ -36,22 +61,24 @@
             <ul class="gfa-footer__contact">
               {%- if settings.business_hours != blank -%}
                 <li>
-                  {{ settings.business_hours }}
-                  {%- if settings.business_hours_note != blank -%}<small>{{ settings.business_hours_note }}</small>{%- endif -%}
+                  {% render 'icon', name: 'clock' %}
+                  <span>{{ settings.business_hours }}
+                  {%- if settings.business_hours_note != blank -%}<small>{{ settings.business_hours_note }}</small>{%- endif -%}</span>
                 </li>
               {%- endif -%}
               {%- if settings.business_street != blank -%}
                 <li>
+                  {% render 'icon', name: 'pin' %}
                   <a href="https://www.google.com/maps/search/?api=1&query={{ settings.business_street | append: ' ' | append: settings.business_suburb | append: ' ' | append: settings.business_state | append: ' ' | append: settings.business_postcode | url_encode }}" target="_blank" rel="noopener">
                     {{ settings.business_street }}<br>{{ settings.business_suburb }} {{ settings.business_state }} {{ settings.business_postcode }}
                   </a>
                 </li>
               {%- endif -%}
               {%- if settings.business_email != blank -%}
-                <li><a href="mailto:{{ settings.business_email }}">{{ settings.business_email }}</a></li>
+                <li>{% render 'icon', name: 'mail' %}<a href="mailto:{{ settings.business_email }}">{{ settings.business_email }}</a></li>
               {%- endif -%}
               {%- if settings.business_phone != blank -%}
-                <li><a href="tel:{{ settings.business_phone | remove: ' ' }}">{{ settings.business_phone }}</a></li>
+                <li>{% render 'icon', name: 'phone' %}<a href="tel:{{ settings.business_phone | remove: ' ' }}">{{ settings.business_phone }}</a></li>
               {%- endif -%}
             </ul>
           </div>
@@ -65,26 +92,6 @@
       {%- if policy != blank -%}<a href="{{ policy.url }}">{{ policy.title }}</a>{%- endif -%}
     {%- endfor -%}
 
-    <div class="gfa-footer__social">
-      {%- assign social_facebook = settings.social_facebook | default: 'https://www.facebook.com/people/Go-Fish-Aquariums/100064308211184/' -%}
-      {%- if social_facebook != blank -%}
-        <a href="{{ social_facebook }}" target="_blank" rel="noopener" aria-label="Facebook">{% render 'icon', name: 'facebook' %}</a>
-      {%- endif -%}
-      {%- assign social_instagram = settings.social_instagram | default: 'https://www.instagram.com/gofishaquariums' -%}
-      {%- if social_instagram != blank -%}
-        <a href="{{ social_instagram }}" target="_blank" rel="noopener" aria-label="Instagram">{% render 'icon', name: 'instagram' %}</a>
-      {%- endif -%}
-      {%- assign social_x = settings.social_x | default: 'https://x.com/GoFishAquariumX' -%}
-      {%- if social_x != blank -%}
-        <a href="{{ social_x }}" target="_blank" rel="noopener" aria-label="X">{% render 'icon', name: 'x-social' %}</a>
-      {%- endif -%}
-      {%- if settings.social_pinterest != blank -%}
-        <a href="{{ settings.social_pinterest }}" target="_blank" rel="noopener" aria-label="Pinterest">{% render 'icon', name: 'pinterest' %}</a>
-      {%- endif -%}
-      {%- if settings.social_youtube != blank -%}
-        <a href="{{ settings.social_youtube }}" target="_blank" rel="noopener" aria-label="YouTube">{% render 'icon', name: 'youtube' %}</a>
-      {%- endif -%}
-    </div>
   </div>
 </footer>
 
@@ -98,6 +105,7 @@
     { "type": "url", "id": "statement_link", "label": "Statement button link", "info": "Defaults to the contact page." },
     { "type": "textarea", "id": "about", "label": "About text", "default": "Importer, quarantine and wholesaler of freshwater fish to independent pet and fish retail stores Australia wide. Trade only — we do not sell to the public." },
     { "type": "text", "id": "abn", "label": "ABN / licence line" },
+    { "type": "text", "id": "social_heading", "label": "Social links heading", "default": "Follow us" },
     { "type": "text", "id": "legal", "label": "Legal line", "default": "Prices exclude GST." }
   ],
   "blocks": [
