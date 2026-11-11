@@ -1593,22 +1593,15 @@ a.gfa-pager__step:hover { border-color: var(--ink); background: var(--wash); }
 .gfa-footer__follow h3 { margin-bottom: var(--sp-3); }
 .gfa-footer ul.gfa-footer__social { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
 .gfa-footer__social a {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 7px 14px 7px 8px;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: 999px;
-  color: #fff;
-  font-size: 0.875rem;
-  font-weight: 600;
-  transition: background 0.2s, border-color 0.2s;
-}
-.gfa-footer__social svg {
-  width: 28px; height: 28px; padding: 6px; flex: none;
+  width: 40px; height: 40px;
+  display: inline-flex; align-items: center; justify-content: center;
   border-radius: 50%;
   background: #fff;
   color: var(--abyss);
+  transition: background 0.2s, color 0.2s, transform 0.2s;
 }
-.gfa-footer__social a:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.5); text-decoration: none; }
+.gfa-footer__social svg { width: 18px; height: 18px; }
+.gfa-footer__social a:hover { background: var(--glow, #9adfe0); color: var(--abyss); transform: translateY(-2px); }
 .gfa-footer__contact li { display: grid; grid-template-columns: 18px 1fr; gap: 10px; align-items: start; }
 .gfa-footer__contact li > svg { width: 18px; height: 18px; margin-top: 2px; color: var(--glow, #9adfe0); }
 

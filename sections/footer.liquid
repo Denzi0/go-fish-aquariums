@@ -25,19 +25,19 @@
         <h3>{{ section.settings.social_heading }}</h3>
         <ul class="gfa-footer__social">
           {%- if social_facebook != blank -%}
-            <li><a href="{{ social_facebook }}" target="_blank" rel="noopener">{% render 'icon', name: 'facebook' %}<span>Facebook</span></a></li>
+            <li><a href="{{ social_facebook }}" target="_blank" rel="noopener" aria-label="Facebook">{% render 'icon', name: 'facebook' %}</a></li>
           {%- endif -%}
           {%- if social_instagram != blank -%}
-            <li><a href="{{ social_instagram }}" target="_blank" rel="noopener">{% render 'icon', name: 'instagram' %}<span>Instagram</span></a></li>
+            <li><a href="{{ social_instagram }}" target="_blank" rel="noopener" aria-label="Instagram">{% render 'icon', name: 'instagram' %}</a></li>
           {%- endif -%}
           {%- if social_x != blank -%}
-            <li><a href="{{ social_x }}" target="_blank" rel="noopener">{% render 'icon', name: 'x-social' %}<span>X</span></a></li>
+            <li><a href="{{ social_x }}" target="_blank" rel="noopener" aria-label="X">{% render 'icon', name: 'x-social' %}</a></li>
           {%- endif -%}
           {%- if settings.social_pinterest != blank -%}
-            <li><a href="{{ settings.social_pinterest }}" target="_blank" rel="noopener">{% render 'icon', name: 'pinterest' %}<span>Pinterest</span></a></li>
+            <li><a href="{{ settings.social_pinterest }}" target="_blank" rel="noopener" aria-label="Pinterest">{% render 'icon', name: 'pinterest' %}</a></li>
           {%- endif -%}
           {%- if settings.social_youtube != blank -%}
-            <li><a href="{{ settings.social_youtube }}" target="_blank" rel="noopener">{% render 'icon', name: 'youtube' %}<span>YouTube</span></a></li>
+            <li><a href="{{ settings.social_youtube }}" target="_blank" rel="noopener" aria-label="YouTube">{% render 'icon', name: 'youtube' %}</a></li>
           {%- endif -%}
         </ul>
       </div>
