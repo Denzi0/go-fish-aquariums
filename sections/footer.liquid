@@ -9,9 +9,8 @@
   {%- endif -%}
   <div class="gfa-shell gfa-footer__top">
     <div>
-      <a class="gfa-logo" href="{{ routes.root_url }}" style="color:#fff">
-        {% render 'icon', name: 'logo' %}
-        <span style="color:#fff">Go<em style="color:#8fd8dd;font-style:normal">Fish</em>Aquariums</span>
+      <a class="gfa-logo gfa-footer__logo" href="{{ routes.root_url }}">
+        <img src="{{ 'gfa-logo-footer.png' | asset_url }}" alt="{{ shop.name }}" width="480" height="407" loading="lazy">
       </a>
       <p class="gfa-footer__about" style="margin-top:16px">{{ section.settings.about }}</p>
       {%- if section.settings.abn != blank -%}
@@ -67,14 +66,17 @@
     {%- endfor -%}
 
     <div class="gfa-footer__social">
-      {%- if settings.social_facebook != blank -%}
-        <a href="{{ settings.social_facebook }}" target="_blank" rel="noopener" aria-label="Facebook">{% render 'icon', name: 'facebook' %}</a>
+      {%- assign social_facebook = settings.social_facebook | default: 'https://www.facebook.com/people/Go-Fish-Aquariums/100064308211184/' -%}
+      {%- if social_facebook != blank -%}
+        <a href="{{ social_facebook }}" target="_blank" rel="noopener" aria-label="Facebook">{% render 'icon', name: 'facebook' %}</a>
       {%- endif -%}
-      {%- if settings.social_instagram != blank -%}
-        <a href="{{ settings.social_instagram }}" target="_blank" rel="noopener" aria-label="Instagram">{% render 'icon', name: 'instagram' %}</a>
+      {%- assign social_instagram = settings.social_instagram | default: 'https://www.instagram.com/gofishaquariums' -%}
+      {%- if social_instagram != blank -%}
+        <a href="{{ social_instagram }}" target="_blank" rel="noopener" aria-label="Instagram">{% render 'icon', name: 'instagram' %}</a>
       {%- endif -%}
-      {%- if settings.social_x != blank -%}
-        <a href="{{ settings.social_x }}" target="_blank" rel="noopener" aria-label="X">{% render 'icon', name: 'x-social' %}</a>
+      {%- assign social_x = settings.social_x | default: 'https://x.com/GoFishAquariumX' -%}
+      {%- if social_x != blank -%}
+        <a href="{{ social_x }}" target="_blank" rel="noopener" aria-label="X">{% render 'icon', name: 'x-social' %}</a>
       {%- endif -%}
       {%- if settings.social_pinterest != blank -%}
         <a href="{{ settings.social_pinterest }}" target="_blank" rel="noopener" aria-label="Pinterest">{% render 'icon', name: 'pinterest' %}</a>

@@ -13,11 +13,7 @@
         {%- if section.settings.logo -%}
           {{ section.settings.logo | image_url: width: 240 | image_tag: alt: shop.name, width: 120, loading: 'eager' }}
         {%- else -%}
-          {% render 'icon', name: 'logo' %}
-          <span>
-            {{ shop.name }}
-            {%- if section.settings.tagline != blank -%}<small>{{ section.settings.tagline }}</small>{%- endif -%}
-          </span>
+          <img class="gfa-logo__img" src="{{ 'gfa-logo.png' | asset_url }}" alt="{{ shop.name }}" width="394" height="366" loading="eager">
         {%- endif -%}
       </a>
 
@@ -189,8 +185,7 @@
 {
   "name": "Header",
   "settings": [
-    { "type": "image_picker", "id": "logo", "label": "Logo", "info": "Leave empty to use the store name as a wordmark." },
-    { "type": "text", "id": "tagline", "label": "Tagline under wordmark", "default": "Freshwater livestock wholesale" },
+    { "type": "image_picker", "id": "logo", "label": "Logo", "info": "Leave empty to use the Go Fish Aquariums logo." },
     { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu", "info": "Shown in the bar under the header. Nested items open a mega menu; two levels of nesting are supported." },
     { "type": "checkbox", "id": "show_menu_images", "label": "Show collection image in mega menu", "default": true, "info": "When a top-level menu item links to a collection." },
     { "type": "text", "id": "contact_label", "label": "Contact button label", "default": "Contact us", "info": "Shown to guests in place of a login button." },

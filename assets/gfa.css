@@ -321,6 +321,8 @@ html { scroll-padding-top: 140px; }
   flex: none;
 }
 .gfa-logo svg { width: 30px; height: 30px; flex: none; }
+.gfa-logo img { display: block; height: 56px; width: auto; }
+.gfa-footer__logo img { height: 110px; }
 .gfa-logo span em { font-style: normal; color: var(--current); }
 .gfa-logo small {
   display: block;

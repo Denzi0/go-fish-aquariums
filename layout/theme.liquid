@@ -7,6 +7,10 @@
     <link rel="canonical" href="{{ canonical_url }}">
     {%- if settings.favicon -%}
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+      <link rel="apple-touch-icon" href="{{ settings.favicon | image_url: width: 180, height: 180 }}">
+    {%- else -%}
+      <link rel="icon" type="image/png" sizes="32x32" href="{{ 'gfa-favicon.png' | asset_url }}">
+      <link rel="apple-touch-icon" href="{{ 'gfa-apple-touch-icon.png' | asset_url }}">
     {%- endif -%}
 
     <title>{{ page_title }}{% if current_tags %} &ndash; {{ current_tags | join: ', ' }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}</title>
